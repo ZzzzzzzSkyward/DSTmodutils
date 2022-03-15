@@ -74,10 +74,16 @@ krane --mark-atlases build.bin output_dir
 
 上述ktech的图形化界面。
 
-**注意：有些情况下**
-
 ## DontStarveLUAJIT
 
 由大佬制作的32位引擎补丁，在创意工坊有对应mod
 
 原仓库：https://github.com/paintdream/DontStarveLuaJIT
+
+## steam的Don't Starve Mod Tools
+
+这个工具包拥有上传到创意工坊的功能，还有一个autocompiler.exe
+
+安装后，每次打开饥荒联机版，都会自动调用autocompiler.exe，把位于dont_starve\mods\xxx\的文件打包成另一种格式。
+
+**注意：有些情况下这个工具生成的不是游戏里可用的动画文件，不知道为啥**
