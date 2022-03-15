@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b10">
+    <folder id="0" name="weapon_effects">
+        <file id="0" name="weapon_effects/charge_flash.png" width="210" height="210" pivot_x="0.533019" pivot_y="0.504717"/>
+        <file id="1" name="weapon_effects/flash_0.png" width="316" height="159" pivot_x="0.0943396" pivot_y="0.440994"/>
+        <file id="2" name="weapon_effects/white_pak_0.png" width="120" height="120" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="3" name="weapon_effects/blue_hitspark_0.png" width="160" height="160" pivot_x="0.5" pivot_y="0.5"/>
+    </folder>
+    <entity id="0" name="shotEffects">
+        <obj_info name="shotEffects_flash_0" realname="flash_0" type="sprite">
+            <frames>
+                <i folder="0" file="1"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_flash_0_000" realname="flash_0_000" type="sprite">
+            <frames>
+                <i folder="0" file="1"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_charge_flash" realname="charge_flash" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_white_pak_0" realname="white_pak_0" type="sprite">
+            <frames>
+                <i folder="0" file="2"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_charge_flash_000" realname="charge_flash_000" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_blue_hitspark_0" realname="blue_hitspark_0" type="sprite">
+            <frames>
+                <i folder="0" file="3"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_white_pak_0_000" realname="white_pak_0_000" type="sprite">
+            <frames>
+                <i folder="0" file="2"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_charge_flash_001" realname="charge_flash_001" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_blue_hitspark_0_000" realname="blue_hitspark_0_000" type="sprite">
+            <frames>
+                <i folder="0" file="3"/>
+            </frames>
+        </obj_info>
+        <obj_info name="shotEffects_charge_flash_002" realname="charge_flash_002" type="sprite">
+            <frames>
+                <i folder="0" file="0"/>
+            </frames>
+        </obj_info>
+        <animation id="0" name="MuzzleFlash_0" length="250" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="flash_0" folder="0" file="1" abs_x="-28.138905" abs_y="83.881954" abs_angle="360" abs_scale_x="0.344831" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="30">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="108">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="173">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="flash_0">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-17.859048" y="-5" scale_x="0.344831"/>
+                </key>
+                <key id="1" time="30" spin="0">
+                    <object folder="0" file="1" x="-15.181707" y="-5" scale_x="0.433159" scale_y="1.230673"/>
+                </key>
+                <key id="2" time="108" spin="0">
+                    <object folder="0" file="1" x="4.266827" y="-5" scale_x="1.074785" scale_y="1.219486"/>
+                </key>
+                <key id="3" time="173" spin="0">
+                    <object folder="0" file="1" x="20.484295" y="-5" scale_x="1.609815" scale_y="0.184089" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="MuzzleFlash_1" length="250" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="flash_0_000" folder="0" file="1" abs_x="-32.968558" abs_y="102.395851" abs_angle="360" abs_scale_x="0.685525" abs_scale_y="1.208298" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="117">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="159">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="1" name="flash_0_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-12.532163" y="-5" scale_x="0.685525" scale_y="1.208298"/>
+                </key>
+                <key id="1" time="117" spin="0">
+                    <object folder="0" file="1" x="13.571909" y="-5" scale_x="1.546723" scale_y="1.208298"/>
+                </key>
+                <key id="2" time="159" spin="0">
+                    <object folder="0" file="1" x="21.030215" y="-5" scale_x="1.79278" scale_y="1.208298" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="charge_up_0" length="1600" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="charge_flash" folder="0" file="0" abs_x="-280.363662" abs_y="257.58564" abs_angle="360" abs_scale_x="2.495789" abs_scale_y="2.495789" abs_a="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="318">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="640">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="3" time="816">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="4" time="960">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                </key>
+                <key id="5" time="1163">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                </key>
+                <key id="6" time="1267">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="4" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="2" name="charge_flash">
+                <key id="0" spin="-1">
+                    <object folder="0" file="0" x="-1" y="-2" scale_x="2.495789" scale_y="2.495789" a="0"/>
+                </key>
+                <key id="1" time="318" spin="-1">
+                    <object folder="0" file="0" x="-1" y="-2" angle="270.314809" scale_x="1.852917" scale_y="1.852917" a="0.36111"/>
+                </key>
+                <key id="2" time="640" spin="-1">
+                    <object folder="0" file="0" x="-1" y="-2" angle="179.456928" scale_x="1.344678" scale_y="1.344678" a="0.80556"/>
+                </key>
+                <key id="3" time="960" spin="-1">
+                    <object folder="0" file="0" x="-1" y="-2" angle="89.352618" scale_x="0.92327" scale_y="0.92327"/>
+                </key>
+                <key id="4" time="1163" spin="-1">
+                    <object folder="0" file="0" x="-1" y="-2" angle="3.704627" scale_x="0.92327" scale_y="0.92327"/>
+                </key>
+                <key id="5" time="1267">
+                    <object folder="0" file="0" x="-1" y="-2" angle="336.168099" scale_x="1.590218" scale_y="1.438989" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="3" name="white_pak_0">
+                <key id="0" time="640" spin="0">
+                    <object folder="0" file="2" x="2" y="-3"/>
+                </key>
+                <key id="1" time="816" spin="0">
+                    <object folder="0" file="2" x="2" y="-3" scale_x="1.55" scale_y="1.55" a="0.61111"/>
+                </key>
+                <key id="2" time="960" spin="0">
+                    <object folder="0" file="2" x="2" y="-3" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="3" time="1163" spin="0">
+                    <object folder="0" file="2" x="2" y="-3" scale_x="2.479339" scale_y="2.595041" a="0"/>
+                </key>
+                <key id="4" time="1267" spin="0">
+                    <object folder="0" file="2" x="2" y="-3" scale_x="2.479339" scale_y="2.595041" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="charge_up_1" length="1000" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="charge_flash_000" folder="0" file="0" abs_x="-430.40174" abs_y="398.930721" abs_angle="360" abs_scale_x="3.845139" abs_scale_y="3.845139" abs_a="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="200">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="399">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="600">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="3" z_index="1"/>
+                </key>
+                <key id="4" time="800">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                </key>
+                <key id="5" time="1000">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="4" name="charge_flash_000">
+                <key id="0" spin="-1">
+                    <object folder="0" file="0" y="-1" scale_x="3.845139" scale_y="3.845139" a="0"/>
+                </key>
+                <key id="1" time="200" spin="-1">
+                    <object folder="0" file="0" y="-1" angle="314.304134" scale_x="2.586787" scale_y="2.586787" a="0.44444"/>
+                </key>
+                <key id="2" time="399" spin="-1">
+                    <object folder="0" file="0" y="-1" angle="269.806434" scale_x="2.042989" scale_y="2.042989" a="0.36111"/>
+                </key>
+                <key id="3" time="600" spin="-1">
+                    <object folder="0" file="0" y="-1" angle="223.428689" scale_x="1.316292" scale_y="1.316292" a="0.77778"/>
+                </key>
+                <key id="4" time="800" spin="0">
+                    <object folder="0" file="0" y="-1" angle="179.79464" scale_x="0.797436" scale_y="0.797436"/>
+                </key>
+                <key id="5" time="1000" spin="-1">
+                    <object folder="0" file="0" y="-1" angle="179.79464" scale_x="0.957465" scale_y="0.957465"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="5" name="blue_hitspark_0">
+                <key id="0" time="800">
+                    <object folder="0" file="3" x="4" y="-2"/>
+                </key>
+                <key id="1" time="1000" spin="-1">
+                    <object folder="0" file="3" x="4" y="-2" angle="33.633283" scale_x="2.397516" scale_y="2.397516" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="6" name="white_pak_0_000">
+                <key id="0" time="600" spin="0">
+                    <object folder="0" file="2" x="-1" y="-1" a="0.30556"/>
+                </key>
+                <key id="1" time="800" spin="0">
+                    <object folder="0" file="2" x="-1" y="-1" scale_x="3.768595" scale_y="3.768595" a="0.33333"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="0" file="2" x="-1" y="-1" scale_x="1.966942" scale_y="1.966942" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="4" name="charge_up_2" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="charge_flash_001" folder="0" file="0" abs_x="-366.159348" abs_y="340.236478" abs_angle="360" abs_scale_x="3.271208" abs_scale_y="3.271208" abs_a="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="blue_hitspark_0_000" folder="0" file="3" abs_x="-130.022639" abs_y="131.891798" abs_angle="360" abs_scale_x="1.636965" abs_scale_y="1.636965" abs_a="0.5" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="200">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="3" time="400">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="4" time="600">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="5" time="800">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                </key>
+                <key id="6" time="834">
+                    <object_ref id="0" timeline="1" key="3" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="7" name="charge_flash_001">
+                <key id="0" spin="-1">
+                    <object folder="0" file="0" scale_x="3.271208" scale_y="3.271208" a="0"/>
+                </key>
+                <key id="1" time="200" spin="-1">
+                    <object folder="0" file="0" angle="305.473612" scale_x="2.323032" scale_y="2.323032" a="0.30556"/>
+                </key>
+                <key id="2" time="400" spin="-1">
+                    <object folder="0" file="0" angle="269.600733" scale_x="1.833768" scale_y="1.833768" a="0.66667"/>
+                </key>
+                <key id="3" time="600" spin="-1">
+                    <object folder="0" file="0" angle="225.320085" scale_x="1.369294" scale_y="1.369294"/>
+                </key>
+                <key id="4" time="800">
+                    <object folder="0" file="0" angle="180.686144" scale_x="1.074031" scale_y="1.074031"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="8" name="blue_hitspark_0_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="1.636965" scale_y="1.636965" a="0.5"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="0.928775" scale_y="0.928775" a="0"/>
+                </key>
+                <key id="2" time="800" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579"/>
+                </key>
+                <key id="3" time="834" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="1.45121" scale_y="1.45121" a="0.72222"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="5" name="charge_up_3" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="charge_flash_001" folder="0" file="0" abs_x="-366.159348" abs_y="340.236478" abs_angle="360" abs_scale_x="3.271208" abs_scale_y="3.271208" abs_a="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="blue_hitspark_0_000" folder="0" file="3" abs_x="-130.022639" abs_y="131.891798" abs_angle="360" abs_scale_x="1.636965" abs_scale_y="1.636965" abs_a="0.5" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="149">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+                <key id="3" time="200">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                </key>
+                <key id="4" time="400">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="2" z_index="1"/>
+                </key>
+                <key id="5" time="600">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="3" z_index="1"/>
+                </key>
+                <key id="6" time="800">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="4" z_index="2"/>
+                </key>
+                <key id="7" time="834">
+                    <object_ref id="0" timeline="1" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="7" name="charge_flash_001">
+                <key id="0" spin="-1">
+                    <object folder="0" file="0" scale_x="3.271208" scale_y="3.271208" a="0"/>
+                </key>
+                <key id="1" time="200" spin="-1">
+                    <object folder="0" file="0" angle="305.473612" scale_x="2.323032" scale_y="2.323032" a="0.30556"/>
+                </key>
+                <key id="2" time="400" spin="-1">
+                    <object folder="0" file="0" angle="269.600733" scale_x="1.833768" scale_y="1.833768" a="0.66667"/>
+                </key>
+                <key id="3" time="600" spin="-1">
+                    <object folder="0" file="0" angle="225.320085" scale_x="1.369294" scale_y="1.369294"/>
+                </key>
+                <key id="4" time="800">
+                    <object folder="0" file="0" angle="180.686144" scale_x="1.074031" scale_y="1.074031"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="8" name="blue_hitspark_0_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="1.636965" scale_y="1.636965" a="0.5"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="0.928775" scale_y="0.928775" a="0"/>
+                </key>
+                <key id="2" time="149" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="0.93376" scale_y="0.93376" a="0.07"/>
+                </key>
+                <key id="3" time="800" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579"/>
+                </key>
+                <key id="4" time="834" spin="0">
+                    <object folder="0" file="3" x="0.934579" y="0.934579" scale_x="1.45121" scale_y="1.45121" a="0.72222"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="9" name="charge_flash_002">
+                <key id="0" time="149">
+                    <object folder="0" file="0" x="-1.904762" y="-1.904762" scale_x="3.217568" scale_y="3.217568" a="0"/>
+                </key>
+                <key id="1" time="200">
+                    <object folder="0" file="0" x="-1.904762" y="-1.904762" angle="30.170074" scale_x="2.53154" scale_y="2.53154" a="0.27778"/>
+                </key>
+                <key id="2" time="400">
+                    <object folder="0" file="0" x="-1.904762" y="-1.904762" angle="89.839508" scale_x="1.948191" scale_y="1.948191" a="0.63889"/>
+                </key>
+                <key id="3" time="600" spin="0">
+                    <object folder="0" file="0" x="-1.904762" y="-1.904762" angle="136.934932" scale_x="1.521776" scale_y="1.521776" a="0.63889"/>
+                </key>
+                <key id="4" time="800" spin="-1">
+                    <object folder="0" file="0" x="-1.904762" y="-1.904762" angle="136.934932" scale_x="1.090473" scale_y="1.027517" a="0.63889"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

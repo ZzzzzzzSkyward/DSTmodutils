@@ -1,0 +1,114 @@
+index_htm_files
+index.htm
+what is spriter.htm
+getting started.htm
+starting a project.htm
+default pivot points.htm
+placing a sprite.htm
+adjusting z orders.htm
+creating and assigning bones.htm
+animating sprites and bones.htm
+swapping the image of a sprite.htm
+editing timing.htm
+advanced timeline editing.htm
+duplicating entire keyframes.htm
+adding additional sprites to an animation.htm
+key all vs key selected.htm
+adding sound effects.htm
+papagoyo support.htm
+adding collision rectangles to frames.htm
+adding spawning points to frames.htm
+what are character maps.htm
+create a character map and assign effects.htm
+activating and stacking character maps.htm
+exporting animations as images or gifs.htm
+adding variables to an animation.htm
+adding tags to an animation.htm
+adding events to an animation.htm
+importing one spriter project into another.htm
+mouse controls and shortcut keys.htm
+acknowlegements.htm
+index_htm_files/196.jpg
+index_htm_files/197.png
+index_htm_files/198.png
+index_htm_files/199.png
+index_htm_files/200.png
+index_htm_files/201.jpg
+index_htm_files/202.jpg
+index_htm_files/203.jpg
+index_htm_files/204.jpg
+index_htm_files/205.jpg
+index_htm_files/206.jpg
+index_htm_files/207.jpg
+index_htm_files/208.jpg
+index_htm_files/209.jpg
+index_htm_files/210.jpg
+index_htm_files/211.jpg
+index_htm_files/212.jpg
+index_htm_files/213.jpg
+index_htm_files/214.jpg
+index_htm_files/215.jpg
+index_htm_files/216.jpg
+index_htm_files/217.jpg
+index_htm_files/218.jpg
+index_htm_files/219.jpg
+index_htm_files/220.jpg
+index_htm_files/221.jpg
+index_htm_files/222.jpg
+index_htm_files/223.jpg
+index_htm_files/225.jpg
+index_htm_files/226.jpg
+index_htm_files/228.jpg
+index_htm_files/229.jpg
+index_htm_files/230.jpg
+index_htm_files/231.jpg
+index_htm_files/232.jpg
+index_htm_files/234.jpg
+index_htm_files/235.jpg
+index_htm_files/236.jpg
+index_htm_files/237.jpg
+index_htm_files/239.jpg
+index_htm_files/240.jpg
+index_htm_files/241.jpg
+index_htm_files/242.jpg
+index_htm_files/243.jpg
+index_htm_files/244.jpg
+index_htm_files/245.jpg
+index_htm_files/246.jpg
+index_htm_files/247.jpg
+index_htm_files/248.jpg
+index_htm_files/249.jpg
+index_htm_files/250.jpg
+index_htm_files/251.jpg
+index_htm_files/252.jpg
+index_htm_files/253.jpg
+index_htm_files/254.jpg
+index_htm_files/255.jpg
+index_htm_files/256.jpg
+index_htm_files/257.jpg
+index_htm_files/258.jpg
+index_htm_files/260.jpg
+index_htm_files/261.jpg
+index_htm_files/262.jpg
+index_htm_files/264.jpg
+index_htm_files/265.jpg
+index_htm_files/266.jpg
+index_htm_files/267.jpg
+index_htm_files/268.jpg
+index_htm_files/269.jpg
+index_htm_files/270.jpg
+index_htm_files/271.jpg
+index_htm_files/272.jpg
+index_htm_files/274.jpg
+index_htm_files/275.jpg
+index_htm_files/276.jpg
+index_htm_files/277.jpg
+index_htm_files/278.jpg
+index_htm_files/279.jpg
+index_htm_files/375.jpg
+index_htm_files/376.jpg
+index_htm_files/377.jpg
+index_htm_files/281.jpg
+index_htm_files/282.jpg
+index_htm_files/283.jpg
+index_htm_files/284.jpg

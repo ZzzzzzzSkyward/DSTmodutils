@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="explosion_0">
+        <file id="0" name="explosion_0/glow_yellow.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="explosion_0/ball_white.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="explosion_0/puff_white.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="explosion_0/puff_orange_a.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="explosion_0/glow_red.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="explosion_0/puff_red.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="explosion_0/puff_red_a.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="explosion_0/puff_brown.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="explosion_0/puff_brown_a.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="explosion_0/puff_black.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="10" name="explosion_0/puff_grey.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="explosion_0/puff_grey_a.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="explosion_0/puff_black_a.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="13" name="explosion_0/Oexplosion_0.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="14" name="explosion_0/Oexplosion_1.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="15" name="explosion_0/Oexplosion_3.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="16" name="explosion_0/Oexplosion_4.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="17" name="explosion_0/Oexplosion_5.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="18" name="explosion_0/Oexplosion_6.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="19" name="explosion_0/Oexplosion_7.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="20" name="explosion_0/Oexplosion_8.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="21" name="explosion_0/Oexplosion_9.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+        <file id="22" name="explosion_0/Oexplosion_2.png" width="282" height="266" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="splatters">
+        <file id="0" name="splatters/blood_squirt_0.png" width="90" height="73" pivot_x="0.141304" pivot_y="0.08"/>
+        <file id="1" name="splatters/blood_squirt_1.png" width="90" height="73" pivot_x="0.141304" pivot_y="0.08"/>
+        <file id="2" name="splatters/blood_squirt_2.png" width="90" height="73" pivot_x="0.141304" pivot_y="0.08"/>
+        <file id="3" name="splatters/blood_squirt_3.png" width="90" height="73" pivot_x="0.141304" pivot_y="0.08"/>
+        <file id="4" name="splatters/blood_squirt_4.png" width="90" height="73" pivot_x="0.141304" pivot_y="0.08"/>
+        <file id="5" name="splatters/Blood_ribon_0.png" width="175" height="137" pivot_x="0.146893" pivot_y="0.230216"/>
+        <file id="6" name="splatters/Blood_ribon_1.png" width="175" height="137" pivot_x="0.146893" pivot_y="0.230216"/>
+        <file id="7" name="splatters/Blood_ribon_2.png" width="175" height="137" pivot_x="0.146893" pivot_y="0.230216"/>
+        <file id="8" name="splatters/Blood_ribon_3.png" width="175" height="137" pivot_x="0.146893" pivot_y="0.230216"/>
+    </folder>
+    <entity id="0" name="Blood">
+        <animation id="0" name="blood_burst_0" length="400" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="blood_squirt_0" folder="1" file="0" abs_x="1" abs_y="0" abs_pivot_x="0.141304" abs_pivot_y="0.08" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="77">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="149">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="226">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="299">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+                <key id="5" time="398">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                </key>
+                <key id="6" time="498">
+                    <object_ref id="0" timeline="0" key="6" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="blood_squirt_0">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="1" angle="0"/>
+                </key>
+                <key id="1" time="77" spin="0">
+                    <object folder="1" file="1" x="1" angle="0" scale_x="1.207677" scale_y="1.207677"/>
+                </key>
+                <key id="2" time="149" spin="0">
+                    <object folder="1" file="2" x="1" angle="0" scale_x="1.401956" scale_y="1.401956"/>
+                </key>
+                <key id="3" time="226" spin="0">
+                    <object folder="1" file="3" x="1" angle="0" scale_x="1.609633" scale_y="1.609633"/>
+                </key>
+                <key id="4" time="299" spin="0">
+                    <object folder="1" file="4" x="1" angle="0" scale_x="1.803912" scale_y="1.803912"/>
+                </key>
+                <key id="5" time="398" spin="0">
+                    <object folder="1" file="4" x="1" pivot_x="0.141304" pivot_y="0.08" angle="0" scale_x="2.071883" scale_y="2.071883" a="0"/>
+                </key>
+                <key id="6" time="498" spin="0">
+                    <object folder="1" file="0" x="1" angle="0" scale_x="2.339854" scale_y="2.339854"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="blood_ribon_0" length="400" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="Blood_ribon_0" folder="1" file="5" abs_x="11.428571" abs_y="1.428571" abs_pivot_x="0.146893" abs_pivot_y="0.230216" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="96">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="188">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="283">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="400">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="Blood_ribon_0">
+                <key id="0" spin="0">
+                    <object folder="1" file="5" x="11.428571" y="1.428571" angle="0"/>
+                </key>
+                <key id="1" time="96" spin="0">
+                    <object folder="1" file="6" x="11.428571" y="1.428571" angle="0" scale_x="1.158588" scale_y="1.158588"/>
+                </key>
+                <key id="2" time="188" spin="0">
+                    <object folder="1" file="7" x="11.428571" y="1.428571" angle="0" scale_x="1.317177" scale_y="1.317177"/>
+                </key>
+                <key id="3" time="283" spin="0">
+                    <object folder="1" file="8" x="11.428571" y="1.428571" angle="0" scale_x="1.475765" scale_y="1.475765"/>
+                </key>
+                <key id="4" time="400" spin="0">
+                    <object folder="1" file="8" x="11.428571" y="1.428571" angle="0" scale_x="1.792942" scale_y="1.792942" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

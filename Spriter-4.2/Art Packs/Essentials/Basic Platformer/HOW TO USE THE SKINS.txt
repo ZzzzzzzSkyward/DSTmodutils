@@ -1,0 +1,16 @@
+The "SKIN" folders simply contain replacement image folders for the player character.
+By copying these images over the original images in the same respective folders in the
+PlatformerPack folder, you'll change the appearance of your character.
+
+This is NOT the same as the "character map" feature in Spriter.  If you want to use
+character maps to allow yourself to change the appearance of your player character
+between the diferent skins, you would first have to rename each of the sub-folders in
+each skin folder,for example renaming "head" to "girl_head" or "cat_head" etc. and then
+add these newly named folders to the PlatformerPack folder.  Then you'd need to create
+the actual character map in the .scml file using Spriter, to make Spriter swap out the
+default grey guy body part images with the alternate "skin" body part images.
+
+For more info on character maps, please reference the built in manual by choosing help/
+help from Spriter's main menu.
+
+Thank you for reading.

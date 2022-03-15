@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b10">
+    <folder id="0" name="impacts">
+        <file id="0" name="impacts/white_pak_0.png" width="120" height="120" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="1" name="impacts/white_pak_1.png" width="120" height="120" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="2" name="impacts/white_pak_2.png" width="120" height="120" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="3" name="impacts/white_pak_3.png" width="120" height="120" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="4" name="impacts/white_circle.png" width="180" height="180" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="5" name="impacts/orange_imp_2.png" width="160" height="160" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="impacts/charge_flash.png" width="210" height="210" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="impacts/orange_imp_b.png" width="134" height="139" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="impacts/spack_0.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="impacts/spack_1.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="10" name="impacts/spack_2.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="impacts/spack_3.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="impacts/orange_imp_a.png" width="160" height="160" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="magic_0">
+        <file id="0" name="magic_0/ball_dot_0a.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="magic_0/ball_dot_0.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="magic_0/ball_dot_1.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="magic_0/blue_fb_0.png" width="240" height="164" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="magic_0/blue_ring_a.png" width="160" height="164" pivot_x="0.765432" pivot_y="0.439759"/>
+        <file id="5" name="magic_0/sparkle_point_0.png" width="55" height="51" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="magic_0/blue_fb_1.png" width="240" height="164" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="magic_0/blue_ring_aa.png" width="160" height="164" pivot_x="0.814815" pivot_y="0.46988"/>
+        <file id="8" name="magic_0/blue_ring_b.png" width="160" height="164" pivot_x="0.771605" pivot_y="0.463855"/>
+        <file id="9" name="magic_0/red_glow.png" width="69" height="70" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="10" name="magic_0/round_shot_1.png" width="31" height="31" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="magic_0/round_shot.png" width="31" height="31" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="magic_0/magmaball_1.png" width="200" height="200" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="13" name="magic_0/magmaball_0.png" width="200" height="200" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="14" name="magic_0/Magmaball_back.png" width="260" height="260" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="15" name="magic_0/MagmaTrail_0l.png" width="143" height="171" pivot_x="1" pivot_y="0.445087"/>
+        <file id="16" name="magic_0/MagmaTrail_02.png" width="143" height="171" pivot_x="1" pivot_y="0.445087"/>
+        <file id="17" name="magic_0/MagmaTrail_03.png" width="143" height="171" pivot_x="1" pivot_y="0.445087"/>
+        <file id="18" name="magic_0/MagmaTrail_04.png" width="143" height="171" pivot_x="1" pivot_y="0.445087"/>
+        <file id="19" name="magic_0/blue_impact_0.png" width="320" height="320" pivot_x="0.891304" pivot_y="0.512422"/>
+        <file id="20" name="magic_0/blue_impact_1.png" width="320" height="320" pivot_x="0.891304" pivot_y="0.512422"/>
+        <file id="21" name="magic_0/blue_impact_2.png" width="320" height="320" pivot_x="0.891304" pivot_y="0.512422"/>
+        <file id="22" name="magic_0/blue_impact_3.png" width="320" height="320" pivot_x="0.891304" pivot_y="0.512422"/>
+        <file id="23" name="magic_0/magma_hit_0.png" width="285" height="289" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="24" name="magic_0/magma_hit_1.png" width="285" height="289" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="25" name="magic_0/magma_hit_2.png" width="285" height="289" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="26" name="magic_0/magma_hit_3.png" width="285" height="289" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="27" name="magic_0/magmaball_HITbg_0.png" width="400" height="400" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="28" name="magic_0/magmaball_HITbg_2.png" width="400" height="400" pivot_x="0.5" pivot_y="0.5"/>
+        <file id="29" name="magic_0/magmaball_HITbg_1.png" width="400" height="400" pivot_x="0.5" pivot_y="0.5"/>
+    </folder>
+    <entity id="0" name="magic_missiles_a">
+        <obj_info name="magic_missiles_a_object_020" realname="object_020" type="sprite">
+            <frames>
+                <i folder="1" file="3"/>
+                <i folder="1" file="6"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_object_021" realname="object_021" type="sprite">
+            <frames>
+                <i folder="1" file="5"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_object_022" realname="object_022" type="sprite">
+            <frames>
+                <i folder="1" file="4"/>
+                <i folder="1" file="7"/>
+                <i folder="1" file="8"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_object_023" realname="object_023" type="sprite">
+            <frames>
+                <i folder="1" file="8"/>
+                <i folder="1" file="4"/>
+                <i folder="1" file="7"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_object_028" realname="object_028" type="sprite">
+            <frames>
+                <i folder="1" file="10"/>
+                <i folder="1" file="11"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_object_029" realname="object_029" type="sprite">
+            <frames>
+                <i folder="1" file="9"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_blue_impact_0" realname="blue_impact_0" type="sprite">
+            <frames>
+                <i folder="1" file="19"/>
+                <i folder="1" file="20"/>
+                <i folder="1" file="21"/>
+                <i folder="1" file="22"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_blue_ring_a" realname="blue_ring_a" type="sprite">
+            <frames>
+                <i folder="1" file="4"/>
+                <i folder="1" file="7"/>
+                <i folder="1" file="8"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_white_circle" realname="white_circle" type="sprite">
+            <frames>
+                <i folder="0" file="4"/>
+                <i folder="0" file="0"/>
+                <i folder="0" file="1"/>
+                <i folder="0" file="2"/>
+                <i folder="0" file="3"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_Magmaball_back" realname="Magmaball_back" type="sprite">
+            <frames>
+                <i folder="1" file="14"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magic_missiles_a_red_glow" realname="red_glow" type="sprite">
+            <frames>
+                <i folder="1" file="9"/>
+            </frames>
+        </obj_info>
+        <animation id="0" name="magic_missile_0" length="600">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="object_020" folder="1" file="3" abs_x="-119.00008" abs_y="82" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="object_022" folder="1" file="4" abs_x="32" abs_y="46.325" abs_angle="0" abs_scale_x="0.58125" abs_scale_y="0.58125" abs_a="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" name="object_021" folder="1" file="5" abs_x="37.5" abs_y="50.5" abs_angle="0" abs_scale_x="2" abs_scale_y="2" abs_a="1" timeline="1" key="1" z_index="2"/>
+                    <object_ref id="3" name="object_023" folder="1" file="8" abs_x="-140" abs_y="73.65" abs_angle="0" abs_scale_x="0.9125" abs_scale_y="0.9125" abs_a="0.61" timeline="3" key="0" z_index="3"/>
+                </key>
+                <key id="1" time="146">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="1" z_index="3"/>
+                </key>
+                <key id="2" time="150">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="3" z_index="2"/>
+                </key>
+                <key id="3" time="309">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="1" key="5" z_index="3"/>
+                </key>
+                <key id="4" time="438">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="3" z_index="2"/>
+                    <object_ref id="3" timeline="1" key="7" z_index="3"/>
+                </key>
+                <key id="5" time="440">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="9" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="4" z_index="2"/>
+                </key>
+                <key id="6" time="594">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="11" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="5" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="object_020">
+                <key id="0" spin="0">
+                    <object folder="1" file="3" x="-1" pivot_x="0.491667" pivot_y="0.5" angle="0"/>
+                </key>
+                <key id="1" time="150" spin="0">
+                    <object folder="1" file="6" x="-1" y="-0.5" pivot_x="0.491667" pivot_y="0.5" angle="0" scale_y="0.884146"/>
+                </key>
+                <key id="2" time="309" spin="0">
+                    <object folder="1" file="3" x="-1" pivot_x="0.491667" pivot_y="0.5" angle="0"/>
+                </key>
+                <key id="3" time="438" spin="0">
+                    <object folder="1" file="6" x="-1" pivot_x="0.491667" pivot_y="0.5" angle="0" scale_y="0.865854"/>
+                </key>
+                <key id="4" time="440" spin="0">
+                    <object folder="1" file="6" x="-1" pivot_x="0.491667" pivot_y="0.5" angle="0" scale_y="0.86752"/>
+                </key>
+                <key id="5" time="594" spin="0">
+                    <object folder="1" file="6" x="-1" pivot_x="0.491667" pivot_y="0.5" angle="0" scale_y="0.993334"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="object_021">
+                <key id="0">
+                    <object folder="1" file="5" x="89.77475" y="1.671274" pivot_x="0.475225" pivot_y="0.521287" angle="0" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="1">
+                    <object folder="1" file="5" x="92.5" y="-0.5" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="2" time="150">
+                    <object folder="1" file="5" x="95.144998" y="2.848889" pivot_x="0.5" pivot_y="0.5" angle="89.659039" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="3" time="150">
+                    <object folder="1" file="5" x="93.75" pivot_x="0.474026" pivot_y="0.51351" angle="89.659039" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="4" time="309">
+                    <object folder="1" file="5" x="96.372191" y="-1.346367" pivot_x="0.474026" pivot_y="0.51351" angle="180.633077" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="5" time="309">
+                    <object folder="1" file="5" x="93.5" pivot_x="0.5" pivot_y="0.5" angle="180.633077" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="6" time="438">
+                    <object folder="1" file="5" x="94.125021" y="-2.375031" pivot_x="0.5" pivot_y="0.5" angle="270.971022" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="7" time="438">
+                    <object folder="1" file="5" x="95.625" y="0.625" pivot_x="0.472962" pivot_y="0.515202" angle="270.971022" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="8" time="440">
+                    <object folder="1" file="5" x="94.929361" y="1.278369" pivot_x="0.472962" pivot_y="0.515202" angle="272.076972" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="9" time="440">
+                    <object folder="1" file="5" x="95" y="1.25" pivot_x="0.473243" pivot_y="0.515884" angle="272.076972" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="10" time="594">
+                    <object folder="1" file="5" x="91.615121" y="-1.157648" pivot_x="0.473243" pivot_y="0.515884" angle="355.576198" scale_x="2" scale_y="2"/>
+                </key>
+                <key id="11" time="594">
+                    <object folder="1" file="5" x="91.875" y="-0.625" pivot_x="0.475225" pivot_y="0.521287" angle="355.576198" scale_x="2" scale_y="2"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="object_022">
+                <key id="0" spin="0">
+                    <object folder="1" file="4" x="79.08125" y="-1.3375" pivot_x="0.50625" pivot_y="0.5" angle="0" scale_x="0.58125" scale_y="0.58125"/>
+                </key>
+                <key id="1" time="150" spin="0">
+                    <object folder="1" file="7" x="37.998477" y="-2.853438" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.724981" scale_y="0.724981"/>
+                </key>
+                <key id="2" time="309" spin="0">
+                    <object folder="1" file="8" x="-31.5" y="-0.8125" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.84375" scale_y="0.84375" a="0.49"/>
+                </key>
+                <key id="3" time="438" spin="0">
+                    <object folder="1" file="8" x="-91.5" y="-0.8625" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.81875" scale_y="0.81875" a="0.09"/>
+                </key>
+                <key id="4" time="800" spin="0">
+                    <object folder="1" file="8" x="-91.5" y="-0.8625" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.81875" scale_y="0.81875" a="0.09"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="object_023">
+                <key id="0" spin="0">
+                    <object folder="1" file="8" x="-67" y="-1.175" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.9125" scale_y="0.9125" a="0.61"/>
+                </key>
+                <key id="1" time="146" spin="0">
+                    <object folder="1" file="8" x="-124" y="-1.175" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.9125" scale_y="0.9125" a="0"/>
+                </key>
+                <key id="2" time="309" spin="0">
+                    <object folder="1" file="4" x="77" y="-0.725" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.6375" scale_y="0.6375"/>
+                </key>
+                <key id="3" time="438" spin="0">
+                    <object folder="1" file="7" x="32" y="-0.5" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.6" scale_y="0.652439"/>
+                </key>
+                <key id="4" time="440" spin="0">
+                    <object folder="1" file="7" x="28.5" y="-0.030973" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.63125" scale_y="0.670354"/>
+                </key>
+                <key id="5" time="594" spin="0">
+                    <object folder="1" file="8" x="-67" y="-1.175" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.9125" scale_y="0.9125" a="0.61"/>
+                </key>
+                <key id="6" time="800" spin="0">
+                    <object folder="1" file="8" x="-67" y="-1.175" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.9125" scale_y="0.9125" a="0.61"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="magic_missile_hit" length="500" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="blue_impact_0" folder="1" file="19" abs_x="-95.603615" abs_y="93.206263" abs_angle="0" abs_scale_x="0.592894" abs_scale_y="0.592894" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="blue_ring_a" folder="1" file="4" abs_x="-9.428385" abs_y="55.215667" abs_angle="0" abs_scale_x="0.7" abs_scale_y="0.7" abs_a="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="55">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="76">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                </key>
+                <key id="3" time="96">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                </key>
+                <key id="4" time="135">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="4" z_index="1"/>
+                </key>
+                <key id="5" time="153">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="5" z_index="1"/>
+                </key>
+                <key id="6" time="171">
+                    <object_ref id="0" timeline="0" key="6" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="6" z_index="1"/>
+                </key>
+                <key id="7" time="191">
+                    <object_ref id="0" timeline="0" key="7" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="7" z_index="1"/>
+                </key>
+                <key id="8" time="206">
+                    <object_ref id="0" timeline="0" key="8" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="8" z_index="1"/>
+                </key>
+                <key id="9" time="221">
+                    <object_ref id="0" timeline="0" key="9" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="9" z_index="1"/>
+                </key>
+                <key id="10" time="250">
+                    <object_ref id="0" timeline="0" key="10" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="6" name="blue_impact_0">
+                <key id="0" spin="0">
+                    <object folder="1" file="19" x="73.499999" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.592894" scale_y="0.592894"/>
+                </key>
+                <key id="1" time="55" spin="0">
+                    <object folder="1" file="20" x="72.262399" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.632662" scale_y="0.657681"/>
+                </key>
+                <key id="2" time="76" spin="0">
+                    <object folder="1" file="19" x="71.790529" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.661237" scale_y="0.689766"/>
+                </key>
+                <key id="3" time="96" spin="0">
+                    <object folder="1" file="20" x="71.341129" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.688451" scale_y="0.720323"/>
+                </key>
+                <key id="4" time="135" spin="0">
+                    <object folder="1" file="21" x="70.464799" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.741519" scale_y="0.779909"/>
+                </key>
+                <key id="5" time="153" spin="0">
+                    <object folder="1" file="20" x="70.063399" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.775551" scale_y="0.81612"/>
+                </key>
+                <key id="6" time="171" spin="0">
+                    <object folder="1" file="21" x="69.661999" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.809584" scale_y="0.85233"/>
+                </key>
+                <key id="7" time="191" spin="0">
+                    <object folder="1" file="22" x="69.215999" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.847397" scale_y="0.892565"/>
+                </key>
+                <key id="8" time="206" spin="0">
+                    <object folder="1" file="21" x="68.881423" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.874255" scale_y="0.9109" a="0.745763"/>
+                </key>
+                <key id="9" time="221" spin="0">
+                    <object folder="1" file="22" x="68.546846" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.901114" scale_y="0.929235" a="0.491525"/>
+                </key>
+                <key id="10" time="250" spin="0">
+                    <object folder="1" file="22" x="67.899999" y="0.7" pivot_x="0.891304" pivot_y="0.512422" angle="0" scale_x="0.95304" scale_y="0.964683" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="7" name="blue_ring_a">
+                <key id="0" spin="0">
+                    <object folder="1" file="4" x="76.299999" y="-9.1" pivot_x="0.765432" pivot_y="0.439759" angle="0" scale_x="0.7" scale_y="0.7"/>
+                </key>
+                <key id="1" time="55" spin="0">
+                    <object folder="1" file="4" x="49.699999" y="-9.8" pivot_x="0.765432" pivot_y="0.439759" angle="0" scale_x="0.859565" scale_y="0.859565"/>
+                </key>
+                <key id="2" time="76" spin="0">
+                    <object folder="1" file="4" x="46.199999" y="-9.8" pivot_x="0.765432" pivot_y="0.439759" angle="0" scale_x="0.888028" scale_y="0.888028"/>
+                </key>
+                <key id="3" time="96" spin="0">
+                    <object folder="1" file="7" x="41.299999" y="-9.8" pivot_x="0.814815" pivot_y="0.46988" angle="0" scale_x="0.910798" scale_y="0.910798"/>
+                </key>
+                <key id="4" time="135" spin="0">
+                    <object folder="1" file="7" x="28.7" y="-9.8" pivot_x="0.814815" pivot_y="0.46988" angle="0" scale_x="1.005575" scale_y="1.005575"/>
+                </key>
+                <key id="5" time="153" spin="0">
+                    <object folder="1" file="7" x="22.4" y="-9.8" pivot_x="0.814815" pivot_y="0.46988" angle="0" scale_x="1.037668" scale_y="1.037668"/>
+                </key>
+                <key id="6" time="171" spin="0">
+                    <object folder="1" file="8" x="14" y="-9.8" pivot_x="0.771605" pivot_y="0.463855" angle="0" scale_x="1.085807" scale_y="1.085807"/>
+                </key>
+                <key id="7" time="191" spin="0">
+                    <object folder="1" file="8" x="14" y="-9.8" pivot_x="0.771605" pivot_y="0.463855" angle="0" scale_x="1.085807" scale_y="1.085807"/>
+                </key>
+                <key id="8" time="206" spin="0">
+                    <object folder="1" file="8" x="4.9" y="-9.8" pivot_x="0.771605" pivot_y="0.463855" angle="0" scale_x="1.118131" scale_y="1.118131" a="0.61111"/>
+                </key>
+                <key id="9" time="221" spin="0">
+                    <object folder="1" file="8" y="-9.8" pivot_x="0.771605" pivot_y="0.463855" angle="0" scale_x="1.157661" scale_y="1.157661" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="small_missile_0" length="300">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="object_029" folder="1" file="9" abs_x="-25.660365" abs_y="25.787256" abs_angle="0" abs_scale_x="0.749521" abs_scale_y="0.749521" abs_a="1" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" name="object_028" folder="1" file="10" abs_x="-15.377364" abs_y="15.509424" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="76">
+                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="150">
+                    <object_ref id="0" timeline="1" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                </key>
+                <key id="3" time="224">
+                    <object_ref id="0" timeline="1" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="3" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="4" name="object_028">
+                <key id="0" spin="0">
+                    <object folder="1" file="10" pivot_x="0.496044" pivot_y="0.499696" angle="0"/>
+                </key>
+                <key id="1" time="76" spin="0">
+                    <object folder="1" file="11" pivot_x="0.496044" pivot_y="0.499696" angle="0"/>
+                </key>
+                <key id="2" time="150" spin="0">
+                    <object folder="1" file="10" pivot_x="0.496044" pivot_y="0.499696" angle="0"/>
+                </key>
+                <key id="3" time="224" spin="0">
+                    <object folder="1" file="11" pivot_x="0.496044" pivot_y="0.499696" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="5" name="object_029">
+                <key id="0" spin="0">
+                    <object folder="1" file="9" x="-0.261499" y="-0.177298" pivot_x="0.491113" pivot_y="0.505121" angle="0" scale_x="0.749521" scale_y="0.749521"/>
+                </key>
+                <key id="1" time="76" spin="0">
+                    <object folder="1" file="9" x="-0.204982" y="-0.218182" pivot_x="0.491113" pivot_y="0.505121" angle="0" scale_x="0.813253" scale_y="0.813253" a="0.746667"/>
+                </key>
+                <key id="2" time="150" spin="0">
+                    <object folder="1" file="9" x="-0.149953" y="-0.257991" pivot_x="0.491113" pivot_y="0.505121" angle="0" scale_x="0.875308" scale_y="0.875308" a="0.5"/>
+                </key>
+                <key id="3" time="224" spin="0">
+                    <object folder="1" file="9" x="-0.204982" y="-0.218182" pivot_x="0.491113" pivot_y="0.505121" angle="0" scale_x="0.813253" scale_y="0.813253" a="0.746667"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="small_missile_hit" length="500" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="Magmaball_back" folder="1" file="14" abs_x="-83.254167" abs_y="81.791667" abs_angle="0" abs_scale_x="0.65" abs_scale_y="0.65" abs_a="1" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" name="white_circle" folder="0" file="4" abs_x="-57.145833" abs_y="55.791667" abs_angle="0" abs_scale_x="0.65" abs_scale_y="0.65" abs_a="1" timeline="0" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="27">
+                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="40">
+                    <object_ref id="0" timeline="1" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="2" z_index="2"/>
+                </key>
+                <key id="3" time="64">
+                    <object_ref id="0" timeline="1" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="3" z_index="2"/>
+                </key>
+                <key id="4" time="121">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="4" z_index="1"/>
+                </key>
+                <key id="5" time="185">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="5" z_index="1"/>
+                </key>
+                <key id="6" time="300">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="6" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="8" name="white_circle">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.65" scale_y="0.65"/>
+                </key>
+                <key id="1" time="27" spin="0">
+                    <object folder="0" file="4" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.239411" scale_y="0.239411"/>
+                </key>
+                <key id="2" time="40" spin="-1">
+                    <object folder="0" file="0" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.626722" scale_y="0.628408"/>
+                </key>
+                <key id="3" time="64" spin="-1">
+                    <object folder="0" file="1" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="351.791479" scale_x="0.715736" scale_y="0.719563"/>
+                </key>
+                <key id="4" time="121" spin="-1">
+                    <object folder="0" file="2" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="332.193634" scale_x="0.928257" scale_y="0.937195"/>
+                </key>
+                <key id="5" time="185" spin="-1">
+                    <object folder="0" file="3" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="310.54366" scale_x="1.163032" scale_y="1.177615"/>
+                </key>
+                <key id="6" time="300">
+                    <object folder="0" file="3" x="1.354167" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="271.245364" scale_x="1.589187" scale_y="1.614018" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="9" name="Magmaball_back">
+                <key id="0" spin="0">
+                    <object folder="1" file="14" x="1.245833" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.65" scale_y="0.65"/>
+                </key>
+                <key id="1" time="27" spin="0">
+                    <object folder="1" file="14" x="1.245833" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.457407" scale_y="0.457407" a="0.44444"/>
+                </key>
+                <key id="2" time="40" spin="0">
+                    <object folder="1" file="14" x="1.245833" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.457407" scale_y="0.457407" a="0.44444"/>
+                </key>
+                <key id="3" time="64" spin="0">
+                    <object folder="1" file="14" x="1.245833" y="-2.708333" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.457407" scale_y="0.457407" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="10" name="red_glow">
+                <key id="0" time="40" spin="0">
+                    <object folder="1" file="9" x="2.708333" y="-1.354167" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="1.315476" scale_y="1.315476"/>
+                </key>
+                <key id="1" time="300" spin="0">
+                    <object folder="1" file="9" x="2.708333" y="-1.354167" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="3.443452" scale_y="3.443452" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="magmaball">
+        <obj_info name="magmaball_magmaball_1" realname="magmaball_1" type="sprite">
+            <frames>
+                <i folder="1" file="12"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magmaball_magmaball_0" realname="magmaball_0" type="sprite">
+            <frames>
+                <i folder="1" file="13"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magmaball_Magmaball_back" realname="Magmaball_back" type="sprite">
+            <frames>
+                <i folder="1" file="14"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magmaball_magma_hit_0" realname="magma_hit_0" type="sprite">
+            <frames>
+                <i folder="1" file="23"/>
+                <i folder="1" file="24"/>
+                <i folder="1" file="25"/>
+                <i folder="1" file="26"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magmaball_magmaball_HITbg_0" realname="magmaball_HITbg_0" type="sprite">
+            <frames>
+                <i folder="1" file="27"/>
+            </frames>
+        </obj_info>
+        <obj_info name="magmaball_magmaball_HITbg_1" realname="magmaball_HITbg_1" type="sprite">
+            <frames>
+                <i folder="1" file="29"/>
+                <i folder="1" file="28"/>
+            </frames>
+        </obj_info>
+        <animation id="0" name="magmaball_0" length="6000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="Magmaball_back" folder="1" file="14" abs_x="-130" abs_y="130" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="0.66667" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" name="magmaball_1" folder="1" file="12" abs_x="-100" abs_y="100" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" name="magmaball_0" folder="1" file="13" abs_x="-100" abs_y="100" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="744">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                </key>
+                <key id="2" time="1503">
+                    <object_ref id="0" timeline="2" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+                <key id="3" time="2247">
+                    <object_ref id="0" timeline="2" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+                <key id="4" time="2995">
+                    <object_ref id="0" timeline="2" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="4" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="2" z_index="2"/>
+                </key>
+                <key id="5" time="3739">
+                    <object_ref id="0" timeline="2" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="5" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="2" z_index="2"/>
+                </key>
+                <key id="6" time="4498">
+                    <object_ref id="0" timeline="2" key="6" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="6" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="3" z_index="2"/>
+                </key>
+                <key id="7" time="5242">
+                    <object_ref id="0" timeline="2" key="7" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="7" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="3" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="magmaball_1">
+                <key id="0" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="0"/>
+                </key>
+                <key id="1" time="744" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="269.590751"/>
+                </key>
+                <key id="2" time="1503" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="180.753848"/>
+                </key>
+                <key id="3" time="2247" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="90"/>
+                </key>
+                <key id="4" time="2995" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="0"/>
+                </key>
+                <key id="5" time="3739" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="269.590751"/>
+                </key>
+                <key id="6" time="4498" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="180.753848"/>
+                </key>
+                <key id="7" time="5242" spin="-1">
+                    <object folder="1" file="12" pivot_x="0.5" pivot_y="0.5" angle="90"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="magmaball_0">
+                <key id="0">
+                    <object folder="1" file="13" pivot_x="0.5" pivot_y="0.5" angle="0"/>
+                </key>
+                <key id="1" time="1503">
+                    <object folder="1" file="13" pivot_x="0.5" pivot_y="0.5" angle="90"/>
+                </key>
+                <key id="2" time="2995">
+                    <object folder="1" file="13" pivot_x="0.5" pivot_y="0.5" angle="179.666889"/>
+                </key>
+                <key id="3" time="4498">
+                    <object folder="1" file="13" pivot_x="0.5" pivot_y="0.5" angle="269.627955"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="Magmaball_back">
+                <key id="0" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" a="0.66667"/>
+                </key>
+                <key id="1" time="744" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="1.08046" scale_y="1.08046"/>
+                </key>
+                <key id="2" time="1503" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" a="0.66667"/>
+                </key>
+                <key id="3" time="2247" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="1.08046" scale_y="1.08046"/>
+                </key>
+                <key id="4" time="2995" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" a="0.66667"/>
+                </key>
+                <key id="5" time="3739" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="1.08046" scale_y="1.08046"/>
+                </key>
+                <key id="6" time="4498" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" a="0.66667"/>
+                </key>
+                <key id="7" time="5242" spin="0">
+                    <object folder="1" file="14" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="1.08046" scale_y="1.08046"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="magmaball_hit" length="500" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="magmaball_HITbg_1" folder="1" file="29" abs_x="-171.767079" abs_y="183.286531" abs_angle="360" abs_scale_x="0.865835" abs_scale_y="0.926933" abs_a="1" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" name="magma_hit_0" folder="1" file="23" abs_x="-99.049998" abs_y="100.449998" abs_angle="360" abs_scale_x="0.7" abs_scale_y="0.7" abs_a="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" name="magmaball_HITbg_0" folder="1" file="27" abs_x="-137.899998" abs_y="141.399998" abs_angle="360" abs_scale_x="0.7" abs_scale_y="0.7" abs_a="1" timeline="1" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="177">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                </key>
+                <key id="2" time="221">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+                <key id="3" time="273">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+                <key id="4" time="294">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+                <key id="5" time="388">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                </key>
+                <key id="6" time="500">
+                    <object_ref id="0" timeline="2" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="4" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="2" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="3" name="magma_hit_0">
+                <key id="0" spin="0">
+                    <object folder="1" file="23" x="0.7" y="-0.7" scale_x="0.7" scale_y="0.7"/>
+                </key>
+                <key id="1" time="177" spin="0">
+                    <object folder="1" file="24" x="0.7" y="-0.7" scale_x="0.835545" scale_y="0.835545"/>
+                </key>
+                <key id="2" time="273" spin="0">
+                    <object folder="1" file="25" x="0.7" y="-0.7" scale_x="0.908473" scale_y="0.908473"/>
+                </key>
+                <key id="3" time="388" spin="0">
+                    <object folder="1" file="26" x="0.7" y="-0.7" scale_x="0.996291" scale_y="0.996291"/>
+                </key>
+                <key id="4" time="500" spin="0">
+                    <object folder="1" file="26" x="0.7" y="-0.7" scale_x="1.081818" scale_y="1.081818" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="4" name="magmaball_HITbg_0">
+                <key id="0">
+                    <object folder="1" file="27" x="2.1" y="1.4" scale_x="0.7" scale_y="0.7"/>
+                </key>
+                <key id="1" time="221" spin="0">
+                    <object folder="1" file="27" x="2.1" y="1.4" angle="90" scale_x="0.7" scale_y="0.7" a="0"/>
+                </key>
+                <key id="2" time="500" spin="-1">
+                    <object folder="1" file="27" x="2.1" y="1.4" angle="90" scale_x="0.7" scale_y="0.7" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="5" name="magmaball_HITbg_1">
+                <key id="0" spin="-1">
+                    <object folder="1" file="29" x="1.4" y="-2.1" scale_x="0.865835" scale_y="0.926933"/>
+                </key>
+                <key id="1" time="294" spin="-1">
+                    <object folder="1" file="28" x="1.4" y="-2.1" angle="306.851586" scale_x="1.267796" scale_y="1.267796"/>
+                </key>
+                <key id="2" time="500">
+                    <object folder="1" file="28" x="1.4" y="-2.1" angle="269.765002" scale_x="1.406983" scale_y="1.406983" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="2" name="magmaballTrail">
+        <obj_info name="magmaballTrail_MagmaTrail_0l" realname="MagmaTrail_0l" type="sprite">
+            <frames>
+                <i folder="1" file="15"/>
+                <i folder="1" file="16"/>
+                <i folder="1" file="17"/>
+                <i folder="1" file="18"/>
+            </frames>
+        </obj_info>
+        <animation id="0" name="trail" length="600">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="MagmaTrail_0l" folder="1" file="15" abs_x="-94.041667" abs_y="99.05679" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="94">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="246">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="373">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="600">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="MagmaTrail_0l">
+                <key id="0" spin="0">
+                    <object folder="1" file="15" x="48.958333" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0"/>
+                </key>
+                <key id="1" time="94" spin="0">
+                    <object folder="1" file="16" x="30.903333" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0.843"/>
+                </key>
+                <key id="2" time="246" spin="0">
+                    <object folder="1" file="17" x="1.693333" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0.589"/>
+                </key>
+                <key id="3" time="373" spin="0">
+                    <object folder="1" file="18" x="-22.571667" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0.378"/>
+                </key>
+                <key id="4" time="600" spin="0">
+                    <object folder="1" file="18" x="-66.041667" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="trail_static" length="600">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="MagmaTrail_0l" folder="1" file="15" abs_x="-82.041667" abs_y="99.05679" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="94">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="246">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="373">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="600">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="MagmaTrail_0l">
+                <key id="0" spin="0">
+                    <object folder="1" file="15" x="60.958333" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0"/>
+                </key>
+                <key id="1" time="94" spin="0">
+                    <object folder="1" file="16" x="60.95833" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0.843"/>
+                </key>
+                <key id="2" time="246" spin="0">
+                    <object folder="1" file="17" x="60.95833" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0.589"/>
+                </key>
+                <key id="3" time="373" spin="0">
+                    <object folder="1" file="18" x="60.95833" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0.378"/>
+                </key>
+                <key id="4" time="600" spin="0">
+                    <object folder="1" file="18" x="60.95833" y="4.166667" pivot_x="1" pivot_y="0.445087" angle="0" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta http-equiv="X-UA-Compatible" content="IE=EDGE"/>
+ <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252"/>
+ <meta name="Generator" content="Xara HTML filter v.7.0.2.946"/>
+ <meta name="XAR Files" content="index_htm_files/xr_files.txt"/>
+ <title>adding events to an animation</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <script language="JavaScript" type="text/javascript">document.documentElement.className="xr_bgh25";</script>
+ <link rel="stylesheet" type="text/css" href="index_htm_files/xr_main.css"/>
+ <link rel="stylesheet" type="text/css" href="index_htm_files/xr_text.css"/>
+ <link rel="stylesheet" type="text/css" href="index_htm_files/custom_styles.css"/>
+ <script type="text/javascript" src="index_htm_files/roe.js"></script>
+</head>
+<body class="xr_bgb25">
+<div class="xr_ap" id="xr_xr" style="width: 760px; height: 2061px; top:0px; left:50%; margin-left: -380px;">
+ <script type="text/javascript">var xr_xr=document.getElementById("xr_xr")</script>
+<div id="xr_td" class="xr_td">
+<div class="xr_ap xr_xri_" style="width: 760px; height: 2061px;">
+ <span class="xr_ar" style="left: -564px; top: 1996px; width: 1900px; height: 65px; background-color: #2F7FAC;"></span>
+ <div class="xr_s1" style="position: absolute; left:36px; top:189px; width:687px; height:131px;">
+  <span class="xr_tl xr_s1" style="top: -14px;">There are many instances in a video game where you want an animation to trigger some kind of action </span>
+  <span class="xr_tl xr_s1" style="top: 3px;">within the game engine.&nbsp; In Spriter we call these &#8220;Events&#8221;.&nbsp; A common event you might want to trigger at </span>
+  <span class="xr_tl xr_s1" style="top: 21px;">key points of an animation would be the creation and firing of a bullett sprite at the exact moment of a </span>
+  <span class="xr_tl xr_s1" style="top: 39px;">muzzle flash in a gun firing animation.&nbsp; Of course, it can get much more sophisticated than that.&nbsp; You </span>
+  <span class="xr_tl xr_s1" style="top: 57px;">might want to trigger several events at once, or several over the course of an animation. This is very easy </span>
+  <span class="xr_tl xr_s1" style="top: 74px;">with Spriter Pro.&nbsp; For the sake of keeping these simple we&#8217;ll use the shooting animation example.</span>
+ </div>
+ <div class="xr_s4" style="position: absolute; left:380px; top:128px; width:10px; height:10px;">
+  <span class="xr_tc xr_s4" style="left: -139px; top: -14px; width: 277px;">Adding Event Triggers to an Animation</span>
+ </div>
+ <a href="getting%20started.htm" onclick="return(xr_nn());">
+  <span class="xr_ar" onmousemove="xr_mo(this,0,event)" style="left: -570px; top: 71px; width: 1900px; height: 24px; background-color: #2F7FAC;"></span>
+ </a>
+ <a href="getting%20started.htm" onclick="return(xr_nn());">
+  <span class="xr_ar xr_t24583" onmousemove="xr_mo(this,0,event)" style="left: -570px; top: 0px; width: 1900px; height: 70px; background-color: #5DABD7; -o-transform: matrix(1.000,-0.000,0.000,-1.000,0,0); -webkit-transform: matrix(1.000,-0.000,0.000,-1.000,0,0); -ms-transform: matrix(1.000,-0.000,0.000,-1.000,0,0); transform: matrix(1.000,-0.000,0.000,-1.000,0,0);"></span>
+ <!--[if lt IE 9]><style type="text/css">.xr_t24583 {margin-left:0px; margin-top:0px;filter:progid:DXImageTransform.Microsoft.Matrix(M11=1.000,M21=-0.000,M12=0.000,M22=-1.000,sizingMethod='auto expand')}</style><![endif]-->
+ </a>
+ <div class="Heading_1" style="position: absolute; left:174px; top:47px; width:10px; height:10px;font-size:21px;color:#FFFFFF;">
+  <h1 class="xr_tl Heading_1" style="top: -29px;font-size:21px;color:#FFFFFF;margin:0;"><a href="getting%20started.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="Heading_1" style="font-size:32px;color:#FFFFFF;">Spriter Pro</span></a><a href="getting%20started.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="Heading_1" style="color:#FFFFFF;">&nbsp;User&#8217;s Manual version 1.0</span></a></h1>
+ </div>
+ <div class="xr_s2" style="position: absolute; left:243px; top:86px; width:10px; height:10px;">
+  <span class="xr_tc xr_s2" style="left: -50px; top: -11px; width: 100px;"><a href="getting%20started.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s2" style="">Quickstart</span></a></span>
+ </div>
+ <div class="xr_s2" style="position: absolute; left:350px; top:86px; width:10px; height:10px;">
+  <span class="xr_tc xr_s2" style="left: -35px; top: -11px; width: 69px;"><a href="default%20pivot%20points.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s2" style="">Sprites</span></a></span>
+ </div>
+ <div class="xr_s2" style="position: absolute; left:441px; top:86px; width:10px; height:10px;">
+  <span class="xr_tc xr_s2" style="left: -31px; top: -11px; width: 63px;"><a href="creating%20and%20assigning%20bones.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s2" style="">Bones</span></a></span>
+ </div>
+ <div class="xr_s2" style="position: absolute; left:543px; top:86px; width:10px; height:10px;">
+  <span class="xr_tc xr_s2" style="left: -49px; top: -11px; width: 98px;"><a href="animating%20sprites%20and%20bones.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s2" style="">Animating</span></a></span>
+ </div>
+ <div class="xr_s2" style="position: absolute; left:679px; top:86px; width:10px; height:10px;">
+  <span class="xr_tc xr_s2" style="left: -79px; top: -11px; width: 157px;"><a href="what%20are%20character%20maps.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s2" style="">Character Maps</span></a></span>
+ </div>
+ <a href="getting%20started.htm" onclick="return(xr_nn());">
+  <img class="xr_ap" src="index_htm_files/196.jpg" alt="" title="" onmousemove="xr_mo(this,0,event)" style="left: 8px; top: 1px; width: 93px; height: 93px;"/>
+ </a>
+ <div class="xr_s2" style="position: absolute; left:132px; top:86px; width:10px; height:10px;">
+  <span class="xr_tc xr_s2" style="left: -27px; top: -11px; width: 54px;"><a href="index.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s2" style="">Index</span></a></span>
+ </div>
+ <a href="adding%20tags%20to%20an%20animation.htm" onclick="return(xr_nn());">
+  <img class="xr_ap" src="index_htm_files/197.png" alt="" title="" onmousemove="xr_mo(this,0,event)" style="left: 17px; top: 103px; width: 34px; height: 34px;"/>
+ </a>
+ <a href="adding%20tags%20to%20an%20animation.htm" onclick="return(xr_nn());">
+  <img class="xr_ap" src="index_htm_files/198.png" alt="" title="" onmousemove="xr_mo(this,0,event)" style="left: 17px; top: 1945px; width: 34px; height: 34px;"/>
+ </a>
+ <a href="importing%20one%20spriter%20project%20into%20another.htm" onclick="return(xr_nn());">
+  <img class="xr_ap" src="index_htm_files/199.png" alt="" title="" onmousemove="xr_mo(this,0,event)" style="left: 710px; top: 1945px; width: 34px; height: 34px;"/>
+ </a>
+ <div class="xr_s1" style="position: absolute; left:36px; top:603px; width:687px; height:107px;">
+  <span class="xr_tl xr_s1" style="top: -14px;">1) Scrub through the timeline to find the exact moment in the shooting animation at which you&#8217;d like the </span>
+  <span class="xr_tl xr_s1" style="top: 3px;">game engine to spawn a bullet from the barrell of the gun. <a href="adding%20spawning%20points%20to%20frames.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" >(This would be the perfect place to use a </a></span>
+  <span class="xr_tl xr_s1" style="top: 21px;"><a href="adding%20spawning%20points%20to%20frames.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" >&#8220;Spawning Point&#8221;&nbsp; in the animation, the let the game engine know the percise position to spawn the bullet </a></span>
+  <span class="xr_tl xr_s1" style="top: 39px;"><a href="adding%20spawning%20points%20to%20frames.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" >from and at what angle to send it flying!) Now that you are at the right Spot in the timeline, right click on </a></span>
+  <span class="xr_tl xr_s1" style="top: 57px;"><a href="adding%20spawning%20points%20to%20frames.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" >the actual left hand part of the expanded timeline palette that displays the names of each time-line and </a></span>
+  <span class="xr_tl xr_s1" style="top: 74px;"><a href="adding%20spawning%20points%20to%20frames.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" >choose the top option that appears, called &#8220;append event at time&#8221;.</a></span>
+ </div>
+ <div class="xr_s1" style="position: absolute; left:36px; top:1034px; width:687px; height:56px;">
+  <span class="xr_tl xr_s1" style="top: -14px;">2) A small dialogue will appear which allows you name your Event.&nbsp; Just type in the name you want this </span>
+  <span class="xr_tl xr_s1" style="top: 3px;">event to have and click &#8220;OK&#8221; or press enter.&nbsp; This places your new event trigger at that spot in the timeline.</span>
+ </div>
+ <div class="xr_s1" style="position: absolute; left:36px; top:1099px; width:687px; height:116px;">
+  <span class="xr_tl xr_s1" style="top: -14px;">The logic in your game engine should look something like this:</span>
+  <span class="xr_tl xr_s1" style="left: 76px; top: 3px;">If the event called &#8220;fire bullet&#8221; is triggered.</span>
+  <span class="xr_tl xr_s1" style="left: 76px; top: 21px;">Then create a bullet sprite at the position of the spawning point called &#8220;gunbarrell&#8221;</span>
+  <span class="xr_tl xr_s1" style="left: 76px; top: 39px;">And set the angle of the bullet sprite to the angle designated by the spawning point.</span>
+  <span class="xr_tl xr_s1" style="left: 76px; top: 57px;">Set bullet sprite to whateve speed is apropriate.</span>
+ </div>
+ <div class="xr_s1" style="position: absolute; left:36px; top:1215px; width:687px; height:145px;">
+  <span class="xr_tl xr_s1" style="top: -14px;">A more sophisticated example of the use of &#8220;Events&#8221; would be a long animation of a wizzard character </span>
+  <span class="xr_tl xr_s1" style="top: 3px;">casting a spell.&nbsp; Imagine an early event to trigger the start of some lighting and weather effects as t he </span>
+  <span class="xr_tl xr_s1" style="top: 21px;">wizzard begins chanting his spell.&nbsp; Imagine shortly thereafter another event triggers the beginning of a </span>
+  <span class="xr_tl xr_s1" style="top: 39px;">screen shake...subtle at first, but growing more powerful as the incantation nears it completion. And finally </span>
+  <span class="xr_tl xr_s1" style="top: 57px;">an event timed perfectly when the wizard finishes the spell by slamming the end of his staff to the ground </span>
+  <span class="xr_tl xr_s1" style="top: 74px;">for emphasis, which could trigger a much more violent camera shake, particle effects, universal damage to </span>
+  <span class="xr_tl xr_s1" style="top: 92px;">on-screen enemies, etc etc.&nbsp; The possibilities are endless.</span>
+ </div>
+ <div class="xr_s1" style="position: absolute; left:36px; top:1775px; width:687px; height:116px;">
+  <span class="xr_tl xr_s1" style="top: -14px;">We&#8217;re not done yet though, if you pay close attention you&#8217;ll see that the new Event you created has room </span>
+  <span class="xr_tl xr_s1" style="top: 3px;">for it&#8217;s own MetaData in its timeline! This means the events themselves can carry with them additional </span>
+  <span class="xr_tl xr_s1" style="top: 21px;">information, giving you perfect control of the variables and settings involved with whatever it is you want </span>
+  <span class="xr_tl xr_s6" style="top: 39px;"><span class="xr_s1" style="">triggered in the game engine.&nbsp; Please see </span><a href="adding%20variables%20to%20an%20animation.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s7" style="">&#8220;adding variables to an animation&#8221;</span></a><span class="xr_s1" style=""><a href="adding%20variables%20to%20an%20animation.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" >&nbsp;</a></span><span class="xr_s1" style="">and </span><a href="adding%20tags%20to%20an%20animation.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s7" style="">&#8220;adding Tags to an </span></a></span>
+  <span class="xr_tl xr_s6" style="top: 57px;"><a href="adding%20tags%20to%20an%20animation.htm" onclick="return(xr_nn());" onmousemove="xr_mo(this,0)" ><span class="xr_s7" style="">animation&#8221;</span></a><span class="xr_s1" style="">&nbsp;to learn more.</span></span>
+ </div>
+ <img class="xr_ap" src="index_htm_files/375.jpg" alt="" title="" style="left: 129px; top: 301px; width: 501px; height: 270px;"/>
+ <img class="xr_ap" src="index_htm_files/376.jpg" alt="" title="" style="left: 199px; top: 716px; width: 361px; height: 275px;"/>
+ <img class="xr_ap" src="index_htm_files/377.jpg" alt="" title="" style="left: 129px; top: 1338px; width: 501px; height: 380px;"/>
+ <div id="xr_xo0" class="xr_ap" style="left:0; top:0; width:760px; height:100px; visibility:hidden;">
+ <a href="" onclick="return(false);" onmousedown="xr_ppir(this);">
+ </a>
+ </div>
+ <a href="importing%20one%20spriter%20project%20into%20another.htm" onclick="return(xr_nn());">
+  <img class="xr_ap" src="index_htm_files/200.png" alt="" title="" onmousemove="xr_mo(this,0,event)" style="left: 710px; top: 103px; width: 34px; height: 34px;"/>
+ </a>
+ <div id="xr_xd0"></div>
+</div>
+</div>
+</div>
+<!--[if lt IE 7]><script type="text/javascript" src="index_htm_files/png.js"></script><![endif]-->
+<!--[if IE]><script type="text/javascript">xr_aeh()</script><![endif]--><!--[if !IE]>--><script type="text/javascript">xr_htm();window.addEventListener('load', xr_aeh, false);</script><!--<![endif]-->
+</body>
+</html>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="electricity">
+        <file id="0" name="electricity/Lightning_z.png" width="314" height="640" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="electricity/Lightning_za.png" width="346" height="548" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="electricity/Lightning_fork_a.png" width="133" height="148" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="electricity/Lightning_fork_b.png" width="129" height="204" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="electricity/Lightning_fork_c.png" width="131" height="182" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="electricity/Lightning_fork_d.png" width="105" height="154" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="impacts">
+        <file id="0" name="impacts/charge_flash.png" width="210" height="210" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="2" name="magic_0">
+        <file id="0" name="magic_0/ball_dot_0.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="lightning">
+        <animation id="0" name="lightningStrike1" length="1000" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="Lightning_z_000" folder="0" file="0" abs_x="31.004718" abs_y="3.178717" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.031415" abs_scale_y="1.016192" abs_a="1" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" name="Lightning_za" folder="0" file="1" abs_x="24.285714" abs_y="0" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="Lightning_z" folder="0" file="0" abs_x="34.857143" abs_y="0" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="93">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                </key>
+                <key id="2" time="160">
+                    <object_ref id="0" timeline="2" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                </key>
+                <key id="3" time="245">
+                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                </key>
+                <key id="4" time="651">
+                    <object_ref id="0" timeline="1" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="Lightning_z">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="34.857143" angle="0"/>
+                </key>
+                <key id="1" time="245" spin="0">
+                    <object folder="0" file="0" x="34.857143" angle="0" a="0.52778"/>
+                </key>
+                <key id="2" time="651" spin="0">
+                    <object folder="0" file="0" x="34.857143" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="Lightning_za">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="24.285714" angle="0"/>
+                </key>
+                <key id="1" time="245" spin="0">
+                    <object folder="0" file="1" x="24.285714" angle="0" a="0"/>
+                </key>
+                <key id="2" time="651" spin="0">
+                    <object folder="0" file="1" x="24.285714" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="Lightning_z_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="31.004718" y="3.178717" angle="0" scale_x="1.031415" scale_y="1.016192"/>
+                </key>
+                <key id="1" time="93" spin="0">
+                    <object folder="0" file="0" x="31.004718" y="3.178717" angle="0" scale_x="1.031415" scale_y="1.016192"/>
+                </key>
+                <key id="2" time="160" spin="0">
+                    <object folder="0" file="0" x="31.004718" y="3.178717" angle="0" scale_x="1.031415" scale_y="1.016192" a="0"/>
+                </key>
+                <key id="3" time="245" spin="0">
+                    <object folder="0" file="0" x="31.004718" y="3.178717" angle="0" scale_x="1.031415" scale_y="1.016192" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="LightningStrike1a" length="1000" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="Lightning_za_002" folder="0" file="1" abs_x="33.846154" abs_y="24.082212" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1.066344" abs_a="1" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" name="Lightning_z_005" folder="0" file="0" abs_x="81.846154" abs_y="1" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" name="Lightning_z_006" folder="0" file="0" abs_x="79.923077" abs_y="5.923077" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.02" abs_scale_y="1.02" abs_a="1" timeline="1" key="0" z_index="2"/>
+                    <object_ref id="3" name="Lightning_fork_a_000" folder="0" file="2" abs_x="10.769231" abs_y="-213.846154" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="3"/>
+                    <object_ref id="4" name="Lightning_fork_b_000" folder="0" file="3" abs_x="218.461538" abs_y="-190.769231" abs_pivot_x="0" abs_pivot_y="1" abs_angle="43.363423" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" name="Lightning_fork_c" folder="0" file="4" abs_x="156.923077" abs_y="-383.076923" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="5" key="0" z_index="5"/>
+                </key>
+                <key id="1" time="92">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="0" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="0" z_index="5"/>
+                </key>
+                <key id="2" time="294">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="1" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="1" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="1" z_index="5"/>
+                </key>
+                <key id="3" time="700">
+                    <object_ref id="0" timeline="2" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="3" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="2" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="2" z_index="4"/>
+                    <object_ref id="5" timeline="5" key="2" z_index="5"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="Lightning_z_005">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="81.846154" y="1" angle="0"/>
+                </key>
+                <key id="1" time="294" spin="0">
+                    <object folder="0" file="0" x="81.846154" y="1" angle="0"/>
+                </key>
+                <key id="2" time="700" spin="0">
+                    <object folder="0" file="0" x="81.846154" y="1" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="Lightning_z_006">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="79.923077" y="5.923077" angle="0" scale_x="1.02" scale_y="1.02"/>
+                </key>
+                <key id="1" time="92" spin="0">
+                    <object folder="0" file="0" x="79.923077" y="5.923077" angle="0" scale_x="1.02" scale_y="1.02" a="0"/>
+                </key>
+                <key id="2" time="294" spin="0">
+                    <object folder="0" file="0" x="79.923077" y="5.923077" angle="0" scale_x="1.02" scale_y="1.02" a="0"/>
+                </key>
+                <key id="3" time="700" spin="0">
+                    <object folder="0" file="0" x="79.923077" y="5.923077" angle="0" scale_x="1.02" scale_y="1.02" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="Lightning_za_002">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="33.846154" y="24.082212" angle="0" scale_y="1.066344"/>
+                </key>
+                <key id="1" time="294" spin="0">
+                    <object folder="0" file="1" x="33.846154" y="24.082212" angle="0" scale_y="1.066344" a="0"/>
+                </key>
+                <key id="2" time="700" spin="0">
+                    <object folder="0" file="1" x="33.846154" y="24.082212" angle="0" scale_y="1.066344" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="Lightning_fork_a_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="10.769231" y="-213.846154" angle="0"/>
+                </key>
+                <key id="1" time="294" spin="0">
+                    <object folder="0" file="2" x="10.769231" y="-213.846154" angle="0" a="0"/>
+                </key>
+                <key id="2" time="700" spin="0">
+                    <object folder="0" file="2" x="10.769231" y="-213.846154" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="4" name="Lightning_fork_b_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="218.461538" y="-190.769231" angle="43.363423"/>
+                </key>
+                <key id="1" time="294" spin="0">
+                    <object folder="0" file="3" x="218.461538" y="-190.769231" angle="43.363423" a="0"/>
+                </key>
+                <key id="2" time="700" spin="0">
+                    <object folder="0" file="3" x="218.461538" y="-190.769231" angle="43.363423" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="5" name="Lightning_fork_c">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" x="156.923077" y="-383.076923" angle="0"/>
+                </key>
+                <key id="1" time="294" spin="0">
+                    <object folder="0" file="4" x="156.923077" y="-383.076923" angle="0" a="0"/>
+                </key>
+                <key id="2" time="700" spin="0">
+                    <object folder="0" file="4" x="156.923077" y="-383.076923" angle="0" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="LightningStrike2" length="1000" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="Lightning_z_002" folder="0" file="0" abs_x="519.356784" abs_y="18.000601" abs_pivot_x="0.164306" abs_pivot_y="0.988863" abs_angle="320.731455" abs_scale_x="1.018682" abs_scale_y="1.018682" abs_a="1" timeline="5" key="0" z_index="0"/>
+                    <object_ref id="1" name="Lightning_za_000" folder="0" file="1" abs_x="535.174352" abs_y="52.005464" abs_pivot_x="0.325648" abs_pivot_y="0.994536" abs_angle="320.376816" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="Lightning_z_001" folder="0" file="0" abs_x="522.831746" abs_y="12.00468" abs_pivot_x="0.168254" abs_pivot_y="0.99532" abs_angle="320.71015" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="2"/>
+                    <object_ref id="3" name="Lightning_fork_a" folder="0" file="2" abs_x="225" abs_y="-432.5" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="3"/>
+                    <object_ref id="4" name="Lightning_fork_b" folder="0" file="3" abs_x="465" abs_y="-182.5" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="3" key="0" z_index="4"/>
+                    <object_ref id="5" name="Lightning_fork_d" folder="0" file="5" abs_x="285" abs_y="-92.5" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="4" key="0" z_index="5"/>
+                </key>
+                <key id="1" time="61">
+                    <object_ref id="0" timeline="5" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="0" z_index="3"/>
+                    <object_ref id="4" timeline="3" key="0" z_index="4"/>
+                    <object_ref id="5" timeline="4" key="0" z_index="5"/>
+                </key>
+                <key id="2" time="114">
+                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="1" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="1" z_index="4"/>
+                </key>
+                <key id="3" time="395">
+                    <object_ref id="0" timeline="1" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="2" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="2" z_index="4"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="Lightning_z_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="522.831746" y="12.00468" pivot_x="0.168254" pivot_y="0.99532" angle="320.71015"/>
+                </key>
+                <key id="1" time="114" spin="0">
+                    <object folder="0" file="0" x="522.831746" y="12.00468" pivot_x="0.168254" pivot_y="0.99532" angle="320.71015" a="0.69444"/>
+                </key>
+                <key id="2" time="395" spin="0">
+                    <object folder="0" file="0" x="522.831746" y="12.00468" pivot_x="0.168254" pivot_y="0.99532" angle="320.71015" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="Lightning_za_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="535.174352" y="52.005464" pivot_x="0.325648" pivot_y="0.994536" angle="320.376816"/>
+                </key>
+                <key id="1" time="114" spin="0">
+                    <object folder="0" file="1" x="535.174352" y="52.005464" pivot_x="0.325648" pivot_y="0.994536" angle="320.376816" a="0"/>
+                </key>
+                <key id="2" time="395" spin="0">
+                    <object folder="0" file="1" x="535.174352" y="52.005464" pivot_x="0.325648" pivot_y="0.994536" angle="320.376816" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="Lightning_fork_a">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="225" y="-432.5" angle="0"/>
+                </key>
+                <key id="1" time="114" spin="0">
+                    <object folder="0" file="2" x="225" y="-432.5" angle="0" a="0"/>
+                </key>
+                <key id="2" time="395" spin="0">
+                    <object folder="0" file="2" x="225" y="-432.5" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="Lightning_fork_b">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="465" y="-182.5" angle="0"/>
+                </key>
+                <key id="1" time="114" spin="0">
+                    <object folder="0" file="3" x="465" y="-182.5" angle="0" a="0"/>
+                </key>
+                <key id="2" time="395" spin="0">
+                    <object folder="0" file="3" x="465" y="-182.5" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="4" name="Lightning_fork_d">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="285" y="-92.5" angle="0"/>
+                </key>
+                <key id="1" time="114" spin="0">
+                    <object folder="0" file="5" x="285" y="-92.5" angle="0" a="0"/>
+                </key>
+                <key id="2" time="395" spin="0">
+                    <object folder="0" file="5" x="285" y="-92.5" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="5" name="Lightning_z_002">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="519.356784" y="18.000601" pivot_x="0.164306" pivot_y="0.988863" angle="320.731455" scale_x="1.018682" scale_y="1.018682"/>
+                </key>
+                <key id="1" time="61" spin="0">
+                    <object folder="0" file="0" x="519.356784" y="18.000601" pivot_x="0.164306" pivot_y="0.988863" angle="320.731455" scale_x="1.018682" scale_y="1.018682" a="0"/>
+                </key>
+                <key id="2" time="114" spin="0">
+                    <object folder="0" file="0" x="519.356784" y="18.000601" pivot_x="0.164306" pivot_y="0.988863" angle="320.731455" scale_x="1.018682" scale_y="1.018682" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

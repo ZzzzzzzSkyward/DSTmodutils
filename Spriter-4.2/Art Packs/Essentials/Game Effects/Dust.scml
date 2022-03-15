@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="explosion_0">
+        <file id="0" name="explosion_0/glow_yellow.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="explosion_0/ball_dark.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="explosion_0/ball_white.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="explosion_0/puff_white.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="explosion_0/puff_orange.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="explosion_0/puff_red.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="explosion_0/glow_red.png" width="180" height="180" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="impacts">
+        <file id="0" name="impacts/zpack_0.png" width="155" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="impacts/zpack_1.png" width="155" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="impacts/zpack_2.png" width="155" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="impacts/zpack_3.png" width="155" height="180" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="impacts/orange_impx_0.png" width="160" height="160" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="impacts/orange_impx_1.png" width="160" height="160" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="impacts/orange_impx_2.png" width="160" height="160" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="impacts/dustcloud0.png" width="110" height="114" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="impacts/Revup1.png" width="210" height="125" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="impacts/Revup2.png" width="210" height="125" pivot_x="0" pivot_y="1"/>
+        <file id="10" name="impacts/Revup3.png" width="210" height="125" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="impacts/Revup4.png" width="210" height="125" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="impacts/Revup5.png" width="210" height="125" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="2" name="magic_0">
+        <file id="0" name="magic_0/ball_dot_0a.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="magic_0/ball_dot_0.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="magic_0/ball_dot_1.png" width="69" height="70" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="Dust_a">
+        <animation id="0" name="DustSimple" length="500" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="object_025" folder="1" file="7" abs_x="-18.748022" abs_y="7.926479" abs_pivot_x="0.621212" abs_pivot_y="0.187135" abs_angle="48.96034" abs_scale_x="0.750314" abs_scale_y="0.731276" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="object_026" folder="1" file="7" abs_x="32.023749" abs_y="7.197975" abs_pivot_x="0.530303" abs_pivot_y="0.280702" abs_angle="304.988781" abs_scale_x="-0.761682" abs_scale_y="0.708709" abs_a="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="494">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="object_025">
+                <key id="0">
+                    <object folder="1" file="7" x="-18.748022" y="7.926479" pivot_x="0.621212" pivot_y="0.187135" angle="48.96034" scale_x="0.750314" scale_y="0.731276"/>
+                </key>
+                <key id="1" time="494" spin="-1">
+                    <object folder="1" file="7" x="-55.794791" y="34.670248" pivot_x="0.621212" pivot_y="0.187135" angle="57.353001" scale_x="1.454351" scale_y="1.472991" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="object_026">
+                <key id="0" spin="-1">
+                    <object folder="1" file="7" x="32.023749" y="7.197975" pivot_x="0.530303" pivot_y="0.280702" angle="304.988781" scale_x="-0.761682" scale_y="0.708709"/>
+                </key>
+                <key id="1" time="494">
+                    <object folder="1" file="7" x="74.298626" y="31.058985" pivot_x="0.530303" pivot_y="0.280702" angle="294.694624" scale_x="-1.511504" scale_y="1.443258" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="RevDust_0" length="700" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="object_030" folder="1" file="8" abs_x="39.752381" abs_y="-9.616" abs_pivot_x="0.92381" abs_pivot_y="0.072" abs_angle="0" abs_scale_x="0.390476" abs_scale_y="0.376" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="136">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="256">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="372">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="527">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+                <key id="5" time="695">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="object_030">
+                <key id="0" spin="0">
+                    <object folder="1" file="8" x="39.752381" y="-9.616" pivot_x="0.92381" pivot_y="0.072" angle="0" scale_x="0.390476" scale_y="0.376"/>
+                </key>
+                <key id="1" time="136" spin="0">
+                    <object folder="1" file="9" x="13.974261" y="-1.245598" pivot_x="0.92381" pivot_y="0.072" angle="0" scale_x="0.598001" scale_y="0.57621"/>
+                </key>
+                <key id="2" time="256" spin="0">
+                    <object folder="1" file="10" x="-1.298565" y="3.148351" pivot_x="0.92381" pivot_y="0.072" angle="0" scale_x="0.657658" scale_y="0.633764"/>
+                </key>
+                <key id="3" time="372" spin="0">
+                    <object folder="1" file="11" x="-31.295629" y="5.529168" pivot_x="0.92381" pivot_y="0.072" angle="0" scale_x="0.715326" scale_y="0.6894"/>
+                </key>
+                <key id="4" time="527" spin="0">
+                    <object folder="1" file="12" x="-37.981363" y="3.038018" pivot_x="0.92381" pivot_y="0.072" angle="0" scale_x="0.792383" scale_y="0.763741" a="0.5"/>
+                </key>
+                <key id="5" time="695" spin="0">
+                    <object folder="1" file="12" x="-51.942857" y="2.56" pivot_x="0.92381" pivot_y="0.072" angle="0" scale_x="0.871429" scale_y="0.84" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

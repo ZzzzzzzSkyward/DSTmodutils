@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="shooter_fx">
+        <file id="0" name="shooter_fx/yellow_shot.png" width="108" height="248" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="shooter_fx/yellow_shot_fx1.png" width="30" height="36" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="shooter_fx/ing_shot_fx3.png" width="101" height="101" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="shooter_fx/yellow_shot_impact1.png" width="122" height="177" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="shooter_fx/yellow_shot_impact2.png" width="136" height="111" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="shooter_fx/yellow_shot_impact3.png" width="140" height="99" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="shooter_fx/blue_shot.png" width="236" height="271" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="shooter_fx/blue_shot_impact2.png" width="172" height="136" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="shooter_fx/blut_shot_impact1.png" width="163" height="148" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="shooter_fx/blut_shot_impact3.png" width="175" height="106" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="SHMUP_shots">
+        <animation id="0" name="yellow_shot" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="yellow_shot" folder="0" file="0" abs_x="1.055046" abs_y="-2.321285" abs_pivot_x="0.444954" abs_pivot_y="0.821285" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="yellow_shot_fx1" folder="0" file="1" abs_x="-28" abs_y="0" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="yellow_shot_fx1_001" folder="0" file="1" abs_x="-15" abs_y="-22" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="0" timeline="3" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="123">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="1" z_index="3"/>
+                </key>
+                <key id="2" time="244">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="2" z_index="3"/>
+                </key>
+                <key id="3" time="366">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="3" key="3" z_index="3"/>
+                    <object_ref id="4" timeline="4" key="0" z_index="4"/>
+                </key>
+                <key id="4" time="490">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="4" z_index="1"/>
+                    <object_ref id="2" timeline="4" key="1" z_index="2"/>
+                </key>
+                <key id="5" time="613">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="5" z_index="1"/>
+                    <object_ref id="2" timeline="4" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="5" key="0" z_index="3"/>
+                </key>
+                <key id="6" time="727">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="6" z_index="1"/>
+                    <object_ref id="2" timeline="4" key="3" z_index="2"/>
+                    <object_ref id="3" timeline="5" key="1" z_index="3"/>
+                </key>
+                <key id="7" time="733">
+                    <object_ref id="0" timeline="0" key="6" z_index="0"/>
+                </key>
+                <key id="8" time="858">
+                    <object_ref id="0" timeline="0" key="7" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="8" z_index="1"/>
+                    <object_ref id="2" timeline="6" key="0" z_index="2"/>
+                </key>
+                <key id="9" time="981">
+                    <object_ref id="0" timeline="0" key="7" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="8" z_index="1"/>
+                    <object_ref id="2" timeline="6" key="1" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="yellow_shot">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0"/>
+                </key>
+                <key id="1" time="123" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0" scale_x="0.842832"/>
+                </key>
+                <key id="2" time="244" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0" scale_x="1.074448"/>
+                </key>
+                <key id="3" time="366" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0" scale_x="0.909008"/>
+                </key>
+                <key id="4" time="490" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0" scale_x="1.090992"/>
+                </key>
+                <key id="5" time="613" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0" scale_x="0.842832"/>
+                </key>
+                <key id="6" time="733" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0"/>
+                </key>
+                <key id="7" time="858" spin="0">
+                    <object folder="0" file="0" x="1.055046" y="-2.321285" pivot_x="0.444954" pivot_y="0.821285" angle="0" scale_x="0.842832"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="yellow_shot_fx1">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-28" angle="0"/>
+                </key>
+                <key id="1" time="123" spin="0">
+                    <object folder="0" file="1" x="-28" y="-23" angle="0"/>
+                </key>
+                <key id="2" time="244" spin="0">
+                    <object folder="0" file="1" x="-28" y="-48.826682" angle="0"/>
+                </key>
+                <key id="3" time="366" spin="0">
+                    <object folder="0" file="1" x="-28" y="-76.947244" angle="0" a="0"/>
+                </key>
+                <key id="4" time="490" spin="0">
+                    <object folder="0" file="1" x="-28" y="-76.947244" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="yellow_shot_fx1_000">
+                <key id="0" time="123" spin="0">
+                    <object folder="0" file="1" x="-7" y="-2" angle="0"/>
+                </key>
+                <key id="1" time="244" spin="0">
+                    <object folder="0" file="1" x="-7" y="-21" angle="0"/>
+                </key>
+                <key id="2" time="366" spin="0">
+                    <object folder="0" file="1" x="-7" y="-46.362912" angle="0" a="0"/>
+                </key>
+                <key id="3" time="490" spin="0">
+                    <object folder="0" file="1" x="-7" y="-46.362912" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="yellow_shot_fx1_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-15" y="-22" angle="0" a="0"/>
+                </key>
+                <key id="1" time="123" spin="0">
+                    <object folder="0" file="1" x="-15" y="1" angle="0" a="0"/>
+                </key>
+                <key id="2" time="244" spin="0">
+                    <object folder="0" file="1" x="-16" y="-1" angle="0"/>
+                </key>
+                <key id="3" time="366" spin="0">
+                    <object folder="0" file="1" x="-16" y="-24" angle="0"/>
+                </key>
+                <key id="4" time="490" spin="0">
+                    <object folder="0" file="1" x="-16" y="-68" angle="0" a="0"/>
+                </key>
+                <key id="5" time="613" spin="0">
+                    <object folder="0" file="1" x="-8" y="-1" angle="0" a="0"/>
+                </key>
+                <key id="6" time="727" spin="0">
+                    <object folder="0" file="1" x="-8" y="-26.591837" angle="0" a="0"/>
+                </key>
+                <key id="7" time="733" spin="0">
+                    <object folder="0" file="1" x="-8" y="-26.591837" angle="0" a="0"/>
+                </key>
+                <key id="8" time="858" spin="0">
+                    <object folder="0" file="1" x="-8" y="-56" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="4" name="yellow_shot_fx1_002">
+                <key id="0" time="366" spin="0">
+                    <object folder="0" file="1" x="-25" y="2" angle="0"/>
+                </key>
+                <key id="1" time="490" spin="0">
+                    <object folder="0" file="1" x="-24" y="-24" angle="0"/>
+                </key>
+                <key id="2" time="613" spin="0">
+                    <object folder="0" file="1" x="-25" y="-62" angle="0" a="0"/>
+                </key>
+                <key id="3" time="727" spin="0">
+                    <object folder="0" file="1" x="-25" y="-52.310757" angle="0" a="0.151394"/>
+                </key>
+                <key id="4" time="733" spin="0">
+                    <object folder="0" file="1" x="-25" y="-52.310757" angle="0" a="0.151394"/>
+                </key>
+            </timeline>
+            <timeline id="5" name="yellow_shot_fx1_003">
+                <key id="0" time="613" spin="0">
+                    <object folder="0" file="1" x="-7" y="-5" angle="0"/>
+                </key>
+                <key id="1" time="727" spin="0">
+                    <object folder="0" file="1" x="-7" y="-35" angle="0" a="0"/>
+                </key>
+                <key id="2" time="733" spin="0">
+                    <object folder="0" file="1" x="-7" y="-35" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="6" name="yellow_shot_fx1_004">
+                <key id="0" time="858" spin="0">
+                    <object folder="0" file="1" x="-13" y="-3" angle="0"/>
+                </key>
+                <key id="1" time="981" spin="0">
+                    <object folder="0" file="1" x="-12" y="-41" angle="0" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="yellow_shot_impact" length="300" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="yellow_shot_impact1" folder="0" file="3" abs_x="-60" abs_y="90" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="99">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="100">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="3" time="199">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="4" time="200">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="yellow_shot_impact1">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-60" y="90" angle="0"/>
+                </key>
+                <key id="1" time="99" spin="0">
+                    <object folder="0" file="3" x="-60" y="90" angle="0"/>
+                </key>
+                <key id="2" time="100" spin="0">
+                    <object folder="0" file="3" x="-60" y="90" angle="0" a="0"/>
+                </key>
+                <key id="3" time="199" spin="0">
+                    <object folder="0" file="3" x="-60" y="90" angle="0" a="0"/>
+                </key>
+                <key id="4" time="200" spin="0">
+                    <object folder="0" file="3" x="-60" y="90" angle="0" a="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="yellow_shot_impact2">
+                <key id="0" time="100" spin="0">
+                    <object folder="0" file="4" x="-67" y="98" angle="0"/>
+                </key>
+                <key id="1" time="199" spin="0">
+                    <object folder="0" file="4" x="-67" y="98" angle="0"/>
+                </key>
+                <key id="2" time="200" spin="0">
+                    <object folder="0" file="4" x="-67" y="98" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="yellow_shot_impact3">
+                <key id="0" time="200" spin="0">
+                    <object folder="0" file="5" x="-65" y="96" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="blue_shot" length="400">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="blue_shot" folder="0" file="6" abs_x="-0.012658" abs_y="-1.196691" abs_pivot_x="0.512658" abs_pivot_y="0.696691" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="200">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="blue_shot">
+                <key id="0" spin="0">
+                    <object folder="0" file="6" x="-0.012658" y="-1.196691" pivot_x="0.512658" pivot_y="0.696691" angle="0"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="6" x="-0.012658" y="-1.196691" pivot_x="0.512658" pivot_y="0.696691" angle="0" scale_x="0.938265" scale_y="1.076597"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="blue_shot_impact" length="300" looping="false">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="blut_shot_impact1" folder="0" file="8" abs_x="-78" abs_y="59" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                </key>
+                <key id="2" time="200">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                </key>
+                <key id="3" time="299">
+                    <object_ref id="0" timeline="2" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="blut_shot_impact1">
+                <key id="0" spin="0">
+                    <object folder="0" file="8" x="-78" y="59" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="8" x="-78" y="59" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="blue_shot_impact2">
+                <key id="0" time="100" spin="0">
+                    <object folder="0" file="7" x="-83" y="81" angle="0"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="0" file="7" x="-83" y="81" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="blut_shot_impact3">
+                <key id="0" time="200" spin="0">
+                    <object folder="0" file="9" x="-82" y="97" angle="0"/>
+                </key>
+                <key id="1" time="299" spin="0">
+                    <object folder="0" file="9" x="-82" y="97" angle="0" a="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
