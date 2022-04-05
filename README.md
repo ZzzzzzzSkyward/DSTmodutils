@@ -52,6 +52,8 @@ krane ./ ./
 krane --mark-atlases build.bin output_dir
 ```
 
+可能的错误：文件夹里有非英文字符报错。
+
 ## 作业：sample_build
 
 里面是官方给的威尔逊scml工程文件。尝试将它打包成build.zip
@@ -64,7 +66,7 @@ krane --mark-atlases build.bin output_dir
 
 ## Spriter-4.2
 
-较新版本的Spriter，你还可以在官网下载未激活的Spriter Pro。个人评价不是很好用。
+较新版本的Spriter，你还可以在官网（需翻墙）下载未激活的Spriter Pro。个人评价不是很好用。
 
 功能：播放动画、导出帧、导出gif动图、修改build名与bank名
 
