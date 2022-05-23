@@ -70,6 +70,16 @@ krane --mark-atlases build.bin output_dir
 
 功能：播放动画、导出帧、导出gif动图、修改build名与bank名
 
+## Spriter r11
+
+最新版本的Spriter Pro。
+
+激活码：
+
+spriter@spk.stw           SPLK-BUIJ-0ZYY-NQ74
+
+TheBlade@Pirates.gov      BLAD-C0P6-0T8D-K8XU
+
 ## textool v1.4.2.0
 
 原仓库：https://github.com/zxcvbnm3057/dont-starve-tools
