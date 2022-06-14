@@ -68,7 +68,17 @@ krane --mark-atlases build.bin output_dir
 
 较新版本的Spriter，你还可以在官网（需翻墙）下载未激活的Spriter Pro。个人评价不是很好用。
 
-功能：播放动画、导出帧、导出gif动图、修改build名与bank名
+功能：播放动画、导出帧、导出gif动图、修改build名与bank名。
+
+2013年的帖子：https://forums.kleientertainment.com/forums/topic/27247-new-asset-tools-animations-textures-sounds-and-layouts/
+
+Klei的动画师使用Adobe Flash创作，不喜欢使用骨骼。他们自己建立了一个从Flash文件到饥荒动画文件的管道，其中包括一些压缩与微调。Flash支持斜切（skew），但Spriter不支持。Spriter以毫秒为单位计算帧，但Flash以帧为单位。饥荒的动画都是30fps，尽管我发现由autocompiler导出的动画是40fps；无论你在Spriter有多少关键帧，autocompiler都会以固定帧率计算。
+
+可以使用`krane --check-animation-fidelity`命令查看动画文件是否包含Spriter不支持的变换。
+
+关于人物动画有三只手等：游戏会隐藏其中一些物体，来使动画正确显示。这是一种很蠢的做法。Spriter不支持在查看时隐藏。
+
+一张atlas最大的分辨率是2048x2048，所以你的图片的最大分辨率也是这样的。尽管你可以制作高分辨率的图片，但仍然建议不要太大，理由是占用的内存太多了。
 
 ## Spriter r11
 
@@ -99,3 +109,42 @@ TheBlade@Pirates.gov      BLAD-C0P6-0T8D-K8XU
 安装后，每次打开饥荒联机版，都会自动调用autocompiler.exe，把位于dont_starve\mods\xxx\的文件打包成另一种格式。
 
 **注意：有些情况下这个工具生成的不是游戏里可用的动画文件，不知道为啥**
+
+已知bug：
+
+1. 来源：https://forums.kleientertainment.com/forums/topic/72067-autocompiler-symbol-issues/?tab=comments#comment-842755
+
+Don't Starve Mod Tools/mod_tools/tools/scripts/buildanimation.py:163（现在已经不是这个行号了）
+
+```python
+layername = element_node.attributes["layername"].value.encode('ascii').split('/')[-1]
+应该是
+layername = element_node.attributes["name"].value.encode('ascii').split('/')[-1]
+```
+
+## AnimBuilder
+
+这个文件夹里包括两组程序。
+
+第一组：build.py编译/rebuild.py解析 build.bin（实测rebuild用不了，可以用animd代替）
+
+第二组：animc.exe编译与解析anim.bin，animd.exe编译与解析build.bin
+
+第一组程序来自@朋也（https://tomoya92.github.io/dstmod-tutorial），他也没有注明是谁写的。
+
+第二组程序来自https://github.com/Akarinnnnn/KleiAnim
+
+## DSTEd
+
+仓库：https://github.com/DST-Tools/DSTEd
+
+该程序提供了一个IDE，此链接为1.0版，有release；更新的2021年的2.0版没有release，需要自己编译。我编译了一下，各种报错，用不了。
+
+![DSTEd](DSTEd.png)
+
+## TexExplorer
+
+仓库地址：https://github.com/tpxxn/TexExplorer
+
+与TexTool相比，提供了更加方便的图集信息查看功能，但更加简陋。
+
