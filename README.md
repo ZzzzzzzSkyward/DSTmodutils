@@ -6,9 +6,9 @@
 
 ### BuildRenamer.exe
 
-将一个build.bin的`build`替换成新名字，并删去build.bin尾部的哈希表。
+将一个build.bin的`build`替换成新名字，并删去build.bin尾部的符号表。
 
-删去尾部不影响游戏，但无法重建成scml工程。
+删去符号表不影响游戏。
 
 ### krane.exe与ktech.exe
 
@@ -96,7 +96,7 @@ TheBlade@Pirates.gov      BLAD-C0P6-0T8D-K8XU
 
 上述ktech的图形化界面。
 
-## DontStarveLUAJIT
+## (DontStarveLUAJIT)
 
 由大佬制作的32位引擎补丁，在创意工坊有对应mod
 
