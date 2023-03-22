@@ -1,0 +1,50 @@
+/* Site settings */
+body {background-color:#ffffff;margin:0px;font-family:Arial,sans-serif;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#000000;letter-spacing:0em;-webkit-print-color-adjust:exact;}
+a {text-decoration:none;}
+a:link {color:#000000; cursor:pointer;}
+a:visited {color:#561A8B;}
+a:hover {color:#616161;}
+a * {color:#000000;text-decoration:none;}
+sup {font-size:0.7em; vertical-align: 0.3em;}
+sub {font-size:0.7em;}
+.xr_tl {position: absolute; white-space: pre; unicode-bidi:bidi-override;}
+.xr_tr {position: absolute; white-space: pre; unicode-bidi:bidi-override; text-align:right;}
+.xr_tc {position: absolute; white-space: pre; unicode-bidi:bidi-override; text-align:center;}
+.xr_tj {position: absolute; unicode-bidi:bidi-override; text-align:justify;}
+.xr_ap {position: absolute; border:none;}
+.xr_ar {position: absolute; display:block;}
+.xr_ae {position: relative; border:none;}
+.xr_tb {position: absolute; unicode-bidi:bidi-override;}
+.xr_tu {unicode-bidi:bidi-override;margin-top:0px;margin-bottom:0px;}
+.xr_apb {display:block; position:absolute;}
+.xr_c_RTF0 {color:#000000;}
+.xr_c_Light_Text {color:#FFFFFF;}
+.xr_bgb0 {background-color: #EBEBEB;}
+.xr_bgb1 {background-color: #EBEBEB;}
+.xr_bgb2 {background-color: #EBEBEB;}
+.xr_bgb3 {background-color: #EBEBEB;}
+.xr_bgb4 {background-color: #EBEBEB;}
+.xr_bgb5 {background-color: #EBEBEB;}
+.xr_bgb6 {background-color: #EBEBEB;}
+.xr_bgb7 {background-color: #EBEBEB;}
+.xr_bgb8 {background-color: #EBEBEB;}
+.xr_bgb9 {background-color: #EBEBEB;}
+.xr_bgb10 {background-color: #EBEBEB;}
+.xr_bgb11 {background-color: #EBEBEB;}
+.xr_bgb12 {background-color: #EBEBEB;}
+.xr_bgb13 {background-color: #EBEBEB;}
+.xr_bgb14 {background-color: #EBEBEB;}
+.xr_bgb15 {background-color: #EBEBEB;}
+.xr_bgb16 {background-color: #EBEBEB;}
+.xr_bgb17 {background-color: #EBEBEB;}
+.xr_bgb18 {background-color: #EBEBEB;}
+.xr_bgb19 {background-color: #EBEBEB;}
+.xr_bgb20 {background-color: #EBEBEB;}
+.xr_bgb21 {background-color: #EBEBEB;}
+.xr_bgb22 {background-color: #EBEBEB;}
+.xr_bgb23 {background-color: #EBEBEB;}
+.xr_bgb24 {background-color: #EBEBEB;}
+.xr_bgb25 {background-color: #EBEBEB;}
+.xr_bgb26 {background-color: #EBEBEB;}
+.xr_bgb27 {background-color: #EBEBEB;}
+.xr_bgb28 {background-color: #EBEBEB;}
