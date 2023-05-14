@@ -7,7 +7,7 @@ indir存放anim.bin与build.bin
 py2 deanim.py anim.bin
 py2 debuild.py build.bin
 py2是Don't Starve Mod Tools自带的python.exe
-（反编译出的build.bin.xml缺少atlas，build名多了一个.scml后缀）
+（反编译出的build.bin.xml缺少atlas，build名多了一个.scml后缀，格式与官方一致）
 2.编译xml为bin
 2.1Fa鸽的animc.exe
 animc /anim anim.xml /build build.xml /out outdir

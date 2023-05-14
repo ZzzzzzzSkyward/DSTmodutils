@@ -52,13 +52,21 @@ krane ./ ./
 krane --mark-atlases build.bin output_dir
 ```
 
+6. 同时生成xml文件
+
+```bash
+ktech icon.png --atlas modicon.xml
+```
+
+会生成modicon,xml与modicon.tex
+
 可能的错误：文件夹里有非英文字符报错。
 
-## 作业：sample_build
+## 例子：sample_build
 
 里面是官方给的威尔逊scml工程文件。尝试将它打包成build.zip
 
-## 作业：解压缩与转换
+## 例子：解压缩与转换
 
 在Don't Starve Together\data\anim文件夹里找一个你喜欢的压缩包，先解压，然后用ktech查看图片，再用krane转换成scml文件。
 
@@ -172,6 +180,8 @@ fsb格式音频查看与提取软件
 
 ztools.exe与ktech.exe类似。支持多图片打包成一个tex
 
+需要安装[ImageMagick](https://imagemagick.org/index.php)
+
 ## Texture And Atlas Packer
 
 文件地址：https://forums.kleientertainment.com/files/file/1333-texture-and-atlas-packer/
@@ -199,6 +209,22 @@ stex unpack -i input.xml -o outputdir
 语言文件编辑器
 
 https://forums.kleientertainment.com/forums/topic/146612-tool-dont-starve-speech-file-editor-or-comparer-however-you-want-to-call-it/#comment-1626634
+
+# Tiled
+
+【不包括】
+
+https://www.mapeditor.org/
+
+地图编辑器
+
+# steamdown
+
+markdown转steam
+
+# steam2md.py
+
+steam转markdown
 
 ## 资料来源
 
