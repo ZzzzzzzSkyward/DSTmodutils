@@ -28,8 +28,7 @@ def make_transparent(dir_path):
         basename = os.path.basename(png_file)
         backup_path = os.path.join(backup_dir, basename)
         shutil.copy2(png_file, backup_path)
-        subprocess.call(['convert', '-transparent',
-                        'white', png_file, png_file])
+        subprocess.call(['magick convert -alpha set -channel A -evaluate set 0% ', png_file, png_file])
 
 
 def revert_dir(path):
@@ -56,9 +55,9 @@ def revert_dir(path):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print('Usage: transparent.py [-r] dir1 dir2 ...')
+        print('Usage: transparent.py [--revert] dir1 dir2 ...')
         sys.exit(1)
-    revert = sys.argv[1] == '-r'
+    revert = sys.argv[1].find('-r')>=0
     if revert:
         dir_paths = sys.argv[2:]
         for dir_path in dir_paths:

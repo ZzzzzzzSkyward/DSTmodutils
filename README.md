@@ -226,6 +226,58 @@ markdown转steam
 
 steam转markdown
 
+# pyscripts
+
+###### buildtoxml.py
+
+把build.bin转换成.xml
+
+###### convertbuildxml.py
+
+在build.bin与xml之间转换
+
+###### crop.py
+
+裁剪不全透明的图片，并输出裁剪后的pivot
+
+###### editxml.py
+
+编辑build.xml或者.scml（不完全支持）
+
+merge source.xml，从其他build.xml合并
+
+add symbol source.xml，从其他build.xml合并某个symbol
+
+delete symbol，删除
+
+list，列举
+
+import symbol source.xml sourcesymbol，从其他build.xml合并sourcesymbol并重命名为symbol
+
+rename symbol name，将symbol重命名为name
+
+###### editpivot.py
+
+输入scml name id pivot_x pivot_y，编辑对应的图片xy，注意scml文件的y=1-pivot_y，而Spriter里显示的是pivot_y
+
+###### mark.py
+
+输入scml，对scml里的文件夹里的所有图片标记红点
+
+可选参数半径
+
+###### transparent.py
+
+需安装[ImageMagick](https://imagemagick.org/index.php)
+
+输入文件夹名，对文件夹里所有图片透明化，并备份原图片到_backup
+
+可选参数-r，恢复原图片并删除_backup
+
+###### xmltobuild.py
+
+从build.xml转换到build.bin
+
 ## 资料来源
 
 https://forums.kleientertainment.com/files/category/5-modding-tools-tutorials-examples/
