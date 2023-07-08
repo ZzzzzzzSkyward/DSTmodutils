@@ -31,7 +31,7 @@ root = tree.getroot()
 #merge操作
 def mergenode(symbol,target_symbol):
     print("merged node")
-    for frame in symbol.findall('./Frame'):
+    for frame in symbol.findall(Frame):
         framenum = frame.get('framenum')
         duration = frame.get('duration')
         image = frame.get('image')

@@ -2,7 +2,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 if len(sys.argv) != 4:
-    print("Usage: python modify.py filename.scml name id x,y")
+    print("Usage: python editpivot.py filename.scml name id x,y")
     sys.exit(1)
 
 filename = sys.argv[1]
