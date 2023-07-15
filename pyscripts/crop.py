@@ -30,6 +30,7 @@ def crop(filename, x, y, nosave=False):
     # save image
     if not nosave:
         img_cropped.save(filename)
+    return x_final,y_final
 
 
 if __name__ == "__main__":
