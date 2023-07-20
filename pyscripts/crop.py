@@ -1,6 +1,5 @@
 from PIL import Image
 import sys
-from expand import expand
 
 def crop(filename, x, y, nosave=False):
     # open image
