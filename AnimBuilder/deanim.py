@@ -214,6 +214,7 @@ def ExportAnim(endianstring, anim, outfile, ignore_exceptions):
             for ielement in elements:
                 hashid = int(str(ielement.getAttribute("name")))
                 ielement.setAttribute("name",hashcollection[hashid])
+                #ielement.setAttribute("name",str(hashid))
                 hashid = int(str(ielement.getAttribute("layername")))
                 ielement.setAttribute("layername",hashcollection[hashid])
     #写出文件

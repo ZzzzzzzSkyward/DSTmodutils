@@ -177,7 +177,11 @@ if __name__ == "__main__":
     #
 
     if file_type == ".bin":
-        BuildToXml(endianstring, input_path, root_part,[os.path.abspath(root_part+"/"+i) for i in os.listdir(root_part) if i.endswith(".png")])
+        BuildToXml(endianstring, 
+        input_path, 
+        root_part,
+        [os.path.abspath(root_part+"/"+i) for i in os.listdir(root_part) if i.endswith(".png")]
+        )
     #     print("Success to xml")
     # elif file_type == ".xml":
     #     XmlToBuild(endianstring, input_path, root_part + "_new.bin")

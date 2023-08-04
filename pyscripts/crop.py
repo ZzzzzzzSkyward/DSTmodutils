@@ -1,7 +1,7 @@
 from PIL import Image
 import sys
-
 def crop(filename, x, y, nosave=False):
+    shouldprint=__name__ == "__main__"
     # open image
     img = Image.open(filename)
     # 获取图片的 alpha 通道
@@ -19,17 +19,19 @@ def crop(filename, x, y, nosave=False):
     bw = bbox[0]
     bh = bbox[1]
     if bw == 0 and bh == 0:
-        print("Warning: the image is already cropped.")
+        if shouldprint:
+            print("Warning: the image is already cropped.")
         return
     x_final = (wx - bw) / w_
     y_final = (hy - bh) / h_
     y_final = 1 - y_final
     # 打印最终的红点坐标
-    print(f"({x:.4f},{1-y:.4f})-> ({x_final:.4f}, {y_final:.4f})")
+    if shouldprint:
+        print(f"({x:.4f},{1-y:.4f})-> ({x_final:.4f}, {y_final:.4f})")
     # save image
     if not nosave:
         img_cropped.save(filename)
-    return x_final,y_final
+    return x_final,y_final,w_,h_
 
 def uncrop(filename, x, y, nosave=False):
     # 打开图片

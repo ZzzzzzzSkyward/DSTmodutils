@@ -132,6 +132,15 @@ layername = element_node.attributes["layername"].value.encode('ascii').split('/'
 layername = element_node.attributes["name"].value.encode('ascii').split('/')[-1]
 ```
 
+2. 不是循环的动画，消失的符号会重新出现（需要手动指定looping=false或者在Spriter里关闭循环）
+3. 图片的可交互区域与实际不透明像素区域不同，游戏内选不中或者只能选中部分
+
+## DS Tool
+
+https://github.com/Jerry457/ds_tool
+
+修复了一些autocompiler.exe的bug
+
 ## AnimBuilder
 
 这个文件夹里包括两组程序。
@@ -143,6 +152,18 @@ layername = element_node.attributes["name"].value.encode('ascii').split('/')[-1]
 第一组程序来自@勿言（饥荒mod制作-五年一班）
 
 第二组程序来自@Fa鸽 https://github.com/Akarinnnnn/KleiAnim
+
+```bash
+animc /anim anim.xml /build build.xml /out outdir
+animd /in inputdir /out outputdir
+```
+
+```bash
+py2 enanim.py
+@py2指Don't Starve Mod Tools
+```
+
+
 
 ## bmfont
 
@@ -204,7 +225,7 @@ tex分解成多图片
 stex unpack -i input.xml -o outputdir
 ```
 
-# Don't Starve Speech File Editor v0.8
+## Don't Starve Speech File Editor v0.8
 
 语言文件编辑器
 

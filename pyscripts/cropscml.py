@@ -14,15 +14,17 @@ def crop_pivot_values(xml_file):
         filename=file_node.get('name')
         # 使用crop_func函数处理pivot_x和pivot_y的值
         try:
-            pivot_x_new, pivot_y_new = crop_func(filename, pivot_x, 1-pivot_y)
+            pivot_x_new, pivot_y_new,w,h = crop_func(filename, pivot_x, 1-pivot_y)
         except:
             continue
         # 更新file节点的pivot_x和pivot_y属性
         file_node.set('pivot_x', str(pivot_x_new))
+        file_node.set('width', str(w))
         file_node.set('pivot_y', str(pivot_y_new))
+        file_node.set('height', str(h))
 
     # 保存更改后的XML文件
-    tree.write(xml_file, encoding='utf-8', xml_declaration=True)
+    tree.write(xml_file, encoding='utf-8')
 
 if __name__=='__main__':
     if len(sys.argv) < 2:
