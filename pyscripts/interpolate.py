@@ -1,25 +1,27 @@
 import json
 import sys
 import matplotlib.bezier as bz
-
-
+import copy
+_print=print
+def print(*args):
+    if 1:
+        _print(*args)
 def interpolate_bezier(c1, c2, c3, c4, t):
     fn = bz.BezierSegment([[0, 0], [c1, c2], [c3, c4], [1, 1]])
     return fn.point_at_t(t)[1]
 
 
-def interpolate_linear(v1, v2, t):
-    isangle = False
+def interpolate_linear(v1, v2, t,isangle=False):
+    v1=v1 or 0
+    v2=v2 or 0
     # print(v1,v2,t,isangle)
     # Handle angles near 0 and 360 degrees
-    if v1 > 350 and v2 < 10:
-        isangle = True
-        v2 = v2 + 360
-    elif v2 > 350 and v1 < 10:
-        isangle = True
-        v1 = v1 + 360
-    # Calculate linear interpolation
     if isangle:
+        if abs(v1-v2)>180:
+            if v1<v2:
+                v1=v1+360
+            else:
+                v2=v2+360
         return v1 + (v2 - v1) * t % 360
     else:
         return v1 + (v2 - v1) * t
@@ -49,20 +51,65 @@ def processanim(a, framerate=30):
         intp = interpolate(i['key'], framerate)
         newtl = {
             'id': id,
-            'key': intp
+            'key': intp,
+            'name': i['name'],
+            'obj': i['obj'],
         }
         a['timeline'].append(newtl)
     mainline = a['mainline']
-    processmainline(mainline)
+    newmainline=processmainline(mainline,a['timeline'])
+    #transpose layer and timeline, and insert
+    #key 0 cannot be deleted
+    mainline['key']=[mainline['key'][0]]
+    idx=0
+    for i,layer in enumerate(newmainline):
+        for j,keyframe in enumerate(layer):
+            #print(j,keyframe['time'])
+            if j>0:
+                if len(mainline['key'])<=j:
+                        mainline['key'].append({
+                                    "bone_ref": [],
+                                    "id": idx+1,
+                                    "object_ref": [],
+                                    "time":keyframe['time']
+                                    })
+                        idx+=1
+                mainline['key'][j]['object_ref'].insert(0,keyframe)
     return a
-
-
-def processmainline(m):
-    key = m['key']
-    # m['key']=[]
+def extractmainline(m):
+    key=m['key']
+    data=[]
     for i in key:
-        pass
-
+        o=i['object_ref']
+        data.append(copy.copy(o))
+    #transpose timeline and layer
+    ret=[[]for i in range(len(data[0]))]
+    for i,v in enumerate(data):
+        for k,d in enumerate(v):
+            ret[int(d['timeline'])].append(d)
+    return ret
+def processmainline(m,t):
+    mdata=extractmainline(m)
+    newmainline=[[]for i in range(len(t[0]['key']))]
+    for layer in t:
+        layerid=layer['id']
+        for frame in layer['key']:
+            if frame==0:
+                continue
+            framedata=newmainline[layerid]
+            time=frame['time']
+            keyid=frame['keyid']
+            obj=frame['object']
+            print(layerid,keyid,time)
+            keyinfo=mdata[layerid][keyid]
+            newinfo={}
+            newinfo['id']=keyinfo['id']
+            newinfo['key']=frame['id']
+            newinfo['timeline']=keyinfo['timeline']
+            newinfo['z_index']=keyinfo['z_index']
+            newinfo['time']=time
+            framedata.append(newinfo)
+    return newmainline
 
 def interpolate(data, framerate=30):
     frames = []
@@ -84,14 +131,19 @@ def interpolate(data, framerate=30):
                     break
 
         if not keyframe1 or not keyframe2:
-            print("Invalid keyframe: frame=", frame, "t=", frame * framerate)
+            print("Invalid keyframe: frame=", frame, "t=", frame * framerate,"kf:",keyframe1, keyframe2)
             raise ValueError("Invalid keyframe")
             continue
         t = (frame - frame_rate * keyframe1['time']) / \
             (keyframe2['time'] - keyframe1['time']) * framerate
-        print(
-            f'frame {frame:02d}:time {frame*framerate:.0f}<-{keyframe1["time"]}-{keyframe2["time"]}')
-        assert (frame == 0 and t == 0) or (frame != 0 and t != 0)
+       # print(    f'frame {frame:02d}:time {frame*framerate:.0f}<{keyframe1["time"]}-{keyframe2["time"]}')
+        #assert (frame == 0 and t < 1e-5) or (frame != 0 and t >1e-5), f'{frame},{t}'
+        if t==0:
+            #straigit append
+            dat=copy.copy(keyframe1)
+            dat['keyid']=keyframe1['id']
+            frames.append(dat)
+            continue
         object = {}
 
         if keyframe1.get('curve_type') == 'bezier':
@@ -107,13 +159,10 @@ def interpolate(data, framerate=30):
             object['y'] = interpolate_linear(keyframe1['object']['y'],
                                              keyframe2['object']['y'],
                                              interpolate_bezier(c1, c2, c3, c4, t))
-            if frame == 16:
-                print(keyframe1['object']['y'],
-                      keyframe2['object']['y'], c1, c2, c3, c4, t,
-                      interpolate_bezier(c1, c2, c3, c4, t))
-            object['angle'] = interpolate_linear(keyframe1['object']['angle'],
-                                                 keyframe2['object']['angle'],
-                                                 interpolate_bezier(c1, c2, c3, c4, t))
+
+            object['angle'] = interpolate_linear(keyframe1['object'].get('angle'),
+                                                 keyframe2['object'].get('angle'),
+                                                 interpolate_bezier(c1, c2, c3, c4, t),isangle=1)
 
             object['scale_x'] = interpolate_linear(keyframe1['object']['scale_x'],
                                                    keyframe2['object']['scale_x'],
@@ -129,9 +178,9 @@ def interpolate(data, framerate=30):
             object['y'] = interpolate_linear(keyframe1['object']['y'],
                                              keyframe2['object']['y'],
                                              t)
-            object['angle'] = interpolate_linear(keyframe1['object']['angle'],
-                                                 keyframe2['object']['angle'],
-                                                 t)
+            object['angle'] = interpolate_linear(keyframe1['object'].get('angle'),
+                                                 keyframe2['object'].get('angle'),
+                                                 t,isangle=1)
             object['scale_x'] = interpolate_linear(keyframe1['object']['scale_x'],
                                                    keyframe2['object']['scale_x'],
                                                    t)
@@ -143,13 +192,15 @@ def interpolate(data, framerate=30):
         object['folder'] = keyframe1['object']['folder']
 
         dat = {
-            'time': int(frame * framerate),
+            'time': round(frame * framerate),
             'object': object,
+            'keyid':keyframe1['id']
         }
         try:
             dat['spin'] = keyframe1['spin']
         except BaseException:
             pass
+
         frames.append(dat)
 
     # Reassign ids and times
@@ -170,7 +221,7 @@ def main():
         sys.exit(0)
     args = sys.argv[1:]
     inputfile = args[0]
-    outputfile = args[1] if len(args) > 1 else inputfile.replace(".", "_interp")
+    outputfile = args[1] if len(args) > 1 else inputfile.replace(".", "_interp.")
     data = processscon(inputfile)
     savedata(outputfile, data)
 

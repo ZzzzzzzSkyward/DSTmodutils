@@ -5,10 +5,12 @@ helptext='''Usage: python edit.py [.scml/build.xml] merge | Merge | add | delete
 '''
 nodenames={
     "xml":["Build","Symbol","Frame"],
+    "anim":["Anims","anim","frame"],
     "scml":["spriter_data","folder","file"]
 }
 attrnames={
     "xml":["name","image"],
+    "anim":["name","idx"],
     "scml":["name","name"],
 }
 # 解析命令行参数
@@ -18,6 +20,8 @@ if len(args) < 2:
     sys.exit(1)
 #符号
 filetype="scml" if args[1].find("scml")>=0 else "xml"
+if args[1].find("anim")>=0 and filetype=="xml":
+    filetype="anim"
 symbolname=nodenames[filetype][1]
 Symbol="./"+symbolname
 framename=nodenames[filetype][2]
