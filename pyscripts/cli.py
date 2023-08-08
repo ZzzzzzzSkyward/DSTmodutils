@@ -3,12 +3,13 @@
 '''
 import os
 import sys
+import shutil
 sys.path.append("compiler")
 
 
 def main():
     require()
-    args = parse()
+    args, params = parse()
     if len(args) == 0:
         help()
         return
@@ -16,13 +17,15 @@ def main():
     if filename == "":
         help()
         return
-    work(args)
+    work(args, params)
 
 
-def work(args):
+def work(args, params):
     fn = None
     filepath, filename, file_ext = split_all(args[0])
     if len(args) == 1:
+        if file_ext == "xml":
+            fn = convert_image_xml
         if file_ext == "bin" and filename == "build":
             # build.bin->build.xml
             fn = convert_build_bin
@@ -35,8 +38,8 @@ def work(args):
         if file_ext == "bin" and filename == "anim":
             # anim.bin->anim.xml
             fn = convert_anim_bin
-        if file_ext == "scml":
-            # *.scml->*.zip
+        if file_ext == "scml" or file_ext == "scon":
+            # *.scml/*.scon->*.zip
             fn = convert_scml_scml
         if file_ext == "zip":
             # *.zip->*.scml
@@ -48,7 +51,7 @@ def work(args):
             # image->tex
             fn = convert_image_png
         if not file_ext:
-            filedir = os.path.join(filepath, filename)
+            filedir = join_all(filepath, filename)
             if os.path.isdir(filedir):
                 # check if it is a scml project
                 filelist = os.listdir(filedir)
@@ -56,20 +59,22 @@ def work(args):
                 imagelist = [i for i in filelist if i.endswith('.png')]
                 if len(scmllist) > 0:
                     filedir, filename, file_ext = split_all(
-                        os.path.join(filedir, scmllist[0]))
+                        join_all(filedir, scmllist[0]))
                     fn = convert_scml_scml
                 # check if it is a bunch of images
                 elif len(imagelist) > 0:
-                    pass
+                    fn = convert_image_dir
+                    file_ext = imagelist
 
     if len(args) == 2:
         filepath1, filename1, file_ext1 = split_all(args[1])
         if file_ext == "png" and args[1].find("xml") >= 0:
             # png->xml&tex
             print("这条命令忽略输入的xml路径")
-            fn = convert_image_png_atlas
+            params.set("xml", True)
+            fn = convert_image_png
     if fn:
-        fn(filepath, filename, file_ext)
+        fn(filepath, filename, file_ext, params)
     else:
         print(unrecognized_file)
 
@@ -78,24 +83,40 @@ def help():
     print(helptext)
 
 
+class ParsedArgs:
+    def __init__(self, kwargs):
+        self.__dict__.update(kwargs)
+
+    def __getattr__(self, name):
+        return None  # 返回默认值 None
+
+    def set(self, name, value):
+        setattr(self, name, value)
+
+
 def parse():
     args = sys.argv[1:]
-    return args
+    params = {arg.lstrip('-'): True
+              for arg in args if arg.startswith('-')}
+    args = [arg for arg in args if not arg.startswith('-')]
+    return args, ParsedArgs(params)
 
 
 def split_all(filename):
+    filename = os.path.abspath(filename)
     path, file = os.path.split(filename)
     file, ext = os.path.splitext(file)
     ext = ext.strip('.')
     return path, file, ext
 
 
-def join_all(dir, name, ext):
-    file = name + "." + ext
+def join_all(dir, name, ext=None):
+    #print(f'd={dir}, n={name}, e={ext}')
+    file = name + (("." + ext)if ext is not None else "")
     return os.path.join(dir, file)
 
 
-def convert_build_bin(filepath, filename, file_ext):
+def convert_build_bin(filepath, filename, file_ext, params):
     from buildtoxml import BuildToXml
     output_ext = "xml"
     BuildToXml(
@@ -104,7 +125,7 @@ def convert_build_bin(filepath, filename, file_ext):
     )
 
 
-def convert_build_xml(filepath, filename, file_ext):
+def convert_build_xml(filepath, filename, file_ext, params):
     from xmltobuild import XmlToBuild
     output_ext = "bin"
     XmlToBuild(
@@ -113,7 +134,7 @@ def convert_build_xml(filepath, filename, file_ext):
     )
 
 
-def convert_anim_xml(filepath, filename, file_ext):
+def convert_anim_xml(filepath, filename, file_ext, params):
     from xmltoanim import XmlToAnim
     output_ext = "bin"
     input_path = join_all(filepath, filename, file_ext)
@@ -127,7 +148,7 @@ def convert_anim_xml(filepath, filename, file_ext):
         )
 
 
-def convert_anim_bin(filepath, filename, file_ext):
+def convert_anim_bin(filepath, filename, file_ext, params):
     from animtoxml import AnimToXml
     output_ext = "xml"
     output_path = join_all(filepath, filename, output_ext)
@@ -140,7 +161,7 @@ def convert_anim_bin(filepath, filename, file_ext):
         output_file.write(output_string)
 
 
-def convert_to_png(filepath, filename, file_ext):
+def convert_to_png(filepath, filename, file_ext, params):
     from PIL import Image
     image_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename, "png")
@@ -148,32 +169,20 @@ def convert_to_png(filepath, filename, file_ext):
     image.save(output_path, "png")
 
 
-def convert_image_png(filepath, filename, file_ext):
+def convert_image_png(filepath, filename, file_ext, params):
     if file_ext != "png":
-        convert_to_png(filepath, filename, file_ext)
+        convert_to_png(filepath, filename, file_ext, params)
         file_ext = "png"
     from compiler.ktech import png_to_tex
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename, "tex")
-    errmsg = png_to_tex(input_path, output_path)
-    if errmsg:
-        print(errmsg)
-
-
-def convert_image_png_atlas(filepath, filename, file_ext):
-    if file_ext != "png":
-        convert_to_png(filepath, filename, file_ext)
-        file_ext = "png"
-    from compiler.ktech import png_to_tex
-    input_path = join_all(filepath, filename, file_ext)
-    output_path = join_all(filepath, filename, "tex")
-    atlas_path = join_all(filepath, filename, "xml")
+    atlas_path = join_all(filepath, filename, "xml") if params.xml else None
     errmsg = png_to_tex(input_path, output_path, atlas_path)
     if errmsg:
         print(errmsg)
 
 
-def convert_image_tex(filepath, filename, file_ext):
+def convert_image_tex(filepath, filename, file_ext, params):
     from compiler.ktech import tex_to_png
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename, "png")
@@ -182,14 +191,150 @@ def convert_image_tex(filepath, filename, file_ext):
         print(errmsg)
 
 
-def convert_scml_scml(filepath, filename, file_ext):
+def convert_image_dir(filepath, filename, filelist, params):
+    import editxml
+    detect_special_images(filepath, filename, filelist, params)
+    output_path = join_all(filepath, filename, "xml")
+    editxml.main(["p", output_path])
+
+
+def convert_image_xml(filepath, filename, file_ext, params):
+    from compiler.stex import xml_to_png
+    input_path = join_all(filepath, filename, file_ext)
+    output_path = join_all(filepath, "")
+    xml_to_png(input_path, output_path)
+
+
+def detect_special_images(filepath, filename, filelist, params):
+    # inventoryimages,64x64,crop
+    fn = None
+    if filename.find("inventoryimages") >= 0:
+        fn = convert_inventoryimages
+    # minimap icon,crop,atlas to power 2
+    if filename.find("minimap") >= 0 or filename.find("mapicon"):
+        fn = convert_map
+    # cookbook icon,crop,max to 128x128,crop
+    if filename.find("cookbook") >= 0:
+        fn = convert_cookbook
+    if fn is None:
+        fn = convert_xml_common
+    fn(filepath, filename, filelist, params)
+
+
+def crop_images(input_dir, filelist, maxwidth,
+                maxheight, targetwidth, targetheight):
+    from crop import crop_image
+    for i in filelist:
+        crop_image(
+            join_all(
+                input_dir,
+                i),
+            maxwidth,
+            maxheight,
+            targetwidth,
+            targetheight)
+
+
+def mkdir(d):
+    if os.path.exists(d):
+        return
+    return os.mkdir(d)
+
+
+def convert_inventoryimages(filepath, filename, filelist, params):
+    from compiler.stex import png_to_xml
+    input_dir = join_all(filepath, filename)
+    temp_dir = make_temp_dir(filepath, filename)
+    shutil.copytree(input_dir, temp_dir)
+    crop_images(temp_dir, filelist, None, None, 64, 64)
+    errmsg = png_to_xml(temp_dir, filepath or input_dir)
+    # shutil.rmtree(temp_dir)
+    if errmsg:
+        print(errmsg)
+
+
+def convert_map(filepath, filename, filelist, params):
+    from compiler.stex import png_to_xml
+    input_dir = join_all(filepath, filename)
+    temp_dir = make_temp_dir(filepath, filename)
+    shutil.copytree(input_dir, temp_dir)
+    crop_images(temp_dir, filelist, None, None, None, None)  # 根据需求设置参数
+    print("请手动使用Texture And Atlas Packer输出2的幂宽高")
+    return
+    errmsg = png_to_xml(temp_dir, filepath or input_dir)
+    # shutil.rmtree(temp_dir)
+    if errmsg:
+        print(errmsg)
+
+
+def convert_cookbook(filepath, filename, filelist, params):
+    from compiler.stex import png_to_xml
+    input_dir = join_all(filepath, filename)
+    temp_dir = make_temp_dir(filepath, filename)
+    shutil.copytree(input_dir, temp_dir)
+    crop_images(temp_dir, filelist, None, None, 128, 128)  # 根据需求设置参数
+    errmsg = png_to_xml(temp_dir, filepath or input_dir)
+    # shutil.rmtree(temp_dir)
+    if errmsg:
+        print(errmsg)
+
+
+def convert_xml_common(filepath, filename, filelist, params):
+    from compiler.stex import png_to_xml
+    input_dir = join_all(filepath, filename)
+    temp_dir = make_temp_dir(filepath, filename)
+    shutil.copytree(input_dir, temp_dir)
+    crop_images(temp_dir, filelist, None, None, None, None)  # 根据需求设置参数
+    errmsg = png_to_xml(temp_dir, filepath or input_dir)
+    # shutil.rmtree(temp_dir)
+    if errmsg:
+        print(errmsg)
+
+
+def make_temp_dir(root, dir):
+    dir = dir.strip('/').strip('\\')
+    return join_all(root, dir + '/' + dir)
+
+
+def convert_scml_scml(filepath, filename, file_ext, params):
     from compiler.scml import Scml
     input_path = join_all(filepath, filename, file_ext)
+    output_path = join_all(filepath, filename + "_interp", file_ext)
+    if params.interpolate or params.interp:
+        # do interpolate
+        if file_ext == 'scml':
+            print("目前无法对scml插值，请转换为scon后再执行此操作")
+            return
+        from interpolate import processroot
+        input_data = read_file(input_path, ftype="json")
+        try:
+            output_data = processroot(input_data, params.fps)
+            save_file(output_path, output_data)
+        except Exception as e:
+            print(e)
+            print("目前插值仅适用于规范的30fps动画")
+    if file_ext == "scon":
+        print("目前无法编译scon，请转换为scml后再执行此操作")
+        return
+    if params.crop:
+        if file_ext == "scon":
+            print("目前无法裁剪scon，请转换为scml后再执行此操作")
+        else:
+            from cropscml import crop_pivot_values
+            temp_dir = join_all(os.path.dirname(filepath), "tempdir")
+            shutil.copytree(filepath, temp_dir)
+            temp_path = join_all(temp_dir, filename, file_ext)
+            crop_pivot_values(temp_path)
+            scml_class = Scml(temp_path)
+            scml_class.build_scml(filepath, 1)
+            shutil.rmtree(temp_dir)
+            return
+
     scml_class = Scml(input_path)
     scml_class.build_scml(filepath, 1)
 
 
-def convert_scml_zip(filepath, filename, file_ext):
+def convert_scml_zip(filepath, filename, file_ext, params):
     from zipfile import ZipFile
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename, "scml")
@@ -233,11 +378,21 @@ def unzip_file(filepath, filename, file_ext):
         zip_ref.extractall(filepath)
 
 
-def read_file(file):
+def read_file(file, ftype=None):
     data = None
     with open(file, 'rb') as f:
-        data = f.read()
+        if ftype == "json":
+            import json
+            data = json.load(f)
+        else:
+            data = f.read()
     return data
+
+
+def save_file(file, data):
+    import json
+    with open(file, 'w') as f:
+        json.dump(data, f, indent=2)
 
 
 image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
@@ -245,9 +400,11 @@ image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 helptext = '''饥荒动画转换工具DS Anim Convert Tools
 [1]build.bin<->build.xml
 [2]anim.bin<->anim.xml
-[3]zip<->scml
-[4]tex<->png
+[3]zip<->scml -crop
+[4]tex<->png -xml
 [5]zip->scml images [without anim.bin]
+[6]xml<->images [auto resize cookbook, inventoryimages, minimap]
+[7]scon -interpolate -fps=30
 '''
 unrecognized_file = '''无法识别文件
 Cannot Identity File
