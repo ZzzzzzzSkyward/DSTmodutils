@@ -43,7 +43,7 @@ def dyn_to_zip(filename):
                 if len(chunk) > CHUNK_SIZE:
                     out = bytearray(CHUNK_SIZE)
                     for i in range(CHUNK_SIZE):
-                    out[i] = chunk[indices[i]] ^ key[i]
+                        out[i] = chunk[indices[i]] ^ key[i]
                 else:
                     out = chunk
             output.write(out)

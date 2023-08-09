@@ -188,7 +188,7 @@ class Scml(ElementTree):
 
                     anim_data["banks"][entity_name][animation_name]["frames"].append(Frame)
                     anim_data["banks"][entity_name][animation_name]["numframes"] = len(Frame)
-        from anim import DSAnim
+        from .anim import DSAnim
         with DSAnim(anim_data) as anim:
             anim.parse_file(build_data, symbols_images)
             anim.save_bin(output)

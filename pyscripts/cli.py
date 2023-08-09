@@ -23,6 +23,7 @@ def main():
 def work(args, params):
     fn = None
     filepath, filename, file_ext = split_all(args[0])
+    #print(filepath, filename, file_ext)
     if len(args) == 1:
         if file_ext == "xml":
             fn = convert_image_xml
@@ -50,6 +51,9 @@ def work(args, params):
         if file_ext in image_exts:
             # image->tex
             fn = convert_image_png
+        if file_ext == "dyn":
+            # dyn->zip
+            fn=convert_dyn_zip
         if not file_ext:
             filedir = join_all(filepath, filename)
             if os.path.isdir(filedir):
@@ -220,8 +224,8 @@ def convert_image_tex(filepath, filename, file_ext, params):
 
 def convert_dyn_zip(filepath, filename, file_ext, params):
     input_path = join_all(filepath, filename, file_ext)
-    from compiler.dynamic import dyn_to_tex
-    dyn_to_tex(input_path)
+    from compiler.dynamic import dyn_to_zip
+    dyn_to_zip(input_path)
     if params.png:
         convert_image_tex(filepath, filename, "tex", params)
 
