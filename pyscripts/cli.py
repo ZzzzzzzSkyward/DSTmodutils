@@ -5,7 +5,7 @@ import os
 import sys
 import shutil
 sys.path.append("compiler")
-
+pretty_error=False
 
 def main():
     require()
@@ -98,6 +98,13 @@ def parse():
     args = sys.argv[1:]
     params = {arg.lstrip('-'): True
               for arg in args if arg.startswith('-')}
+    for i in params:
+        keys=i.split("=")
+        if len(keys)==1:
+            pass
+        else:
+            params[key[0]]="=".join(key[1:])
+            
     args = [arg for arg in args if not arg.startswith('-')]
     return args, ParsedArgs(params)
 
@@ -180,15 +187,43 @@ def convert_image_png(filepath, filename, file_ext, params):
     errmsg = png_to_tex(input_path, output_path, atlas_path)
     if errmsg:
         print(errmsg)
+        return
+    if params.dyn:
+        zip_path = join_all(filepath, filename, "tex")
+        from zipfile import ZipFile
+        zip_file = ZipFile(zip_path, mode='w')
+        zip_file.write(output_path)
+        zip_file.close()
+        from compiler.dynamic import zip_to_dyn
+        zip_to_dyn(zip_path)
+        os.remove(zip_path)
 
 
 def convert_image_tex(filepath, filename, file_ext, params):
-    from compiler.ktech import tex_to_png
     input_path = join_all(filepath, filename, file_ext)
-    output_path = join_all(filepath, filename, "png")
-    errmsg = tex_to_png(input_path, output_path)
-    if errmsg:
-        print(errmsg)
+    if params.dyn:
+        zip_path = join_all(filepath, filename, "tex")
+        from zipfile import ZipFile
+        zip_file = ZipFile(zip_path, mode='w')
+        zip_file.write(input_path)
+        zip_file.close()
+        from compiler.dynamic import zip_to_dyn
+        zip_to_dyn(zip_path)
+        os.remove(zip_path)
+    else:
+        output_path = join_all(filepath, filename, "png")
+        from compiler.ktech import tex_to_png
+        errmsg = tex_to_png(input_path, output_path)
+        if errmsg:
+            print(errmsg)
+
+
+def convert_dyn_zip(filepath, filename, file_ext, params):
+    input_path = join_all(filepath, filename, file_ext)
+    from compiler.dynamic import dyn_to_tex
+    dyn_to_tex(input_path)
+    if params.png:
+        convert_image_tex(filepath, filename, "tex", params)
 
 
 def convert_image_dir(filepath, filename, filelist, params):
@@ -210,7 +245,7 @@ def detect_special_images(filepath, filename, filelist, params):
     fn = None
     if filename.find("inventoryimages") >= 0:
         fn = convert_inventoryimages
-    # minimap icon,crop,atlas to power 2
+    # minimap icon,crop,atlas to power 2,rename to png
     if filename.find("minimap") >= 0 or filename.find("mapicon"):
         fn = convert_map
     # cookbook icon,crop,max to 128x128,crop
@@ -248,7 +283,7 @@ def convert_inventoryimages(filepath, filename, filelist, params):
     shutil.copytree(input_dir, temp_dir)
     crop_images(temp_dir, filelist, None, None, 64, 64)
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
-    # shutil.rmtree(temp_dir)
+    shutil.rmtree(temp_dir)
     if errmsg:
         print(errmsg)
 
@@ -262,7 +297,7 @@ def convert_map(filepath, filename, filelist, params):
     print("请手动使用Texture And Atlas Packer输出2的幂宽高")
     return
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
-    # shutil.rmtree(temp_dir)
+    shutil.rmtree(temp_dir)
     if errmsg:
         print(errmsg)
 
@@ -274,7 +309,7 @@ def convert_cookbook(filepath, filename, filelist, params):
     shutil.copytree(input_dir, temp_dir)
     crop_images(temp_dir, filelist, None, None, 128, 128)  # 根据需求设置参数
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
-    # shutil.rmtree(temp_dir)
+    shutil.rmtree(temp_dir)
     if errmsg:
         print(errmsg)
 
@@ -286,7 +321,7 @@ def convert_xml_common(filepath, filename, filelist, params):
     shutil.copytree(input_dir, temp_dir)
     crop_images(temp_dir, filelist, None, None, None, None)  # 根据需求设置参数
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
-    # shutil.rmtree(temp_dir)
+    shutil.rmtree(temp_dir)
     if errmsg:
         print(errmsg)
 
@@ -308,11 +343,15 @@ def convert_scml_scml(filepath, filename, file_ext, params):
         from interpolate import processroot
         input_data = read_file(input_path, ftype="json")
         try:
-            output_data = processroot(input_data, params.fps)
+            output_data = processroot(input_data, params.fps or 30)
             save_file(output_path, output_data)
         except Exception as e:
-            print(e)
-            print("目前插值仅适用于规范的30fps动画")
+            if pretty_error:
+                raise e
+            else:
+                print(e)
+                print("目前插值仅适用于规范的30fps动画")
+            return
     if file_ext == "scon":
         print("目前无法编译scon，请转换为scml后再执行此操作")
         return
@@ -414,7 +453,11 @@ Cannot Identity File
 def require():
     try:
         import rich
-    except BaseException:
+        from rich.traceback import install
+        install()
+        global pretty_error
+        pretty_error=True
+    except BaseException as e:
         pass
 
 

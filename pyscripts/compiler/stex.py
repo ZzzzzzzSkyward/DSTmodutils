@@ -2,10 +2,15 @@ import subprocess
 import os
 possible_paths = ["./", "../", "./stex/", "../stex/", "../../", "../../stex/"]
 stex_exe = "stex.exe"
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
 
 
 def locate_exe(exe_name, directories):
     for directory in directories:
+        exe_path = os.path.join(script_dir,directory, exe_name)
+        if os.path.exists(exe_path):
+            return os.path.abspath(exe_path)
         exe_path = os.path.join(directory, exe_name)
         if os.path.exists(exe_path):
             return os.path.abspath(exe_path)
@@ -37,12 +42,12 @@ def run(command):
 def png_to_xml(dir, dest=None):
     if dest is None:
         dest = os.path.dirname(dir) or dir
-    cmd = f"{stexpath} pack -i {dir} -o {dest}"
+    cmd = f'{stexpath} pack --input="{dir}" --output="{dest}"'
     return run(cmd)
 
 
 def xml_to_png(path, dest=None):
     if dest is None:
         dest = os.path.dirname(path)
-    cmd = f"{stexpath} unpack -i {path} -o {dest}"
+    cmd = f'{stexpath} unpack --input="{dir}" --output="{dest}"'
     return run(cmd)

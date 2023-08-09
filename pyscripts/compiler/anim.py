@@ -1,10 +1,10 @@
 import os, json, struct
 from zipfile import ZipFile
 
-from anim_util import *
-from anim_bank import AnimBank
-from anim_build import AnimBuild
-from scml import Scml
+from .anim_util import *
+from .anim_bank import AnimBank
+from .anim_build import AnimBuild
+from .scml import Scml
 
 class DSAnim():
     endianstring = "<"

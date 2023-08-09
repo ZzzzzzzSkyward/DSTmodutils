@@ -1,13 +1,19 @@
 possible_paths=["./","../","./ktools/","../ktools","../../","../../ktools/"]
 ktech_exe="ktech.exe"
 import os
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
 
 def locate_exe(exe_name, directories):
     for directory in directories:
+        exe_path = os.path.join(script_dir,directory, exe_name)
+        if os.path.exists(exe_path):
+            return os.path.abspath(exe_path)
         exe_path = os.path.join(directory, exe_name)
         if os.path.exists(exe_path):
             return os.path.abspath(exe_path)
     return None
+
 ktechpath=locate_exe(ktech_exe,possible_paths)
 if not ktechpath:
     print("找不到ktech.exe，请手动修改possible_paths里的搜索路径。Cannot find ktech.exe ,please manually modify possible_paths.")

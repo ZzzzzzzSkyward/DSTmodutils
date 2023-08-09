@@ -2,8 +2,8 @@ import re, os, json, math, struct
 from zipfile import ZipFile, ZIP_DEFLATED
 from xml.etree.ElementTree import Element, SubElement
 
-from matrix3 import Matrix3, reverse_trans_rot_scale_pivot_matrix
-from anim_util import *
+from .matrix3 import Matrix3, reverse_trans_rot_scale_pivot_matrix
+from .anim_util import *
 
 class AnimBank():
     version = 4

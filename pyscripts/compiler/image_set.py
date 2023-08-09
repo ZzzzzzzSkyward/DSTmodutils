@@ -1,11 +1,11 @@
 import os, glob
 from PIL import Image
-from anim_util import *
-import atlas_image, imgutil
-from properties import ImageProperties
+from .anim_util import *
+from . import atlas_image, imgutil
+from .properties import ImageProperties
 from tempfile import TemporaryDirectory
 from xml.etree.ElementTree import ElementTree
-#from ktech.texture_converter import tex_to_png, png_to_tex
+from .ktech import tex_to_png, png_to_tex
 
 def AtlasImages(image_dir):
     with TemporaryDirectory() as temp_path:

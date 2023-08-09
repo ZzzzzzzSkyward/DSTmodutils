@@ -1,5 +1,5 @@
 from PIL.Image import Image
-from anim_util import round_up
+from .anim_util import round_up
 from collections import namedtuple
 
 BBox = namedtuple("Bbox", "x y w h")

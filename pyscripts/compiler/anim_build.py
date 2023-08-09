@@ -4,11 +4,11 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from tempfile import TemporaryDirectory
 from xml.etree.ElementTree import Element, SubElement
 
-from anim_util import *
-from anim_bank import AnimBank
-from symbol_map import GetSwapSymbol
-import atlas_image, optimize_image
-from ktech import tex_to_png, png_to_tex
+from .anim_util import *
+from .anim_bank import AnimBank
+from .symbol_map import GetSwapSymbol
+from . import atlas_image, optimize_image
+from .ktech import tex_to_png, png_to_tex
 
 class AnimBuild():
     version = 6

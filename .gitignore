@@ -2,3 +2,4 @@ DSTModToolKit\*
 DSTModToolKit
 *.ini
 __pycache__
+pyscripts\compiler\dynamic.py

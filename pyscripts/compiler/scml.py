@@ -1,9 +1,10 @@
 import math, re, os
 from copy import deepcopy
-
-from anim_bank import AnimBank
-from anim_build import AnimBuild
-from matrix3 import create_trans_rot_scale_pivot_matrix
+import sys
+sys.path.append("compiler")
+from .anim_bank import AnimBank
+from .anim_build import AnimBuild
+from .matrix3 import create_trans_rot_scale_pivot_matrix
 from xml.etree.ElementTree import Element, ElementTree, indent
 
 def rotate_point(x1, y1, x2, y2, theta):
@@ -77,7 +78,16 @@ class Scml(ElementTree):
             files = [file for file in folder.findall("file") if file.get("name").find("(missing)") == -1]
             if files:
                 build_data["Symbol"][folder_name] = []
+
+            jump_frame = []
             for file in files:
+                if (framenum := int(file.get("id", "0"))) in jump_frame:
+                    continue
+
+                duration = int(file.get("duration", 1))
+                for i in range(1, duration):
+                    jump_frame.append(framenum + i)
+
                 if (match := re.search(r"(duration\'(.+?)\')", file.get("name"))) is not None:
                     duration = int(re.findall(r'\d+', match.group(1))[0])
                     for frame in build_data["Symbol"][folder_name]:
@@ -87,17 +97,12 @@ class Scml(ElementTree):
                     continue
 
                 w, h = int(file.get("width")), int(file.get("height"))
-                framenum = int(file.get("id", "0"))
 
                 x = w / 2 - float(file.get("pivot_x", "0")) * w
                 y = h / 2 - float(file.get("pivot_y", "0")) * h
                 y = -y
-                dur=1
-                try:
-                    dur=int(file.get("duration"))
-                except:
-                    pass
-                build_data["Symbol"][folder_name].append({"framenum": framenum, "duration": dur or 1, "x": x, "y": y, "w": w, "h": h})
+
+                build_data["Symbol"][folder_name].append({"framenum": framenum, "duration": duration, "x": x, "y": y, "w": w, "h": h})
                 symbols_images[f"{folder_name}-{framenum}"] = os.path.join(build_path, file.get("name"))
 
         return build_data, symbols_images
@@ -179,7 +184,6 @@ class Scml(ElementTree):
                     frame_w, frame_h = right - left, down - up
                     frame_x = frame_w / 2 - (frame_pivot_x - left)
                     frame_y = frame_h / 2 - (frame_pivot_y - up)
-                    frame_y = -frame_y
                     Frame["x"], Frame["y"], Frame["w"], Frame["h"] = frame_x, frame_y, frame_w, frame_h
 
                     anim_data["banks"][entity_name][animation_name]["frames"].append(Frame)
