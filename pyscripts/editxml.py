@@ -89,7 +89,7 @@ def main(args):
                 root.remove(symbol)
         tree.write(args[1])
     #copy,add
-    elif args[0].find('a')>=0 or args[1].find('c')>=0:
+    elif args[0].find('a')>=0 or args[0].find('c')>=0:
         # 从b.xml文件复制节点到xxx.xml
         symbol_name = args[2]
         add_file = args[3]

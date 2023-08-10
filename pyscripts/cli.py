@@ -59,6 +59,8 @@ def work(args, params):
             if os.path.isdir(filedir):
                 # check if it is a scml project
                 filelist = os.listdir(filedir)
+                # check if it is a decompressed zip dir
+                #decompressed=get_anim_build_atlas(filedir)
                 scmllist = [i for i in filelist if i.endswith(".scml")]
                 imagelist = [i for i in filelist if i.endswith('.png')]
                 if len(scmllist) > 0:
@@ -100,14 +102,16 @@ class ParsedArgs:
 
 def parse():
     args = sys.argv[1:]
-    params = {arg.lstrip('-'): True
+    params_ = {arg.lstrip('-'): True
               for arg in args if arg.startswith('-')}
-    for i in params:
+    params={arg.lstrip('-'): True
+              for arg in args if arg.startswith('-')}
+    for i in params_:
         keys=i.split("=")
         if len(keys)==1:
             pass
         else:
-            params[key[0]]="=".join(key[1:])
+            params[keys[0]]="=".join(keys[1:])
             
     args = [arg for arg in args if not arg.startswith('-')]
     return args, ParsedArgs(params)
@@ -240,8 +244,10 @@ def convert_image_dir(filepath, filename, filelist, params):
 def convert_image_xml(filepath, filename, file_ext, params):
     from compiler.stex import xml_to_png
     input_path = join_all(filepath, filename, file_ext)
-    output_path = join_all(filepath, "")
-    xml_to_png(input_path, output_path)
+    output_path = join_all(filepath, filename)
+    errmsg=xml_to_png(input_path, output_path)
+    if errmsg:
+        print(errmsg)
 
 
 def detect_special_images(filepath, filename, filelist, params):
@@ -250,7 +256,7 @@ def detect_special_images(filepath, filename, filelist, params):
     if filename.find("inventoryimages") >= 0:
         fn = convert_inventoryimages
     # minimap icon,crop,atlas to power 2,rename to png
-    if filename.find("minimap") >= 0 or filename.find("mapicon"):
+    if filename.find("minimap") >= 0 or filename.find("mapicon")>=0:
         fn = convert_map
     # cookbook icon,crop,max to 128x128,crop
     if filename.find("cookbook") >= 0:
@@ -297,7 +303,7 @@ def convert_map(filepath, filename, filelist, params):
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
-    crop_images(temp_dir, filelist, None, None, None, None)  # 根据需求设置参数
+    crop_images(temp_dir, filelist, params.maxwidth, params.maxheight, params.targetwidth, params.targetheight)  # 根据需求设置参数
     print("请手动使用Texture And Atlas Packer输出2的幂宽高")
     return
     errmsg = png_to_xml(temp_dir, filepath or input_dir)

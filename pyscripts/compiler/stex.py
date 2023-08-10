@@ -28,6 +28,7 @@ def run(command):
     运行命令并阻止打印输出
     :param command: 要执行的命令
     """
+    #print(command)
     # 执行命令并捕获子进程的输出
     process = subprocess.Popen(
         command,
@@ -36,7 +37,9 @@ def run(command):
     stdout, stderr = process.communicate()
     if stderr:
         stderr = stderr.decode("utf-8")
-    return stderr  # or stdout
+    if stdout:
+        stdout = stdout.decode('utf-8')
+    return stderr  or stdout
 
 
 def png_to_xml(dir, dest=None):
@@ -48,6 +51,6 @@ def png_to_xml(dir, dest=None):
 
 def xml_to_png(path, dest=None):
     if dest is None:
-        dest = os.path.dirname(path)
-    cmd = f'{stexpath} unpack --input="{dir}" --output="{dest}"'
+        dest = os.path.dirname(path)+"/"+os.path.filename(path)+"/"
+    cmd = f'{stexpath} unpack --input "{path}" --output "{dest}"'
     return run(cmd)
