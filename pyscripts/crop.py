@@ -47,7 +47,7 @@ def crop_image(filename, max_width=None, max_height=None,
     if target_width and target_height:
         new_width, new_height = target_width, target_height
     elif max_width and max_height:
-        aspect_ratio = min(float(max_width) / width, float(max_height) / height)
+        aspect_ratio = min(1,min(float(max_width) / width, float(max_height) / height))
         new_width = int(width * aspect_ratio)
         new_height = int(height * aspect_ratio)
     else:

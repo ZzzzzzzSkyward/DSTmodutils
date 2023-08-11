@@ -104,7 +104,9 @@ TheBlade@Pirates.gov      BLAD-C0P6-0T8D-K8XU
 
 原仓库：https://github.com/zxcvbnm3057/dont-starve-tools
 
-上述ktech的图形化界面。
+fork（本仓库使用该fork）：https://github.com/oblivioncth/dont-starve-tools
+
+用于查看tex文件。
 
 ## (DontStarveLUAJIT)
 

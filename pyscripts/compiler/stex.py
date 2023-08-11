@@ -19,7 +19,7 @@ def locate_exe(exe_name, directories):
 
 stexpath = locate_exe(stex_exe, possible_paths)
 if not stexpath:
-    print("找不到stex.exe，请手动修改possible_paths里的搜索路径。Cannot find ktech.exe ,please manually modify possible_paths.")
+    print("找不到stex.exe，请手动修改possible_paths里的搜索路径。Cannot find stex.exe ,please manually modify possible_paths.")
     stexpath = stex_exe
 
 
@@ -39,13 +39,13 @@ def run(command):
         stderr = stderr.decode("utf-8")
     if stdout:
         stdout = stdout.decode('utf-8')
-    return stderr  or stdout
+    return stderr or stdout
 
 
 def png_to_xml(dir, dest=None):
     if dest is None:
         dest = os.path.dirname(dir) or dir
-    cmd = f'{stexpath} pack --input="{dir}" --output="{dest}"'
+    cmd = f'{stexpath} pack --input "{dir}" --output "{dest}"'
     return run(cmd)
 
 
