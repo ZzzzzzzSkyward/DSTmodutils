@@ -112,7 +112,90 @@ class AnimBuild():
                 setattr(self.symbol_images[frame_name], "name", frame_name)
                 images.append(self.symbol_images[frame_name])
 
-        scale_factor = self.data["scale"]
+        scale_factor = self.data.get("scale",1)
+        atlases = atlas_image.Atlas(images, name, scale_factor=scale_factor)
+
+        self.data["Vert"] = []
+        symbol_names = sorted(self.data["Symbol"], key=lambda name: strhash(name, {}))
+        for symbol_name in symbol_names:
+            for frame in self.data["Symbol"][symbol_name]:
+                frame_name = f'{symbol_name}-{frame["framenum"]}'
+
+                x_offset = frame["x"] - frame["w"] / 2
+                y_offset = frame["y"] - frame["h"] / 2
+
+                frame["alphaidx"] = len(self.data["Vert"])
+                frame["alphacount"] = 0
+
+                for idx, atlas in enumerate(atlases):
+                    bboxes = atlas.bboxes
+
+                    atlas_width = float(atlas.mips.im.size[0])
+                    atlas_height = float(atlas.mips.im.size[1])
+
+                    if frame_name not in atlas.src_images:
+                        continue
+                    image = atlas.src_images[frame_name]
+
+                    for src_regions in [image.regions.alpha, image.regions.opaque]:
+                        dest_bbox = bboxes[frame_name]
+
+                        regions_x_offset =  image.x_offset if hasattr(image, "x_offset") else 0
+                        regions_y_offset = image.y_offset if hasattr(image, "y_offset") else 0
+                        for region in src_regions:
+                            assert region.x <= image.really_size[0]
+                            assert region.y <= image.really_size[1]
+                            assert region.x + region.w <= image.really_size[0]
+                            assert region.y + region.h <= image.really_size[1]
+
+                            left = x_offset + region.x
+                            right = left + region.w
+                            top = y_offset + region.y
+                            bottom = top + region.h
+
+                            umin = max( 0.0, min( 1.0, (dest_bbox.x + region.x - regions_x_offset) / atlas_width ) )
+                            umax = max( 0.0, min( 1.0, (dest_bbox.x + region.x - regions_x_offset + region.w) / atlas_width ) )
+                            vmin = max( 0.0, min( 1.0, 1 - (dest_bbox.y + region.y - regions_y_offset) / atlas_height ) )
+                            vmax = max( 0.0, min( 1.0, 1 - (dest_bbox.y + region.y - regions_y_offset + region.h) / atlas_height ) )
+
+                            assert 0 <= umin and umin <= 1
+                            assert 0 <= umax and umax <= 1
+                            assert 0 <= vmin and vmin <= 1
+                            assert 0 <= vmax and vmax <= 1
+
+                            self.data["Vert"].append({"x": left, "y": top, "z": 0, "u": umin, "v": vmin, "w": idx})
+                            self.data["Vert"].append({"x": right, "y": top, "z": 0, "u": umax, "v": vmin, "w": idx})
+                            self.data["Vert"].append({"x": left, "y": bottom, "z": 0, "u": umin, "v": vmax, "w": idx})
+                            self.data["Vert"].append({"x": right, "y": top, "z": 0, "u": umax, "v": vmin, "w": idx})
+                            self.data["Vert"].append({"x": right, "y": bottom, "z": 0, "u": umax, "v": vmax, "w": idx})
+                            self.data["Vert"].append({"x": left, "y": bottom, "z": 0, "u": umin, "v": vmax, "w": idx})
+
+                            frame["alphacount"] += 6
+
+        for atlas in self.atlases:
+            atlas.close()
+        self.atlases = []
+        self.data["Atlas"] = []
+        for atlas_data in atlases:
+            width = (mip_img := atlas_data.mips[1]).size[0] * scale_factor
+            height = mip_img.size[1] * scale_factor
+            mip_img = mip_img.resize((int(math.ceil(width)), int(math.ceil(height))), Image.LANCZOS)
+            self.atlases.append(mip_img)
+
+            self.data["Atlas"].append(atlas_data.mips.name + ".tex")
+    def noatlas_images(self, name="atlas"):
+        if not self.data:
+            self.bin_to_json()
+
+        images = []
+        for symbol_name, frames in self.data["Symbol"].items():
+            for frame in frames:
+                frame_name = f'{symbol_name}-{frame["framenum"]}'
+                self.symbol_images[frame_name] = Image(self.symbol_images[frame_name])
+                setattr(self.symbol_images[frame_name], "name", frame_name)
+                images.append(self.symbol_images[frame_name])
+
+        scale_factor = self.data.get("scale",1)
         atlases = atlas_image.Atlas(images, name, scale_factor=scale_factor)
 
         self.data["Vert"] = []
@@ -400,6 +483,25 @@ class AnimBuild():
     def save_bin(self, output: str|ZipFile, name=None):
         if self.symbol_images:
             self.atlas_images()
+
+        if not self.content:
+            self.json_to_bin()
+
+        if self.atlases and isinstance(output, str):
+            name = name if name is not None else self.data["name"]
+            output = ZipFile(os.path.join(output, name + ".zip"), "w")
+            self.save_atlas(output)
+
+        if isinstance(output, str):
+            with open(os.path.join(output, f"{self.file_name}.bin"), "wb") as file:
+                file.write(self.content)
+        elif isinstance(output, ZipFile):
+            output.writestr("build.bin", self.content, compress_type=ZIP_DEFLATED)
+
+        return output
+    def save_bin_noatlas(self, output: str|ZipFile, name=None):
+        if self.symbol_images:
+            self.noatlas_images()
 
         if not self.content:
             self.json_to_bin()

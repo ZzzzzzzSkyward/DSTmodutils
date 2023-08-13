@@ -79,6 +79,18 @@ def work(args, params):
             print("这条命令忽略输入的xml路径")
             params.set("xml", True)
             fn = convert_image_png
+        if not file_ext1:
+            filedir1 = join_all(filepath1, filename1)
+            if os.path.isdir(filedir1):
+                if file_ext=="xml" and filename=="build":
+                    # build.xml + */*.png -> build.zip
+                    params.set("filedir1",filedir1)
+                    fn=convert_scml_build
+                if file_ext=="bin" and filename=="build":
+                    # build.xml + */*.png -> build.zip
+                    params.set("filedir1",filedir1)
+                    fn=convert_scml_build
+
     if fn:
         fn(filepath, filename, file_ext, params)
     else:
@@ -132,12 +144,30 @@ def join_all(dir, name, ext=None):
 
 
 def convert_build_bin(filepath, filename, file_ext, params):
-    from buildtoxml import BuildToXml
-    output_ext = "xml"
-    BuildToXml(
-        join_all(filepath, filename, file_ext),
-        join_all(filepath, filename, output_ext),
-    )
+    if params.rename or params.json:
+        from compiler.anim_build import AnimBuild
+        build_path=join_all(filepath,filename,file_ext)
+        build_file = read_file(build_path)
+        build_class = AnimBuild(build_file, build)
+        build_class.bin_to_json()
+        if params.rename:
+            print(f"原build名：{build_class.data['name']}")
+            build_class.set_build_name(params.rename)
+            build_class.json_to_bin()
+            build_class.save_bin(filepath)
+            print(f"rename指令仅仅重命名原文件为{params.rename}")
+            return
+        if params.json:
+            build_class.save_json(filepath)
+    else:
+        from buildtoxml import BuildToXml
+        output_ext = "xml"
+        build_path=join_all(filepath, filename, file_ext)
+        build_file=read_file(build_path)
+        BuildToXml(
+            build_file,
+            join_all(filepath, filename, output_ext),
+        )
 
 
 def convert_build_xml(filepath, filename, file_ext, params):
@@ -370,18 +400,34 @@ def convert_scml_scml(filepath, filename, file_ext, params):
             print("目前无法裁剪scon，请转换为scml后再执行此操作")
         else:
             from cropscml import crop_pivot_values
-            temp_dir = join_all(os.path.dirname(filepath), "tempdir")
+            temp_dir = join_all(filepath, "tempdir")
             shutil.copytree(filepath, temp_dir)
             temp_path = join_all(temp_dir, filename, file_ext)
             crop_pivot_values(temp_path)
             scml_class = Scml(temp_path)
             scml_class.build_scml(filepath, 1)
-            shutil.rmtree(temp_dir)
+            #shutil.rmtree(temp_dir)
             return
 
     scml_class = Scml(input_path)
     scml_class.build_scml(filepath, 1)
 
+def convert_scml_build(filepath,filename,file_ext,params):
+    if file_ext=="xml":
+        print("xml格式暂时不可用，请改用bin或json格式")
+        return
+    return
+    build_path = join_all(filepath, filename,file_ext)
+    build_file = read_file(build_path,ftype=file_ext)
+    from compiler.anim_build import AnimBuild
+    build_class = None
+    image_path=params.filedir1
+    build_class = AnimBuild(build_file,None,image_path)
+    build_class.bin_to_json()
+    if params.rename:
+        build_class.set_build_name(params.rename)
+    build_class.save_bin(filepath)
+    
 
 def convert_scml_zip(filepath, filename, file_ext, params):
     from zipfile import ZipFile
@@ -447,13 +493,15 @@ def save_file(file, data):
 image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 
 helptext = '''饥荒动画转换工具DS Anim Convert Tools
-[1]build.bin<->build.xml
-[2]anim.bin<->anim.xml
-[3]zip<->scml -crop
-[4]tex<->png -xml
-[5]zip->scml images [without anim.bin]
-[6]xml<->images [auto resize cookbook, inventoryimages, minimap]
-[7]scon -interpolate -fps=30
+[1]build.bin<->build.xml -json
+[2]build.bin -rename="build name"
+[3]anim.bin<->anim.xml
+[4]zip<->scml -crop
+[5]tex<->png -xml
+[6]zip->scml images [without anim.bin]
+[7]xml<->images [auto resize cookbook, inventoryimages, minimap]
+[8]scon -interpolate -fps=30
+[9]build.bin */*.png ->zip -rename="build name"
 '''
 unrecognized_file = '''无法识别文件
 Cannot Identity File
