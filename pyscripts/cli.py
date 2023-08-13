@@ -67,7 +67,7 @@ def work(args, params):
                         join_all(filedir, scmllist[0]))
                     fn = convert_scml_scml
                 # check if it is a decompressed zip dir
-                elif len(binlist)>0 and "atlas-0.tex" in filelist and "build.bin" in binlist:
+                elif len(binlist)>0 and "build.bin" in binlist:
                     fn=convert_scml_dir
                     file_ext=filelist
                 # check if it is a bunch of images
@@ -127,7 +127,7 @@ def parse():
             pass
         else:
             params[keys[0]]="=".join(keys[1:])
-            
+
     args = [arg for arg in args if not arg.startswith('-')]
     return args, ParsedArgs(params)
 
@@ -151,7 +151,7 @@ def convert_build_bin(filepath, filename, file_ext, params):
         from compiler.anim_build import AnimBuild
         build_path=join_all(filepath,filename,file_ext)
         build_file = read_file(build_path)
-        build_class = AnimBuild(build_file, build)
+        build_class = AnimBuild(build_file)
         build_class.bin_to_json()
         if params.rename:
             print(f"原build名：{build_class.data['name']}")
@@ -456,7 +456,7 @@ def convert_scml_build(filepath,filename,file_ext,params):
     if params.rename:
         build_class.set_build_name(params.rename)
     build_class.save_bin(filepath)
-    
+
 
 def convert_scml_zip(filepath, filename, file_ext, params):
     from zipfile import ZipFile
