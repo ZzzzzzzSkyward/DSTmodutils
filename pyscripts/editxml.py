@@ -13,7 +13,7 @@ attrnames={
     "scml":["name","name"],
 }
 #merge操作
-def mergenode(symbol,target_symbol):
+def mergenode(symbol,target_symbol,filetype,Frame):
     print("merged node")
     if filetype=="xml":
         for frame in symbol.findall(Frame):
@@ -51,10 +51,10 @@ def main(args):
         merge_tree = ET.parse(merge_file)
         merge_root = merge_tree.getroot()
         for symbol in merge_root.findall(Symbol):
-            name = symbol.get('name')
+            name = symbol.get('name').lower()
             target_symbol = root.find((Symbol+'[@name="{}"]').format(name))
             if target_symbol is not None:
-                mergenode(symbol, target_symbol)
+                mergenode(symbol, target_symbol,filetype,Frame)
             else:
                 # 如果目标文件中不存在相同名称的Symbol节点，直接将整个Symbol节点添加到目标文件中
                 root.append(symbol)
@@ -67,7 +67,7 @@ def main(args):
         merge_root = merge_tree.getroot()
         print(Symbol)
         for symbol in merge_root.findall(Symbol):
-            name = symbol.get('name')
+            name = symbol.get('name').lower()
             id=symbol.get('id')
             target_symbol = root.find('./folder[@name="{}"]'.format(name))
             if target_symbol is not None:
@@ -101,7 +101,7 @@ def main(args):
             if symbol.get(symbolattr) == symbol_name:
                 if target_symbol is not None:
                     if filetype=="xml":
-                        mergenode(symbol, target_symbol)
+                        mergenode(symbol, target_symbol,filetype,Frame)
                     else:
                         id=target_symbol.get('id')
                         root.remove(target_symbol)

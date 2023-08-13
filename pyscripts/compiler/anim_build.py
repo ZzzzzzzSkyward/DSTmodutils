@@ -94,7 +94,7 @@ class AnimBuild():
         root, dirs, files = next(os.walk(fp), (None, None, []))
         for file_name in sorted([file_name for file_name in files if file_name.find(".tex") != -1], key=lambda s: int(s.split('-')[1].split('.')[0])):
             image_path = os.path.join(self.temp_path, file_name.replace(".tex", ".png"))
-            tex_to_png([os.path.join(root, file_name)], image_path)
+            tex_to_png(os.path.join(root, file_name), image_path)
             self.atlases.append(Image.open(image_path).convert("RGBA"))
 
     def set_build_name(self, name: str):

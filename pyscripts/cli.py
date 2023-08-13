@@ -59,14 +59,17 @@ def work(args, params):
             if os.path.isdir(filedir):
                 # check if it is a scml project
                 filelist = os.listdir(filedir)
-                # check if it is a decompressed zip dir
-                #decompressed=get_anim_build_atlas(filedir)
                 scmllist = [i for i in filelist if i.endswith(".scml")]
                 imagelist = [i for i in filelist if i.endswith('.png')]
+                binlist=[i for i in filelist if i.endswith('.bin')]
                 if len(scmllist) > 0:
                     filedir, filename, file_ext = split_all(
                         join_all(filedir, scmllist[0]))
                     fn = convert_scml_scml
+                # check if it is a decompressed zip dir
+                elif len(binlist)>0 and "atlas-0.tex" in filelist and "build.bin" in binlist:
+                    fn=convert_scml_dir
+                    file_ext=filelist
                 # check if it is a bunch of images
                 elif len(imagelist) > 0:
                     fn = convert_image_dir
@@ -334,8 +337,6 @@ def convert_map(filepath, filename, filelist, params):
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
     crop_images(temp_dir, filelist, params.maxwidth, params.maxheight, params.targetwidth, params.targetheight)  # 根据需求设置参数
-    print("请手动使用Texture And Atlas Packer输出2的幂宽高")
-    return
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
     shutil.rmtree(temp_dir)
     if errmsg:
@@ -411,6 +412,34 @@ def convert_scml_scml(filepath, filename, file_ext, params):
 
     scml_class = Scml(input_path)
     scml_class.build_scml(filepath, 1)
+
+def convert_scml_dir(filepath,filename,filelist,params):
+    input_path=join_all(filepath,filename)
+    output_path=join_all(input_path,filename,"scml")
+    from compiler.anim import DSAnim
+    from compiler.anim_build import AnimBuild
+    anims=[i for i in filelist if i.endswith("bin") and i.find("anim")>=0]
+    builds=[i for i in filelist if i.endswith("bin") and i.find("build")>=0]
+    atlas=[i for i in filelist if i.endswith("tex") and i.find("atlas")>=0]
+    if "anim.bin" in filelist:
+        #this is a full scml project
+        anim_file=join_all(input_path,anims[0])
+        anim_class = DSAnim(anim_file)
+        for anim in anims[1:]:
+            anim_class2=DSAnim(join_all(input_path,anim))
+            anim_class += anim_class2
+            anim_class2.close()
+        for i,build in enumerate(builds):
+            build_data=read_file(join_all(input_path,build))
+            build_class=AnimBuild(build_data,input_path)
+            anim_class.parse_file(build_class)
+        anim_class.to_scml(output_path)
+    else:
+        for i,build in enumerate(builds):
+            build_data=read_file(join_all(input_path,build))
+            build_class=AnimBuild(build_data,input_path)
+            build_class.bin_to_json()
+            build_class.save_symbol_images(input_path)
 
 def convert_scml_build(filepath,filename,file_ext,params):
     if file_ext=="xml":

@@ -48,7 +48,8 @@ def tex_to_png(path,dest=None):
         dest=os.path.dirname(path)
     if isinstance(path,list):
         for i in path:
-            tex_to_png(i)
+            tex_to_png(i,dest)
         return
     cmd=f"{ktechpath} {path} {dest}"
+    #print(cmd)
     return run(cmd)
