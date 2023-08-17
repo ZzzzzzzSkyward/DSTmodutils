@@ -14,13 +14,12 @@ attrnames={
 }
 #merge操作
 def mergenode(symbol,target_symbol,filetype,Frame):
-    print("merged node")
     if filetype=="xml":
         for frame in symbol.findall(Frame):
             framenum = frame.get('framenum')
             duration = frame.get('duration')
             image = frame.get('image')
-            target_frame = target_symbol.find('./Frame[@framenum="{}"][@duration="{}"]'.format(framenum, duration))
+            target_frame = target_symbol.find(('./'+Frame+'[@framenum="{}"][@duration="{}"]').format(framenum, duration))
             if target_frame is None or target_frame.get('image') != image:
                 target_symbol.append(frame)
                 print(frame)
@@ -78,7 +77,11 @@ def main(args):
                 root.remove(target_symbol)
             else:
                 # 如果目标文件中不存在相同名称的Symbol节点，直接将整个Symbol节点添加到目标文件中
-                root.append(symbol)
+                insertid=0
+                for i in root.iter("folder"):
+                    insertid+=1
+                symbol.set("id",str(insertid))
+                root.insert(insertid,symbol)
         tree.write(args[1])
     #delete
     elif args[0].find('d')>=0:

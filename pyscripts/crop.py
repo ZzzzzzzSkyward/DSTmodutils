@@ -103,6 +103,9 @@ if __name__ == "__main__":
     px = float(sys.argv[2])
     x = px
     py = float(sys.argv[3])
+    if x>10:
+        crop_image(im,px,py)
+        exit(0)
     y = 1 - py
     nosave = len(sys.argv) > 4 and sys.argv[4][0] == "n"
     un = len(sys.argv) > 5 and sys.argv[5][0] == "u"

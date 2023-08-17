@@ -261,10 +261,16 @@ def convert_image_tex(filepath, filename, file_ext, params):
 
 def convert_dyn_zip(filepath, filename, file_ext, params):
     input_path = join_all(filepath, filename, file_ext)
+    zip_path=join_all(filepath,filename,"zip")
+    subdir=join_all(filepath,filename)
     from compiler.dynamic import dyn_to_zip
     dyn_to_zip(input_path)
     if params.png:
-        convert_image_tex(filepath, filename, "tex", params)
+        from zipfile import ZipFile
+        zip_file = ZipFile(zip_path, mode='r')
+        zip_file.extractall(subdir)
+        zip_file.close()
+        convert_image_tex(subdir, "atlas-0", "tex", params)
 
 
 def convert_image_dir(filepath, filename, filelist, params):
@@ -533,7 +539,7 @@ helptext = '''饥荒动画转换工具DS Anim Convert Tools
 [9]build.bin */*.png ->zip -rename="build name"
 '''
 unrecognized_file = '''无法识别文件
-Cannot Identity File
+Cannot Identify File
 '''
 
 
