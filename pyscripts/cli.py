@@ -90,7 +90,7 @@ def work(args, params):
                     params.set("filedir1",filedir1)
                     fn=convert_scml_build
                 if file_ext=="bin" and filename=="build":
-                    # build.xml + */*.png -> build.zip
+                    # build.bin + */*.png -> build.zip
                     params.set("filedir1",filedir1)
                     fn=convert_scml_build
 
@@ -451,7 +451,6 @@ def convert_scml_build(filepath,filename,file_ext,params):
     if file_ext=="xml":
         print("xml格式暂时不可用，请改用bin或json格式")
         return
-    return
     build_path = join_all(filepath, filename,file_ext)
     build_file = read_file(build_path,ftype=file_ext)
     from compiler.anim_build import AnimBuild
