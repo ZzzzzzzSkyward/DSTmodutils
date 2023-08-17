@@ -55,7 +55,7 @@ python cli.py test.scon -interpolate
 Crop `test.scml`
 
 ```shell
-python cli.py test.scml -crop
+python cropscm.py test.scml -crop
 ```
 
 Convert `images/*.png` to `xml` atlas and `tex`
