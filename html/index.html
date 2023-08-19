@@ -457,6 +457,22 @@
             let isDragging = false;
             let startX, startY;
 
+            let updatedrag = function (event) {
+                if (isDragging) {
+                    const newX = event.clientX - startX;
+                    const newY = event.clientY - startY;
+
+                    // 更新图片元素的 left 和 top 属性以改变其位置
+                    imgElement.style.left = `${newX}px`;
+                    imgElement.style.top = `${newY}px`;
+                    //更新transform-origin
+                    imgElement.style.transformOrigin = `${-newX}px ${-newY}px`;
+
+                    // 可根据需要进行其他操作，例如限制范围等
+
+                }
+            }
+
             // 鼠标按下时开始拖动
             imgElement.addEventListener('mousedown', function (event) {
                 event.preventDefault();
@@ -466,26 +482,14 @@
                 startY = event.clientY - imgElement.offsetTop;
 
                 isDragging = true; // 开始拖动状态
-            });
-
-            // 监听鼠标移动事件，在拖动状态下更新图片位置
-            document.addEventListener('mousemove', function (event) {
-                if (isDragging) {
-                    const newX = event.clientX - startX;
-                    const newY = event.clientY - startY;
-
-                    // 更新图片元素的 left 和 top 属性以改变其位置
-                    imgElement.style.left = `${newX}px`;
-                    imgElement.style.top = `${newY}px`;
-
-                    // 可根据需要进行其他操作，例如限制范围等
-
-                }
+                // 监听鼠标移动事件，在拖动状态下更新图片位置
+                document.addEventListener('mousemove', updatedrag);
             });
 
             // 鼠标松开时停止拖动状态
             document.addEventListener('mouseup', function () {
                 isDragging = false;
+                document.removeEventListener('mousemove', updatedrag);
             });
         }
         // 监听鼠标滚轮事件
