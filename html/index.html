@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>饥荒动画播放器</title>
+    <style>
+        :root {
+            --size: 1.5vw;
+            --a-color: red;
+            --a-hover-color: white;
+            --a-hover-background-color: red;
+            --a-active-color: blue;
+            --large-size: 2em;
+            font-size: var(--size);
+        }
+
+        .fontface1 {
+            font-family: 华文宋体, 宋体, Simsun, Simhei, 黑体, "system-ui", -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+        }
+
+        input {
+            --placeholder-color: rgb(255, 123, 123);
+            outline: 0;
+            appearance: none;
+            font-size: 1em;
+        }
+
+        input:hover {
+            background-color: #fff4d4;
+        }
+
+        input:focus {
+            background-color: #ffdb7a;
+        }
+
+        input[type="button"]:hover {
+            appearance: none;
+        }
+
+        input::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            color: var(--placeholder-color);
+        }
+
+        input::-moz-placeholder {
+            /* Firefox 19+ */
+            color: var(--placeholder-color);
+        }
+
+        input:-ms-input-placeholder {
+            /* IE 10+ */
+            color: var(--placeholder-color);
+        }
+
+        input:-moz-placeholder {
+            /* Firefox 18- */
+            color: var(--placeholder-color);
+        }
+
+        a {
+            color: var(--a-color);
+            cursor: pointer;
+            text-decoration: none;
+            outline: none;
+        }
+
+        a:hover {
+            color: var(--a-hover-color);
+            background-color: var(--a-background-color);
+        }
+
+        a:active {
+            color: var(--a-active-color);
+            background-color: var(--a-background-color);
+        }
+
+        .transition {
+            transition: all 0.3s cubic-bezier(.17, .84, .44, 1);
+            transition-property: var(--trans);
+            transition-timing-function: var(--timing);
+            transition-delay: var(--delay);
+        }
+
+        .d3 {
+            perspective: var(--view);
+            transform-style: preserve-3d;
+        }
+
+        .large {
+            font-size: var(--large-size);
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-item {
+            flex: auto;
+        }
+
+        .flex-vertical {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+            /* Chrome Safari */
+        }
+
+        .hide-scrollbar {
+            scrollbar-width: none;
+            /* firefox */
+            -ms-overflow-style: none;
+            /* IE 10+ */
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .glass {
+            backdrop-filter: blur(var(--blur));
+        }
+
+        .bgc {
+            background-color: var(--bgc);
+        }
+
+        .gray {
+            filter: grayscale(1);
+        }
+
+        .sticky {
+            filter: var(--filter) url(#filter-sticky);
+        }
+
+        .stick {
+            position: sticky;
+        }
+
+        ::selection {
+            background-color: rgba(0, 0, 0, 0.651);
+            color: rgba(255, 255, 255, 0.925);
+        }
+
+        /*自动贴靠边缘*/
+        .snapy {
+            scroll-snap-type: y mandatory;
+        }
+
+        .snapx {
+            scroll-snap-type: x mandatory;
+        }
+
+        .snap {
+            scroll-snap-align: start;
+        }
+
+        #panel {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 20%;
+            z-index: 5000;
+        }
+
+        .drop-area,
+        .drop-area2 {
+            border: 2px dashed #ccc;
+            width: 200px;
+            height: 100%;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            background-color: #ffebcd5e;
+            box-sizing: border-box;
+        }
+
+        #displayDiv {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, .7);
+            color: white;
+        }
+
+        .drop-area2 {
+            display: none;
+        }
+
+        .drop-area:hover {
+            background-color: #bee1ffaa;
+        }
+
+        #image-container {
+            position: relative;
+            margin-top: 600px;
+            margin-left: 30%;
+        }
+
+        #image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            min-height: 2000px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+            background-color: #f2f2f298;
+            font-size: 16px;
+            min-width: 2em;
+            width: 30%;
+        }
+
+        /* 鼠标悬停时的样式 */
+        select:hover {
+            background-color: #e6e6e69a;
+        }
+
+        /* 下拉箭头图标样式 */
+        select::after {
+            content: '\25BC';
+            position: absolute;
+            right: 0;
+            top: auto;
+            bottom: auto;
+            margin-right: .5em;
+        }
+
+        /* 禁用状态下的样式 */
+        select[disabled] {
+            opacity: .7
+        }
+
+        .progress-bar {
+            width: calc(100% - 20px);
+            height: 20px;
+            position: relative;
+            --slider1: #9280faa8;
+            --slider2: #e4a6a69d;
+            background-color: var(--slider2);
+        }
+
+        .slider {
+            width: 20px;
+            height: 20px;
+            background-color: rgba(235, 139, 122, 0.836);
+            position: relative;
+        }
+
+        #info {
+            position: fixed;
+            right: 0;
+            top: 0;
+            line-height: 1em;
+            --a-hover-color: #e87777;
+            background: #00000059;
+            color: white;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #info p {
+            margin: 0.1em;
+        }
+
+        h1,
+        pre {
+            padding-bottom: 0.5em;
+            margin: 0;
+            background: #f0f8ff78;
+            box-sizing: border-box;
+        }
+
+        #dropareas {
+            width: 20%;
+        }
+
+        .buttons {
+            width: 10%;
+            display: inline-block;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: #000000;
+            background-color: #d3d3d393;
+        }
+
+        .buttons:hover {
+            filter: brightness(0.9);
+        }
+
+        input {
+            border: 2px rgba(124, 124, 124, 0.637) dashed;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="panel">
+
+        <h1 class="center" onclick="document.getElementById('detail').style.display='block';">动画播放器</h1>
+        <div id="detail" style="display: none;">
+            <pre>
+打开build.json和anim.json以播放动画
+默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
+不支持framenum>1的build
+滚轮改变图片frame
+鼠标拖动图片
+参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
+            </pre>
+        </div>
+        <div id="info">
+            <p><a href="https://github.com/ZzzzzzzSkyward/DSTmodutils" target="_blank">github repo1</a></p>
+            <p><a href="https://github.com/Jerry457/ds_tool" target="_blank">github repo2</a></p>
+            <p>作者zzzzzzzs</p>
+        </div>
+        <div class="flex">
+            <div id="dropareas">
+                <div id="drop-area" class="drop-area">anim.json/build.json</div>
+                <div id="dropZone" class="drop-area2">
+                    拖入图片文件夹
+                </div>
+            </div>
+            <input id="imagepath" placeholder="file:\\\c:"></input>
+
+            <select id="list1">
+                <option value="" selected>bank</option>
+            </select>
+
+            <select id="list2">
+                <option value="" selected>anim</option>
+            </select>
+
+            <button id="playPauseButton" class="transition buttons">播放</button>
+            <button id="NextFrameButton" class="transition buttons">下一帧</button>
+            <button id="PrevFramePauseButton" class="transition buttons">上一帧</button>
+            <div id="valueContainer" style="align-self: center;min-width: 2em;text-align: center;">0</div>
+        </div>
+        <div class="progress-bar transition">
+            <div id="slider" class="slider">
+            </div>
+        </div>
+        <div id="displayDiv" style="display: none;z-index:1001;"></div>
+    </div>
+    <div id="image-container"></div>
+    <script>
+        let bank = "";
+        let anim = "";
+        let animdata;
+        let build_data;
+        let currenttask;
+        let imagepath = "";
+        let playing = false;
+        let currentframe = 0;
+        let totalframes = 0;
+        let requestframe;
+        let fromprogressbar;
+        const dropZone = document.getElementById('dropZone');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const NextFrameButton = document.getElementById('NextFrameButton');
+        const PrevFramePauseButton = document.getElementById('PrevFramePauseButton');
+        let isPlaying = false;
+        const imageContainer = document.getElementById('image-container');
+        let displayDiv = document.getElementById('displayDiv');
+        let progress = 0;
+
+        const progressBar = document.querySelector('.progress-bar');
+        const slider = document.getElementById('slider');
+        const imagePathInput = document.querySelector('#imagepath');
+
+        // 监听输入框的 change 事件
+        imagePathInput.addEventListener('change', function (event) {
+            imagepath = event.target.value; // 获取输入框的值并存储在变量中
+        });
+        imagepath = imagePathInput.value;
+        // 鼠标按下时开始监听鼠标移动事件
+        slider.addEventListener('mousedown', function (event) {
+            event.preventDefault();
+            slider.classList.add('transition');
+            // 获取初始位置
+            const startX = event.clientX;
+            const oldprogress = progress;
+
+            // 监听鼠标移动事件，更新进度条和全局变量
+            function moveSlider(event) {
+                const dx = event.clientX - startX;
+                let newProgress = Math.max(0, Math.min(oldprogress + (dx / progressBar.offsetWidth), 1));
+                //console.log(event.clientX, startX, dx, progressBar.offsetWidth, newProgress, progress);
+                fromprogressbar = true;
+                updateProgressBar(newProgress);
+                progress = newProgress;
+                OnProgressChange();
+            }
+
+            // 鼠标松开时停止监听鼠标移动事件
+            function stopMove() {
+                document.removeEventListener('mousemove', moveSlider);
+                document.removeEventListener('mouseup', stopMove);
+                slider.classList.remove('transition');
+            }
+
+
+            document.addEventListener('mousemove', moveSlider);
+            document.addEventListener('mouseup', stopMove);
+        });
+        function OnProgressChange() {
+            requestframe = progress * totalframes;
+            requestframe = Math.round(requestframe);
+        }
+
+        // 更新进度条和滑块位置
+        function updateProgressBar(value) {
+            if (!value) return;
+            slider.style.left = `${value * 100}%`;
+            progressBar.style.background = `linear-gradient(to right, var(--slider1) ${value * 100}%, var(--slider2) ${value * 100}%)`;
+        }
+        // 点击进度条时更新滑块位置和全局变量
+        progressBar.addEventListener('click', function (event) {
+            const clickX = event.clientX - progressBar.getBoundingClientRect().left;
+            const newProgress = Math.max(0, Math.min(clickX / progressBar.offsetWidth, 1));
+            updateProgressBar(newProgress);
+            fromprogressbar = true;
+            progress = newProgress;
+            OnProgressChange();
+        });
+        function AllowDrag(imgElement) {
+            let isDragging = false;
+            let startX, startY;
+
+            // 鼠标按下时开始拖动
+            imgElement.addEventListener('mousedown', function (event) {
+                event.preventDefault();
+
+                // 获取初始位置和鼠标点击位置的偏移量
+                startX = event.clientX - imgElement.offsetLeft;
+                startY = event.clientY - imgElement.offsetTop;
+
+                isDragging = true; // 开始拖动状态
+            });
+
+            // 监听鼠标移动事件，在拖动状态下更新图片位置
+            document.addEventListener('mousemove', function (event) {
+                if (isDragging) {
+                    const newX = event.clientX - startX;
+                    const newY = event.clientY - startY;
+
+                    // 更新图片元素的 left 和 top 属性以改变其位置
+                    imgElement.style.left = `${newX}px`;
+                    imgElement.style.top = `${newY}px`;
+
+                    // 可根据需要进行其他操作，例如限制范围等
+
+                }
+            });
+
+            // 鼠标松开时停止拖动状态
+            document.addEventListener('mouseup', function () {
+                isDragging = false;
+            });
+        }
+        // 监听鼠标滚轮事件
+        imageContainer.addEventListener('wheel', function (event) {
+            event.preventDefault(); // 阻止默认的页面滚动行为
+            let imgElement = event.target;
+            const zoomAmount = event.deltaY > 0 ? 1 : -1;
+            let src = imgElement.src
+            let number = src.match(/(\d+)\.png/)[1] - 0;
+            number += zoomAmount;
+            if (number < 0) number = 0;
+            let newsrc = src.replace(/(\d+)\.png/, number + ".png");
+            imgElement.src = newsrc;
+        });
+        // 监听鼠标移入事件
+
+        imageContainer.addEventListener('mouseover', function (event) {
+            // 检查是否是 img 元素
+            if (event.target.tagName === 'IMG') {
+                const src = event.target.getAttribute('src');
+                const target = event.target;
+
+                const style = window.getComputedStyle(target);
+                const left = parseFloat(style.getPropertyValue("left")) - event.offsetX;
+                const top = parseFloat(style.getPropertyValue("top")) - event.offsetY;
+                let transformMatrixArray = [];
+                const matrixRegex = /matrix\(([^)]+)\)/;
+                const match = style.transform.match(matrixRegex);
+                if (match) {
+                    const matrixValues = match[1].split(',').map(parseFloat);
+                    if (matrixValues.length === 6) {
+                        transformMatrixArray = matrixValues;
+                    }
+                }
+                if (transformMatrixArray.length === 0) {
+                    transformMatrixArray = [0, 0, 0, 0, 0, 0];
+                }
+
+                // 计算 z-index、translateX、translateY、scaleX、scaleY 和 rotate 值
+                const zIndex = style.zIndex;
+                const translateX = parseFloat(transformMatrixArray[4]);
+                const translateY = parseFloat(transformMatrixArray[5]);
+                const scaleX = Math.sqrt(transformMatrixArray[0] ** 2 + transformMatrixArray[1] ** 2);
+                const scaleY = Math.sqrt(transformMatrixArray[2] ** 2 + transformMatrixArray[3] ** 2);
+                const rotate = Math.atan2(transformMatrixArray[1], transformMatrixArray[0]);
+
+                displayDiv.innerHTML =
+                    `${src};<br/>
+                -x: ${target.style.left}<br/>
+                -y: ${target.style.top}<br/>
+                tx: ${translateX.toFixed(2)}<br/>
+                ty: ${translateY.toFixed(2)}<br/>
+                sx: ${scaleX.toFixed(2)}<br/>
+                sy: ${scaleY.toFixed(2)}<br/>
+                an: ${rotate.toFixed(2)}deg<br/>
+                z-index(reverse):${zIndex}`;
+                displayDiv.style.display = 'block';
+            }
+        });
+
+        // 监听鼠标移出事件
+        imageContainer.addEventListener('mouseout', function () {
+            displayDiv.style.display = 'none';
+        });
+        function updateframe(f) {
+            currentframe = f;
+            let ctn = document.getElementById('valueContainer');
+            ctn.innerText = f;
+        }
+
+        function play() {
+            playing = true;
+            playPauseButton.textContent = '暂停';
+        }
+
+        function pause() {
+            playing = false;
+            playPauseButton.textContent = '播放';
+        }
+
+        playPauseButton.addEventListener('click', function () {
+            if (isPlaying) {
+                pause();
+                isPlaying = false;
+            } else {
+                play();
+                isPlaying = true;
+            }
+        });
+        function oneframe(f) {
+            requestframe = currentframe + f;
+        }
+        NextFrameButton.addEventListener('click', function () {
+            oneframe(1);
+        });
+        PrevFramePauseButton.addEventListener('click', function () {
+            oneframe(-1);
+        });
+
+        // 阻止浏览器默认行为
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '#f7f7f7';
+            return false;
+        });
+
+        // 恢复背景颜色
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.backgroundColor = '';
+        });
+
+        // 处理拖放事件
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            //get the folder path
+            const folderPath = e.dataTransfer.items[0].webkitGetAsEntry().fullPath;
+            console.log("已选择的文件夹路径：" + folderPath);
+            imagepath = folderPath;
+            return false;
+        });
+        // 获取第一个列表元素
+        const list1 = document.getElementById('list1');
+
+        // 获取第二个列表元素
+        const list2 = document.getElementById('list2');
+
+        // 定义函数以读取所选的项目
+        function readSelectedItem() {
+            const selectedOptionList1 = list1.options[list1.selectedIndex].text;
+            const selectedOptionList2 = list2.options[list2.selectedIndex].text;
+            bank = selectedOptionList1;
+            anim = selectedOptionList2;
+            console.log(`您选择了：${bank} 和 ${anim}`);
+            clearInterval(currenttask);
+            RenderAnim(animdata, true);
+        }
+
+        // 添加事件监听器以在选择发生变化时调用readSelectedItem函数
+        list1.addEventListener('change', readSelectedItem);
+        list2.addEventListener('change', readSelectedItem);
+        function generateListItems(classes, anims) {
+            let array = classes;
+            let listElement = list1;
+            // 清空当前列表内容
+            listElement.innerHTML = '';
+
+            // 遍历数组并创建新的列表项
+            array.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                // 将新创建的列表项添加到对应的父元素中
+                listElement.appendChild(option);
+            });
+            array = anims;
+            listElement = list2;
+            // 清空当前列表内容
+            listElement.innerHTML = '';
+
+            // 遍历数组并创建新的列表项
+            array.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                // 将新创建的列表项添加到对应的父元素中
+                listElement.appendChild(option);
+            });
+        }
+        function CreateImageFromData(name, frame) {
+            // 从 build_data 中读取图像数据
+            var imageInfo = build_data[name.toLowerCase()]
+            if (!imageInfo) {
+                //console.log(name, frame, "not found");
+                return null;
+            }
+            imageInfo = imageInfo[frame];
+            if (!imageInfo) {
+                //console.log(name, frame, "not found");
+                return null;
+            }
+
+            // 创建图像元素
+            var img = document.createElement("img");
+
+            let x = imageInfo.x - 0;
+            let y = imageInfo.y - 0;
+            let w = imageInfo.w - 0;
+            let h = imageInfo.h - 0;
+
+            let px = w / 2 - x;
+            let py = h / 2 - y;
+
+            img.style.transformOrigin = px + "px " + py + "px";
+
+            img.style.left = -px + "px";
+            img.style.top = -py + "px";
+
+
+            // 设置图像的src属性，格式为：name/name-frame.png
+            var imageUrl = name + "/" + name + "-" + frame + ".png";
+            img.src = imagepath + imageUrl;
+
+            // 绑定id和class属性到图像元素上
+            img.setAttribute("id", name + "-" + frame);
+            img.setAttribute("classname", name);
+            AllowDrag(img);
+            // 返回创建的图像元素
+            return img;
+        }
+        function CreateImageByNameAndFrame(name, frame) {
+            // 创建图像元素
+            var img = document.createElement("img");
+
+            // 设置图像的src属性，格式为：name/name-frame.png
+            var imageUrl = name + "/" + name + "-" + frame + ".png";
+            img.src = imagepath + imageUrl;
+
+            // 返回创建的图像元素
+            return img;
+        }
+        function AddImageToContainer(container, imageName, framenum, imageInfo) {
+            var imageId = imageInfo[framenum].framenum;
+
+            // 使用CreateImageByNameAndFrame函数创建图像元素
+            var imgElement = CreateImageByNameAndFrame(imageName, framenum);
+
+            let x = imageInfo[framenum].x - 0;
+            let y = imageInfo[framenum].y - 0;
+            let w = imageInfo[framenum].w - 0;
+            let h = imageInfo[framenum].h - 0;
+
+            let px = w / 2 - x;
+            let py = h / 2 - y;
+
+            imgElement.style.transformOrigin = px + "px " + py + "px";
+
+            imgElement.style.left = -px + "px";
+            imgElement.style.top = -py + "px";
+
+            // 绑定id和class属性到图像元素上
+            imgElement.setAttribute("id", imageName + "-" + framenum);
+            imgElement.setAttribute("classname", imageName);
+
+            container.appendChild(imgElement);
+        }
+        function RenderImage(data) {
+            build_data = data;
+            // data: { image_name: { framenum: image_id } }
+            // display the image having src=image_name/image_name-image_id.png
+            // use document.createElement("img") to create a new image element
+            // 获取包含图像的容器元素
+            var container = document.getElementById("image-container");
+
+            // 遍历 data 对象的每个键值对
+            for (var imageName in data) {
+                if (data.hasOwnProperty(imageName)) {
+                    var imageInfo = data[imageName];
+                    for (var framenum in imageInfo) {
+                        // 创建图像元素
+                        var img = CreateImageFromData(imageName, framenum);
+                        if (img)
+                            container.appendChild(img);
+                    }
+                }
+            }
+        }
+        function HideAll(parent) {
+            Array.from(parent.children).forEach(child => {
+                child.style.display = 'none';
+            });
+        }
+        function RequestProgressChange() {
+            let newprogress = currentframe / totalframes;
+            if (!newprogress) newprogress = 0;
+            progress = newprogress;
+            updateProgressBar(progress);
+        }
+        //data:{classname:{animation_name:{framerate:30,numframes:10,frames:[frame]}}}
+        //frame:{elements:[images]}
+        //image:{"name": "lantern_overlay", "frame": 1, "layername": "LANTERN_OVERLAY", "m_a": 0.9428864121437073, "m_b": 0.10536190122365952, "m_c": -0.10536190122365952, "m_d": 0.9428864121437073, "m_tx": 105.44999694824219, "m_ty": -107.44999694824219, "z_index": 0},
+        //render the first animation in the first class
+        //use a setInterval to change the image every 1000/framerate ms
+        //each time render one frame
+        //each frame is defined by an array of images
+        //each image is defined by its name and transform matrix, translate by (m_tx,m_ty), and z-index by z_index
+        //use document.getElementById to get the image element with imageName + "-" + frame
+        function RenderAnim(data, skipparse = false) {
+            animdata = data;
+            if (!skipparse) {
+                //generate list items
+                let anims = [];
+                for (const classname in data) {
+                    if (data.hasOwnProperty(classname)) {
+                        const element = data[classname];
+                        for (const animation_name in element) {
+                            if (element.hasOwnProperty(animation_name)) {
+                                anims.push(animation_name);
+                            }
+                        }
+                    }
+                }
+                generateListItems(Object.keys(data), anims);
+            }
+            // Get the first animation in the first class
+            let classname = bank;
+            if (classname === "")
+                classname = Object.keys(data)[0];
+            let animation_name = anim;
+            if (animation_name === "")
+                animation_name = Object.keys(data[classname])[0];
+            const { framerate, numframes, frames } = data[classname][animation_name];
+            totalframes = numframes;
+            RequestProgressChange();
+            //clear container
+            let ctn = document.getElementById('image-container');
+            while (ctn.firstChild) {
+                ctn.removeChild(ctn.firstChild);
+            }
+            // assign an id to every image within an animation if not exist
+            for (let i = 0; i < frames.length; i++) {
+                let frame = frames[i].elements;
+                if (frame) {
+                    let idCounter = {}; // new variable to generate unique IDs
+                    for (let j = 0; j < frame.length; j++) {
+                        let framedata = frame[j];
+                        let id = `${framedata.name}-${framedata.frame}-`; // add unique ID to the image name
+                        if (idCounter[id] === undefined)
+                            idCounter[id] = 0;
+                        else {
+                            //console.log(idCounter[id], framedata.name, framedata.frame);
+                            idCounter[id]++;
+                        }
+                        id = id + idCounter[id];
+                        if (!document.getElementById(id)) {
+                            // create new image element and set its properties
+
+                            let newImage = CreateImageFromData(framedata.name, framedata.frame);
+                            // append the new image element to the container
+                            if (newImage) {
+                                newImage.setAttribute("id", id);
+                                ctn.appendChild(newImage);
+                            }
+                        }
+                    }
+                }
+            }
+            let currentFrame = 1;
+
+            // Function to render each frame
+            function renderFrame() {
+                if (!playing && !requestframe) return;
+                let requestframed = false;
+                if (requestframe) {
+                    currentFrame = requestframe;
+                    requestframed = true;
+                    requestframe = null;
+                }
+                if (currentFrame > numframes) {
+                    currentFrame = 1;
+                    //clearInterval(animationInterval);
+                    //return;
+                }
+                if (currentFrame <= 0) {
+                    currentFrame = numframes;
+                    //clearInterval(animationInterval);
+                    //return;
+                }
+                updateframe(currentFrame);
+                if (!fromprogressbar)
+                    RequestProgressChange();
+                fromprogressbar = false;
+
+                const frame = frames[currentFrame - 1];
+                let ctn = document.getElementById('image-container');
+                HideAll(ctn);
+                let idCounter = {};
+                // Loop through each image in the frame and update their properties
+                for (const image of frame.elements) {
+                    let elementId = `${image.name}-${image.frame}-`;
+                    if (undefined === idCounter[elementId])
+                        idCounter[elementId] = 0;
+                    else idCounter[elementId]++;
+                    elementId = elementId + idCounter[elementId];
+                    const element = document.getElementById(elementId);
+                    if (element) {
+                        element.style.transform =
+                            `matrix(${image.m_a}, ${image.m_b}, ${image.m_c}, ${image.m_d}, ${image.m_tx}, ${image.m_ty})`;
+                        element.style.zIndex = (50 - image.z_index).toString();
+                        element.style.display = "block";
+                    }
+                }
+
+                currentFrame++;
+            }
+
+            // Start rendering by calling renderFrame every interval based on framerate
+            const animationInterval = setInterval(renderFrame, Math.floor(1000 / framerate));
+            currenttask = animationInterval;
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            var file = e.dataTransfer.files[0];
+            handleFile(file);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleFile(file) {
+            if (file.type === "application/json") {
+                //display the name of the file
+                let name = file.name;
+                document.querySelector('.drop-area').innerHTML = name;
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var contents = e.target.result;
+                    var jsonData = JSON.parse(contents);
+                    var ImageData = jsonData.Symbol;
+                    var AnimData = jsonData.banks;
+                    if (ImageData)
+                        RenderImage(ImageData);
+                    else RenderAnim(AnimData);
+                };
+                reader.readAsText(file);
+            } else {
+                alert("请拖入有效的JSON文件！");
+            }
+        }
+
+        function handleClick() {
+            var fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "application/json";
+            fileInput.onchange = function (e) {
+                var file = e.target.files[0];
+                handleFile(file);
+            };
+            fileInput.click();
+        }
+
+        var dropAreas = document.getElementsByClassName("drop-area");
+        for (let dropArea of dropAreas) {
+            dropArea.addEventListener("drop", handleDrop, false);
+            dropArea.addEventListener("dragover", handleDragOver, false);
+            dropArea.addEventListener("click", handleClick, false);
+        }
+    </script>
+</body>
+
+</html>

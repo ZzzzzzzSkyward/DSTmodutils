@@ -198,15 +198,21 @@ def convert_anim_xml(filepath, filename, file_ext, params):
 
 def convert_anim_bin(filepath, filename, file_ext, params):
     from animtoxml import AnimToXml
-    output_ext = "xml"
-    output_path = join_all(filepath, filename, output_ext)
     input_path = join_all(filepath, filename, file_ext)
-    input_bytes = None
-    with open(input_path, 'rb') as f:
-        input_bytes = f.read()
-    output_string = AnimToXml(input_bytes)
-    with open(output_path, 'wb') as output_file:
-        output_file.write(output_string)
+    if params.json:
+        from compiler.anim_bank import AnimBank
+        input_data=read_file(input_path)
+        bank_class=AnimBank(input_data)
+        bank_class.save_json("")
+    else:
+        output_ext = "xml"
+        output_path = join_all(filepath, filename, output_ext)
+        input_bytes = None
+        with open(input_path, 'rb') as f:
+            input_bytes = f.read()
+        output_string = AnimToXml(input_bytes)
+        with open(output_path, 'wb') as output_file:
+            output_file.write(output_string)
 
 
 def convert_to_png(filepath, filename, file_ext, params):
