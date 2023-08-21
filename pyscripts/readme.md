@@ -57,10 +57,10 @@ Interpolate keyframes in `test.scon`. This is only for continuous animation with
 python cli.py test.scon -interpolate
 ```
 
-Crop `test.scml`
+Crop `test.scml` and then generate a `zip`
 
 ```shell
-python cropscm.py test.scml -crop
+python cropscml.py test.scml -crop
 ```
 
 Convert `images/*.png` to `xml` atlas and `tex`
@@ -104,3 +104,4 @@ python cli.py build.bin test/
 ### Compiling Scml
 
 - the script will try to get attribute `duration` from scml. For example: `<file id="0" name="arm_lower/arm_lower-0.png" duration="2" width="22" height="48" pivot_x="0.568182" pivot_y="0.854167"/>` specifies the duration of `arm_lower-0.png`. This is used especially if you have many images that are identical.
+

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html dir="ltr">
 
 <head>
+    <meta charset="utf-8">
+    <link rel="icon"
+        href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzZv/9M2b//jNm//42aP/+OGr//jdp//4zZv/+M2b//jFl//4zZv//M2b//zNm//8zZv//M2b//zNm//8zZv//M2b//jJl//9GdP//sMT//8XU//+Kp///M2b//zJl//87a///M2b//zNm//8zZv//M2b//zNm//8zZv//M2b//zNm//4xZf//T3v//+nv////////lrD//y9j//84af//M2b//zNm//8zZv//M2b//zNm//8zZv//M2b//zNm//8zZv/+MWX//097///q7////v///3ia//8zZv//M2b//zNm//8zZv//M2b//zNm//8zZv//Mmb//zNm//8zZv//M2b//jFl//9Pe/////////f5//9hif//M2b//zNm//8zZv//M2b//zNm//8zZv//MWX//zNm//8zZv//M2b//jNm//4xZf//T3v////////s8f//bY///zNm//8zZv//M2b//zNm//88bf//MWX//zNm//8zZv//M2b//zNm//4zZv/+MWX//097/////////////zNm//8zZv//M2b//zNm//9BcP//MWX//zNm//8zZv//M2b//zNm//8zZv/+M2b//jFl//9Pe////////////////////////////////////////6y3//+st///M2b//zNm//8zZv//M2b//jNm//4xZf//UHz//////////////////////////////////////////////////6y3//8zZv//M2b//zNm//4zZv/+MWX//1B8/////////////6y3//8zZv//M2b//8bS//+st///////////////////M2b//zNm//8zZv/+M2b//jFl//9QfP//8/b/////////////M2b//zNm//8zZv//M2b//zNm/////////////zNm//8zZv//M2b//jNm//4xZf//UHz//+zx////////vsb//zNm//8zZv//M2b//zNm//8zZv////////////8zZv//M2b//zNm//4zZv/+MWX//1B8///r8P////////////+5yv//M2b//zNm//8zZv//M2b///////8zZv//M2b//zNm//8zZv/+M2b//jFl//9QfP//6/D///7////y9P//s8D//zNm//8zZv//M2b/////////////M2b//zNm//8zZv//M2b//zNm//4xZf//UHv//+Xr////////////////////////////////////////z9T//zNm//8zZv//M2b//zNm//4zZv/9M2b//zNm//8zZv//M2b//6y3//8zZv//Omv//l2D//5hhf/+c5b//jNm//8zZv//OGr//jNm//4zZv/+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==">
     <title>饥荒动画播放器</title>
     <style>
         :root {
@@ -12,7 +15,11 @@
             --a-active-color: blue;
             --large-size: 2em;
             font-size: var(--size);
-            font-family: Monaco, "Comic Sans Ms", "方正稚艺简体", "华文细黑", "Microsoft Yahei", "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+            --basefont: Monaco, "Comic Sans Ms", "方正稚艺简体", "华文细黑", "Microsoft Yahei", "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            font-family: var(--basefont);
         }
 
         .fontface1 {
@@ -408,13 +415,6 @@
         }
 
         .clonedanimimage {
-            /*不可选中*/
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
             user-drag: none;
             -webkit-user-drag: none;
             /* 兼容性前缀 */
@@ -565,10 +565,11 @@
 <body>
     <div id="panel">
         <div id="topflex" class="center">
-            <h1 class="title" onclick="document.getElementById('detail').style.display='block';">动画播放器</h1>
+            <h1 class="title no-select transition" onclick="document.getElementById('detail').style.display='block';">
+                动画播放器</h1>
             <div id="tools">
                 <div>
-                    <label for="paperSwitch1" class="paper-switch-2-label">
+                    <label for="paperSwitch1" class="paper-switch-2-label no-select">
                         洋葱皮
                     </label>
                     <label class="paper-switch-2">
@@ -577,7 +578,7 @@
                     </label>
                 </div>
                 <div>
-                    <label for="paperSwitch2" class="paper-switch-2-label">
+                    <label for="paperSwitch2" class="paper-switch-2-label no-select">
                         English
                     </label>
                     <label class="paper-switch-2">
@@ -599,17 +600,17 @@
         <div id="info">
             <p><a href="https://github.com/ZzzzzzzSkyward/DSTmodutils" target="_blank">github repo1</a></p>
             <p><a href="https://github.com/Jerry457/ds_tool" target="_blank">github repo2</a></p>
-            <p>作者zzzzzzzs</p>
+            <p class="no-select">作者zzzzzzzs</p>
         </div>
         <div class="flex menus" style="z-index:5;position:relative;">
             <div name="wrapper" id="dropareaswrapper" class="flex-vertical">
                 <div id="dropareas" class="flex">
-                    <div id="drop-area" class="drop-area">anim.json/build.json</div>
+                    <div id="drop-area" class="drop-area no-select">anim.json/build.json</div>
                     <div id="dropZone" class="drop-area2">
                         拖入图片文件夹
                     </div>
                 </div>
-                <div class="float transition" id="dropareasfloater">
+                <div class="float transition no-select" id="dropareasfloater">
                     <div class="floatermenu flex-vertical transition">
                         <div class="item transition paper-border" onclick="SaveFiles()">保存build.json</div>
                         <div class="item transition paper-border" onclick="LoadRootFiles()">自动加载根目录文件</div>
@@ -684,10 +685,9 @@
             title: 'Animation Player',
             detail: `Open build.json and anim.json to play animation
 The default html file is the same as the image directory. If it is different, you need to manually enter file:///image path, such as file:///C:/Users/x/Desktop/anim/
-build with framenum>1 is not supported
 Mouse wheel to change image frame
 Drag the image with the mouse
-Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, ty), rotation (an), layer order (z-index) (the larger the value, the closer to the front, the real value is 50-zindex)
+Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (an), layer order (z-index) (the larger the value, the closer to the front, the real value is 50-zindex)
 `
         };
         let language = "zh";
@@ -703,15 +703,15 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
         let totalframes = 0;
         let requestframe;
         let fromprogressbar;
+        let progress = 0;
         const dropZone = document.getElementById('dropZone');
         const playPauseButton = document.getElementById('playPauseButton');
         const NextFrameButton = document.getElementById('NextFrameButton');
         const PrevFramePauseButton = document.getElementById('PrevFramePauseButton');
         const imageContainer = document.getElementById('image-container');
-        let displayDiv = document.getElementById('displayDiv');
+        const displayDiv = document.getElementById('displayDiv');
         let trackingelement = null;
         let hoverelement = null;
-        let progress = 0;
 
         const progressBar = document.querySelector('.progress-bar');
         const slider = document.getElementById('slider');
@@ -916,47 +916,34 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
             }
             let src = target.src;
             const style = window.getComputedStyle(target);
-            let transformMatrixArray = [];
-            const matrixRegex = /matrix\(([^)]+)\)/;
-            const match = style.transform.match(matrixRegex);
-            if (match) {
-                const matrixValues = match[1].split(',').map(parseFloat);
-                if (matrixValues.length === 6) {
-                    transformMatrixArray = matrixValues;
-                    for (let i = 0; i < transformMatrixArray.length; i++)
-                        transformMatrixArray[i] = parseFloat(transformMatrixArray[i].toFixed(2));
-                }
-            }
-            if (transformMatrixArray.length === 0) {
-                transformMatrixArray = [1, 1, 1, 1, 0, 0];
-            }
-
+            let mat = GetMatrixArray(target);
             // 计算 z-index、translateX、translateY、scaleX、scaleY 和 rotate 值
             const zIndex = style.zIndex;
-            const translateX = parseFloat(transformMatrixArray[4]);
-            const translateY = parseFloat(transformMatrixArray[5]);
-            const scaleX = Math.sqrt(transformMatrixArray[0] ** 2 + transformMatrixArray[1] ** 2);
-            const scaleY = Math.sqrt(transformMatrixArray[2] ** 2 + transformMatrixArray[3] ** 2);
-            const rotate0 = transformMatrixArray[1] > 0 ? Math.atan2(transformMatrixArray[1],
-                transformMatrixArray[0]) / Math.PI * 180 : null;
-            let mat = transformMatrixArray;
-            const rotate1 = Math.asin((mat[1] - mat[2]) / (2 * Math.sqrt(mat[0] * mat[0] + mat[2] * mat[
-                2]))) / Math.PI * 180;
-            const rotate2 = Math.acos((mat[0] + mat[3]) / (2 * Math.sqrt(mat[1] * mat[1] + mat[3] * mat[
-                3]))) / Math.PI * 180;
-            let rotate = rotate0 || rotate1 || rotate2;
-            if (rotate) rotate = rotate.toFixed(2); else rotate = "0";
+            //const a,b,c,d,tx,ty=mat
+            const a = mat[0];
+            const b = mat[1];
+            const c = mat[2];
+            const d = mat[3];
+            const tx = mat[4];
+            const ty = mat[5];
+            const scaleX = Math.sqrt(a ** 2 + b ** 2);
+            const scaleY = Math.sqrt(c ** 2 + d ** 2);
+            const rotate0 = Math.atan2(b,
+                a) / Math.PI * 180;
+            const rotate1 = Math.asin((b - c) / (2 * Math.sqrt(a ** 2 + c ** 2))) / Math.PI * 180;
+            const rotate2 = Math.acos((a + d) / (2 * Math.sqrt(b ** 2 + d ** 2))) / Math.PI * 180;
+            let rotate = rotate0 || rotate1 || rotate2 || 0;
             displayDiv.innerHTML =
                 `${src}<br/>
                 layer:${target.getAttribute("layername")}<br/>
                 -x: ${target.style.left}<br/>
                 -y: ${target.style.top}<br/>
-                tx: ${translateX.toFixed(2)}<br/>
-                ty: ${translateY.toFixed(2)}<br/>
+                tx: ${tx.toFixed(2)}<br/>
+                ty: ${ty.toFixed(2)}<br/>
                 sx: ${scaleX.toFixed(2)}<br/>
                 sy: ${scaleY.toFixed(2)}<br/>
-                angle(approx): ${rotate}deg<br/>
-                matrix: ${mat[0].toFixed(2)},${mat[1].toFixed(2)},${mat[2].toFixed(2)},${mat[3].toFixed(2)}<br/>
+                angle(approx): ${rotate.toFixed(2)}deg<br/>
+                matrix: ${a.toFixed(2)},${b.toFixed(2)},${c.toFixed(2)},${d.toFixed(2)}<br/>
                 50-zindex:${zIndex}`;
             displayDiv.style.display = 'block';
         }
@@ -1248,6 +1235,7 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
                 cloned.removeAttribute('id');
                 cloned.classList.remove('animimage');
                 cloned.classList.add('clonedanimimage');
+                cloned.classList.add('no-select');
                 cloned.oncontextmenu = "return false;"
                 ctn.appendChild(cloned);
             });
@@ -1537,7 +1525,9 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
             ctx.translate(-offsetX, -offsetY);
             // 遍历每个img绘制
             imgs.forEach(img => {
-
+                if (img.style.display == 'none') return;
+                if (img.style.visibility == 'hidden') return;
+                if (img.style.opacity == '0') return;
                 // 获取transform矩阵
                 const matrix = GetMatrix(img);
                 if (matrix) {
@@ -1557,8 +1547,9 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
             // 生成图片
             const image = new Image();
             image.setAttribute("crossOrigin", 'Anonymous');
+            image.crossOrigin = "anonymous";
             document.body.appendChild(canvas);
-            image.src = canvas.toDataURL("png", 0.9);//format,quality
+            image.src = canvas.toDataURL("image/png", 0.9);//format,quality
             document.body.appendChild(image);
         }
     </script>

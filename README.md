@@ -315,8 +315,6 @@ http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob
 
 默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
 
-不支持framenum>1的build
-
 滚轮改变图片frame
 
 鼠标拖动图片
