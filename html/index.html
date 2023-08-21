@@ -12,6 +12,7 @@
             --a-active-color: blue;
             --large-size: 2em;
             font-size: var(--size);
+            font-family: Monaco, "Comic Sans Ms", "方正稚艺简体", "华文细黑", "Microsoft Yahei", "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
         }
 
         .fontface1 {
@@ -227,8 +228,8 @@
         }
 
         select {
-            padding: 8px;
-            border-radius: 4px;
+            padding-left: 8px;
+            border-radius: 1px;
             border: none;
             background-color: #f2f2f298;
             font-size: 16px;
@@ -306,27 +307,58 @@
             padding: 0;
         }
 
+        .title:hover {
+            color: rgba(98, 98, 255, 0.719);
+        }
+
         #dropareas {
-            width: 20%;
+            width: 100%;
         }
 
         .buttons {
             width: 10%;
             display: inline-block;
             border: none;
-            padding: 10px 20px;
             font-size: 16px;
             font-weight: bold;
             text-align: center;
             text-decoration: none;
             color: #000000;
             background-color: #d3d3d393;
+            overflow: visible;
         }
 
         .buttons:hover,
         button:hover {
             filter: brightness(0.9);
         }
+
+        .buttons:active,
+        button:active {
+            filter: brightness(0.8);
+        }
+
+        .paper-border {
+            --primary: #030303e5;
+            color: var(--primary);
+            border-color: var(--primary);
+            border-style: solid;
+            border-bottom-left-radius: 398px 7px;
+            border-bottom-right-radius: 61px 13px;
+            border-top-left-radius: 165px 15px;
+            border-top-right-radius: 15px 195px;
+            border-width: 2px;
+            box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.281);
+            box-sizing: border-box;
+        }
+
+        /*.paper-border:hover {
+            border-bottom-left-radius: 46px 294px;
+            border-bottom-right-radius: 171px 33px;
+            border-top-left-radius: 25px 144px;
+            border-top-right-radius: 240px 65px;
+            border-width: 2px;
+        }*/
 
         input {
             border: 2px rgba(124, 124, 124, 0.637) dashed;
@@ -340,17 +372,23 @@
         #tools {
             position: absolute;
             display: flex;
-            flex-basis: content;
             align-content: center;
             flex-wrap: wrap;
             align-self: le;
             left: 0;
             height: 100%;
+            flex-direction: column;
         }
 
         #tools div {
             height: 100%;
             position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #tools>div {
+            height: 50%;
         }
 
         #tools button {
@@ -360,19 +398,193 @@
             background: #a29d9d87;
             border: none;
         }
+
+        .animimage {
+            box-sizing: border-box;
+        }
+
+        .animimage:hover {
+            box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .clonedanimimage {
+            /*不可选中*/
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            user-drag: none;
+            -webkit-user-drag: none;
+            /* 兼容性前缀 */
+        }
+
+        #dropareaswrapper {
+            position: relative;
+            width: 20%;
+        }
+
+        #dropareaswrapper>div {
+            height: 100%
+        }
+
+        .float {
+            display: none;
+            position: relative;
+            width: 0;
+            height: 0;
+            left: 0;
+            top: 0;
+        }
+
+        .float.show-floater {
+            display: block;
+        }
+
+        .floatermenu {
+            width: 20vw;
+            position: relative;
+            box-shadow: 2px 8px 8px -5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+        }
+
+        .float.show-floater .floatermenu {
+            opacity: 1;
+        }
+
+        .item {
+            width: 100%;
+            height: auto;
+            background-color: #8686865b;
+        }
+
+        .item:hover {
+            background-color: #77777780;
+        }
+
+        .item:active {
+            filter: brightness(0.8);
+        }
+
+        .paper-switch input,
+        .paper-switch-2 input {
+            height: 0;
+            opacity: 0;
+            width: 0;
+        }
+
+        .paper-switch-2 input {
+            --primary: #e87777e5;
+            color: #41403e;
+            color: var(--primary);
+            border-color: var(--primary);
+            background: transparent;
+            border-bottom-left-radius: 43px 307px;
+            border-bottom-right-radius: 211px 43px;
+            border-style: solid;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            border-width: 2px;
+            display: block;
+            font-size: 1rem;
+            outline: none;
+            padding: 0.5rem;
+        }
+
+        .paper-switch-2 .paper-switch-slider::before {
+            bottom: 3px;
+            height: 18px;
+            width: 17px;
+        }
+
+        .paper-switch .paper-switch-slider::before,
+        .paper-switch-2 .paper-switch-slider::before {
+            background: var(--secondary);
+            border-bottom-left-radius: 15px 255px;
+            border-bottom-right-radius: 225px 15px;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            content: "";
+            left: 4px;
+            position: absolute;
+            transition: 0.4s;
+        }
+
+        .paper-switch .paper-switch-slider,
+        .paper-switch-2 .paper-switch-slider {
+            --secondary: rgba(245, 120, 120, 0.904);
+            --primary: rgba(6, 7, 7, 0.925);
+            background-color: #6cb6f388;
+            border-color: var(--primary);
+            border-bottom-left-radius: 15px 255px;
+            border-bottom-right-radius: 225px 15px;
+            border-style: solid;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            border-width: 2px;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: 0.4s;
+        }
+
+        .paper-switch input:checked+.paper-switch-slider::before,
+        .paper-switch-2 input:checked+.paper-switch-slider::before {
+            transform: translateX(24px);
+        }
+
+        label.paper-switch-2 {
+            position: relative;
+            display: inline-block;
+            width: 51px;
+        }
+
+        label.paper-switch-2-label {
+            margin-right: 2px;
+        }
+
+        .menus {
+            --lh: 3vw;
+            height: var(--lh);
+        }
+
+        .menus>div {
+            height: 100%;
+        }
+
+        .menus div {
+            line-height: var(--lh);
+        }
     </style>
 </head>
 
 <body>
     <div id="panel">
         <div id="topflex" class="center">
-            <h1 onclick="document.getElementById('detail').style.display='block';">动画播放器</h1>
+            <h1 class="title" onclick="document.getElementById('detail').style.display='block';">动画播放器</h1>
             <div id="tools">
-                <div><button onclick="onion=!onion;">
-                        洋葱皮
-                    </button>
+                <div>
+                    <label for="paperSwitch1" class="paper-switch-2-label">
+                        洋葱圈
+                    </label>
+                    <label class="paper-switch-2">
+                        <input id="paperSwitch1" name="paperSwitch9" type="checkbox" onclick="ChangeOnion();">
+                        <span class="paper-switch-slider"></span>
+                    </label>
                 </div>
-
+                <div>
+                    <label for="paperSwitch2" class="paper-switch-2-label">
+                        English
+                    </label>
+                    <label class="paper-switch-2">
+                        <input id="paperSwitch2" name="paperSwitch9" type="checkbox" onclick="ChangeLanguage();">
+                        <span class="paper-switch-slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
         <div id="detail" style="display: none;">
@@ -390,11 +602,19 @@
             <p><a href="https://github.com/Jerry457/ds_tool" target="_blank">github repo2</a></p>
             <p>作者zzzzzzzs</p>
         </div>
-        <div class="flex">
-            <div id="dropareas">
-                <div id="drop-area" class="drop-area">anim.json/build.json</div>
-                <div id="dropZone" class="drop-area2">
-                    拖入图片文件夹
+        <div class="flex menus" style="z-index:5;position:relative;">
+            <div name="wrapper" id="dropareaswrapper" class="flex-vertical">
+                <div id="dropareas" class="flex">
+                    <div id="drop-area" class="drop-area">anim.json/build.json</div>
+                    <div id="dropZone" class="drop-area2">
+                        拖入图片文件夹
+                    </div>
+                </div>
+                <div class="float transition" id="dropareasfloater">
+                    <div class="floatermenu flex-vertical transition">
+                        <div class="item transition paper-border" onclick="SaveFiles()">保存build.json</div>
+                        <div class="item transition paper-border" onclick="LoadRootFiles()">自动加载根目录文件</div>
+                    </div>
                 </div>
             </div>
             <input id="imagepath" placeholder="file:\\\c:"></input>
@@ -407,9 +627,9 @@
                 <option value="" selected>anim</option>
             </select>
 
-            <button id="playPauseButton" class="transition buttons">播放</button>
-            <button id="NextFrameButton" class="transition buttons">下一帧</button>
-            <button id="PrevFramePauseButton" class="transition buttons">上一帧</button>
+            <button id="playPauseButton" class="transition buttons paper-border">播放</button>
+            <button id="NextFrameButton" class="transition buttons paper-border">下一帧</button>
+            <button id="PrevFramePauseButton" class="transition buttons paper-border">上一帧</button>
             <div id="valueContainer" style="align-self: center;min-width: 2em;text-align: center;">0</div>
         </div>
         <div class="progress-bar transition">
@@ -429,6 +649,50 @@
     <div id="image-container-clone" class="image-container clone-container"></div>
     <div id="image-container" class="image-container"></div>
     <script>
+        let strings = {
+            play: "播放",
+            language: "Chinese",
+            pause: "暂停",
+            nextframe: "下一帧",
+            prevframe: "上一帧",
+            save: "保存build.json",
+            dropjson: "anim/build json",
+            load: "自动加载根目录文件",
+            selectedBA: "已选bank/anim",
+            selectedFolder: "已选文件夹",
+            onion: '洋葱圈',
+            title: '动画播放器',
+            detail: `打开build.json和anim.json以播放动画
+默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
+不支持framenum>1的build
+滚轮改变图片frame
+鼠标拖动图片
+参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
+`
+        };
+        let strings_zh = strings;
+        let strings_en = {
+            play: "Play",
+            pause: "Pause",
+            language: "英语",
+            nextframe: "Next",
+            prevframe: "Prev",
+            save: "Save build.json",
+            load: "Load Root Files",
+            selectedBA: "Selected bank/anim",
+            dropjson: "anim/build json",
+            selectedFolder: "Selected Folder",
+            onion: 'Onion',
+            title: 'Animation Player',
+            detail: `Open build.json and anim.json to play animation
+The default html file is the same as the image directory. If it is different, you need to manually enter file:///image path, such as file:///C:/Users/x/Desktop/anim/
+build with framenum>1 is not supported
+Mouse wheel to change image frame
+Drag the image with the mouse
+Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, ty), rotation (an), layer order (z-index) (the larger the value, the closer to the front, the real value is 50-zindex)
+`
+        };
+        let language = "zh";
         let bank = "";
         let onion = false;
         let anim = "";
@@ -445,15 +709,99 @@
         const playPauseButton = document.getElementById('playPauseButton');
         const NextFrameButton = document.getElementById('NextFrameButton');
         const PrevFramePauseButton = document.getElementById('PrevFramePauseButton');
-        let isPlaying = false;
         const imageContainer = document.getElementById('image-container');
         let displayDiv = document.getElementById('displayDiv');
+        let trackingelement = null;
+        let hoverelement = null;
         let progress = 0;
 
         const progressBar = document.querySelector('.progress-bar');
         const slider = document.getElementById('slider');
         const imagePathInput = document.querySelector('#imagepath');
+        const dropAreasWrapper = document.querySelector('#dropareaswrapper');
+        const dropAreaFloater = document.querySelector('#dropareasfloater');
+        const onionInput = document.querySelector('#paperSwitch1');
+        function ChangeOnion() {
+            onion = onionInput.checked;
+        }
+        function OnOnionChange() {
+            onionInput.checked = onion;
+        }
+        ChangeOnion();
+        function ChangeLanguage() {
+            const languageInput = document.querySelector('#paperSwitch2');
+            language = languageInput.checked ? "en" : "zh";
+            strings = language == "en" ? strings_en : strings_zh;
+            document.getElementById("NextFrameButton").innerHTML = strings.nextframe;
+            document.getElementById("PrevFramePauseButton").innerHTML = strings.prevframe;
+            document.getElementById("dropareasfloater").firstElementChild.children[0].innerHTML = strings.save;
+            document.getElementById("dropareasfloater").firstElementChild.children[1].innerHTML = strings.load;
+            document.getElementById("drop-area").innerHTML = strings.dropjson;
+            document.getElementById("dropZone").innerHTML = strings.selectedFolder;
+            document.getElementById("playPauseButton").innerHTML = strings.play;
+            document.getElementsByClassName("paper-switch-2-label")[0].innerHTML = strings.onion;
+            document.getElementsByClassName("paper-switch-2-label")[1].innerHTML = strings.language;
+            document.getElementsByClassName("title")[0].innerHTML = strings.title;
+            document.getElementById("detail").firstElementChild.innerHTML = strings.detail;
+        }
+        ChangeLanguage();
+        dropAreasWrapper.addEventListener('mouseenter', showFloat);
+        dropAreasWrapper.addEventListener('mouseleave', hideFloat);
+        function showFloat() {
+            dropAreaFloater.classList.add("show-floater");
+        }
 
+        function hideFloat() {
+            dropAreaFloater.classList.remove("show-floater");
+        }
+        function SaveFiles() {
+            if (!build_data) return;
+            let json = JSON.stringify({ Symbol: build_data });
+
+            let blob = new Blob([json], { type: "application/json" });
+
+            let url = URL.createObjectURL(blob);
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'build.json';
+
+            a.click();
+
+            URL.revokeObjectURL(url);
+
+        }
+        async function LoadRootFiles() {
+
+            // 获取文件路径
+            const animPath = 'anim.json';
+            const buildPath = 'build.json';
+            const ABPath = 'animbuild.json';
+
+            // 同时加载两个文件
+            try {
+                const animRes = await
+                    fetch(animPath);
+
+                // 解析JSON
+                const animData = await animRes.json();
+                RenderAnim(animData.banks);
+            } catch (e) { }
+            try {
+                const buildRes = await
+                    fetch(buildPath);
+
+                // 解析JSON
+                const buildData = await buildRes.json();
+                RenderImage(buildData.Symbol);
+            } catch (e) { }
+            try {
+                const ABRes = await fetch(abPath);
+                const ABData = await ABRes.json();
+                RenderAnim(ABData.banks);
+                RenderImage(ABData.Symbol);
+            } catch (e) { }
+        }
         // 监听输入框的 change 事件
         imagePathInput.addEventListener('change', function (event) {
             imagepath = event.target.value; // 获取输入框的值并存储在变量中
@@ -563,6 +911,56 @@
             let newsrc = src.replace(/(\d+)\.png/, number + ".png");
             imgElement.src = newsrc;
         });
+        function UpdateImageInfo(target) {
+            if (!target) {
+                displayDiv.style.display = 'none';
+                return;
+            }
+            let src = target.src;
+            const style = window.getComputedStyle(target);
+            let transformMatrixArray = [];
+            const matrixRegex = /matrix\(([^)]+)\)/;
+            const match = style.transform.match(matrixRegex);
+            if (match) {
+                const matrixValues = match[1].split(',').map(parseFloat);
+                if (matrixValues.length === 6) {
+                    transformMatrixArray = matrixValues;
+                    for (let i = 0; i < transformMatrixArray.length; i++)
+                        transformMatrixArray[i] = parseFloat(transformMatrixArray[i].toFixed(2));
+                }
+            }
+            if (transformMatrixArray.length === 0) {
+                transformMatrixArray = [1, 1, 1, 1, 0, 0];
+            }
+
+            // 计算 z-index、translateX、translateY、scaleX、scaleY 和 rotate 值
+            const zIndex = style.zIndex;
+            const translateX = parseFloat(transformMatrixArray[4]);
+            const translateY = parseFloat(transformMatrixArray[5]);
+            const scaleX = Math.sqrt(transformMatrixArray[0] ** 2 + transformMatrixArray[1] ** 2);
+            const scaleY = Math.sqrt(transformMatrixArray[2] ** 2 + transformMatrixArray[3] ** 2);
+            const rotate0 = transformMatrixArray[1] > 0 ? Math.atan2(transformMatrixArray[1],
+                transformMatrixArray[0]) / Math.PI * 180 : null;
+            let mat = transformMatrixArray;
+            const rotate1 = Math.asin((mat[1] - mat[2]) / (2 * Math.sqrt(mat[0] * mat[0] + mat[2] * mat[
+                2]))) / Math.PI * 180;
+            const rotate2 = Math.acos((mat[0] + mat[3]) / (2 * Math.sqrt(mat[1] * mat[1] + mat[3] * mat[
+                3]))) / Math.PI * 180;
+            let rotate = rotate0 || rotate1 || rotate2;
+            if (rotate) rotate = rotate.toFixed(2); else rotate = "0";
+            displayDiv.innerHTML =
+                `${src};<br/>
+                -x: ${target.style.left}<br/>
+                -y: ${target.style.top}<br/>
+                tx: ${translateX.toFixed(2)}<br/>
+                ty: ${translateY.toFixed(2)}<br/>
+                sx: ${scaleX.toFixed(2)}<br/>
+                sy: ${scaleY.toFixed(2)}<br/>
+                angle(approx): ${rotate}deg<br/>
+                matrix: ${mat[0].toFixed(2)},${mat[1].toFixed(2)},${mat[2].toFixed(2)},${mat[3].toFixed(2)}<br/>
+                z-index(reverse):${zIndex}`;
+            displayDiv.style.display = 'block';
+        }
         // 监听鼠标移入事件
 
         imageContainer.addEventListener('mouseover', function (event) {
@@ -570,57 +968,33 @@
             if (event.target.tagName === 'IMG') {
                 const src = event.target.getAttribute('src');
                 const target = event.target;
-
-                const style = window.getComputedStyle(target);
-                const left = parseFloat(style.getPropertyValue("left")) - event.offsetX;
-                const top = parseFloat(style.getPropertyValue("top")) - event.offsetY;
-                let transformMatrixArray = [];
-                const matrixRegex = /matrix\(([^)]+)\)/;
-                const match = style.transform.match(matrixRegex);
-                if (match) {
-                    const matrixValues = match[1].split(',').map(parseFloat);
-                    if (matrixValues.length === 6) {
-                        transformMatrixArray = matrixValues;
-                        for (let i = 0; i < transformMatrixArray.length; i++)
-                            transformMatrixArray[i] = parseFloat(transformMatrixArray[i].toFixed(2));
-                    }
+                hoverelement = target;
+                UpdateImageInfo(target);
+            }
+        });
+        imageContainer.addEventListener('click', function (event) {
+            // 检查是否是 img 元素
+            if (event.target.tagName === 'IMG') {
+                const src = event.target.getAttribute('src');
+                const target = event.target;
+                const IsRightClick = event.button === 2;
+                if (trackingelement && trackingelement == target && IsRightClick) {
+                    trackingelement = null;
+                } else {
+                    trackingelement = target;
                 }
-                if (transformMatrixArray.length === 0) {
-                    transformMatrixArray = [1, 1, 1, 1, 0, 0];
-                }
-
-                // 计算 z-index、translateX、translateY、scaleX、scaleY 和 rotate 值
-                const zIndex = style.zIndex;
-                const translateX = parseFloat(transformMatrixArray[4]);
-                const translateY = parseFloat(transformMatrixArray[5]);
-                const scaleX = Math.sqrt(transformMatrixArray[0] ** 2 + transformMatrixArray[1] ** 2);
-                const scaleY = Math.sqrt(transformMatrixArray[2] ** 2 + transformMatrixArray[3] ** 2);
-                const rotate0 = transformMatrixArray[1] > 0 ? Math.atan2(transformMatrixArray[1],
-                    transformMatrixArray[0]) / Math.PI * 180 : null;
-                let mat = transformMatrixArray;
-                const rotate1 = Math.asin((mat[1] - mat[2]) / (2 * Math.sqrt(mat[0] * mat[0] + mat[2] * mat[
-                    2]))) / Math.PI * 180;
-                const rotate2 = Math.acos((mat[0] + mat[3]) / (2 * Math.sqrt(mat[1] * mat[1] + mat[3] * mat[
-                    3]))) / Math.PI * 180;
-                const rotate = rotate0 || rotate1 || rotate2 || "?";
-                displayDiv.innerHTML =
-                    `${src};<br/>
-                -x: ${target.style.left}<br/>
-                -y: ${target.style.top}<br/>
-                tx: ${translateX.toFixed(2)}<br/>
-                ty: ${translateY.toFixed(2)}<br/>
-                sx: ${scaleX.toFixed(2)}<br/>
-                sy: ${scaleY.toFixed(2)}<br/>
-                angle(approx): ${rotate.toFixed(2)}deg<br/>
-                matrix: ${mat[0].toFixed(2)},${mat[1].toFixed(2)},${mat[2].toFixed(2)},${mat[3].toFixed(2)}<br/>
-                z-index(reverse):${zIndex}`;
-                displayDiv.style.display = 'block';
+                UpdateImageInfo(hoverelement || trackingelement);
+            }
+            else {
+                trackingelement = null;
+                UpdateImageInfo(hoverelement);
             }
         });
 
         // 监听鼠标移出事件
         imageContainer.addEventListener('mouseout', function () {
-            displayDiv.style.display = 'none';
+            hoverelement = null;
+            UpdateImageInfo(trackingelement);
         });
 
         function updateframe(f) {
@@ -631,21 +1005,19 @@
 
         function play() {
             playing = true;
-            playPauseButton.textContent = '暂停';
+            playPauseButton.textContent = strings.pause;
         }
 
         function pause() {
             playing = false;
-            playPauseButton.textContent = '播放';
+            playPauseButton.textContent = strings.play;
         }
 
         playPauseButton.addEventListener('click', function () {
-            if (isPlaying) {
+            if (playing) {
                 pause();
-                isPlaying = false;
             } else {
                 play();
-                isPlaying = true;
             }
         });
 
@@ -676,7 +1048,7 @@
             e.preventDefault();
             //get the folder path
             const folderPath = e.dataTransfer.items[0].webkitGetAsEntry().fullPath;
-            console.log("已选择的文件夹路径：" + folderPath);
+            console.log(strings.selectedFolder + folderPath);
             imagepath = folderPath;
             return false;
         });
@@ -692,7 +1064,7 @@
             const selectedOptionList2 = list2.options[list2.selectedIndex].text;
             bank = selectedOptionList1;
             anim = selectedOptionList2;
-            console.log(`您选择了：${bank} 和 ${anim}`);
+            console.log(strings.selectedBA + `${bank} 和 ${anim}`);
             clearInterval(currenttask);
             RenderAnim(animdata, true);
         }
@@ -729,8 +1101,18 @@
                 listElement.appendChild(option);
             });
         }
+        function OnImageRemoved(img) {
+            if (trackingelement == img) {
+                trackingelement = null;
+            }
+            if (hoverelement == img) {
+                hoverelement = null;
+            }
+            UpdateImageInfo(hoverelement || trackingelement);
+        }
 
         function CreateImageFromData(name, frame) {
+            if (!build_data) return null;
             // 从 build_data 中读取图像数据
             var imageInfo = build_data[name.toLowerCase()]
             if (!imageInfo) {
@@ -754,6 +1136,9 @@
             let px = w / 2 - x;
             let py = h / 2 - y;
 
+            let rx = px / w;
+            let ry = py / h;
+
             img.style.transformOrigin = px + "px " + py + "px";
 
             img.style.left = -px + "px";
@@ -767,10 +1152,37 @@
             // 绑定id和class属性到图像元素上
             img.setAttribute("id", name + "-" + frame);
             img.setAttribute("classname", name);
+            img.setAttribute("framenum", frame);
+            img.classList.add(name);
             AllowDrag(img);
+            //listen DOMNodeRemovedFromDocument
+            img.addEventListener('DOMNodeRemovedFromDocument', function (event) {
+                OnImageRemoved(img);
+            });
+            //add classname animimage
+            img.classList.add("animimage");
             // 返回创建的图像元素
             return img;
         }
+
+        // 创建一个观察器实例
+        const observer = new MutationObserver((mutationsList) => {
+            for (let mutation of mutationsList) {
+                if (mutation.type === 'childList' && mutation.removedNodes.length > 0) {
+                    Array.from(mutation.removedNodes).forEach(function (node) {
+                        if (node.classList.contains("animimage")) {
+                            OnImageRemoved(node);
+                        }
+                    });
+                }
+            }
+        });
+
+        // 配置观察选项
+        const observer_config = { childList: true };
+
+        // 开始观察目标节点及其子孙节点的变化
+        observer.observe(imageContainer, observer_config);
 
         function CreateImageByNameAndFrame(name, frame) {
             // 创建图像元素
@@ -806,25 +1218,36 @@
             // 绑定id和class属性到图像元素上
             imgElement.setAttribute("id", imageName + "-" + framenum);
             imgElement.setAttribute("classname", imageName);
+            imgElement.classList.add(imageName);
 
             container.appendChild(imgElement);
         }
-
+        function AppendBuild(data) {
+            let olddata = build_data || {};
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const element = data[key];
+                    olddata[key] = element;
+                }
+            }
+            build_data = olddata;
+        }
         function RenderImage(data) {
-            build_data = data;
+            AppendBuild(data);
+            data = build_data;
             // data: { image_name: { framenum: image_id } }
             // display the image having src=image_name/image_name-image_id.png
             // use document.createElement("img") to create a new image element
             // 获取包含图像的容器元素
-            var container = document.getElementById("image-container");
+            let container = document.getElementById("image-container");
 
             // 遍历 data 对象的每个键值对
-            for (var imageName in data) {
+            for (let imageName in data) {
                 if (data.hasOwnProperty(imageName)) {
-                    var imageInfo = data[imageName];
-                    for (var framenum in imageInfo) {
+                    let imageInfo = data[imageName];
+                    for (let framenum in imageInfo) {
                         // 创建图像元素
-                        var img = CreateImageFromData(imageName, framenum);
+                        let img = CreateImageFromData(imageName, framenum);
                         if (img)
                             container.appendChild(img);
                     }
@@ -844,6 +1267,9 @@
                 if (element.style.display == 'none') return;
                 const cloned = element.cloneNode(true);
                 cloned.removeAttribute('id');
+                cloned.classList.remove('animimage');
+                cloned.classList.add('clonedanimimage');
+                cloned.oncontextmenu = "return false;"
                 ctn.appendChild(cloned);
             });
         }
@@ -983,6 +1409,7 @@
                         element.style.display = "block";
                     }
                 }
+                UpdateImageInfo(hoverelement || trackingelement);
 
                 currentFrame++;
             }
@@ -1015,7 +1442,8 @@
                     var AnimData = jsonData.banks;
                     if (ImageData)
                         RenderImage(ImageData);
-                    else RenderAnim(AnimData);
+                    if (AnimData)
+                        RenderAnim(AnimData);
                 };
                 reader.readAsText(file);
             } else {
@@ -1039,6 +1467,118 @@
             dropArea.addEventListener("drop", handleDrop, false);
             dropArea.addEventListener("dragover", handleDragOver, false);
             dropArea.addEventListener("click", handleClick, false);
+        }
+
+
+        //render
+        function calculateCanvasParams(imgs) {
+
+            let maxR = 0;
+            let maxB = 0;
+            let minL = 0;
+            let minT = 0;
+
+            imgs.forEach(img => {
+
+                // 获取带transform后的坐标
+                const { l, t, r, b } = getImageBounds(img);
+                console.log(img.src, l, t, r, b);
+                if (l) {
+
+                    maxR = Math.max(maxR, r);
+                    maxB = Math.max(maxB, b);
+
+                    minL = Math.min(minL, l);
+                    minT = Math.min(minT, t);
+                }
+
+            });
+
+            // 计算canvas大小
+            const canvasWidth = maxR - minL;
+            const canvasHeight = maxB - minT;
+
+            // 计算平移量
+            let offsetX = minL;
+            let offsetY = minT;
+            return {
+                width: canvasWidth,
+                height: canvasHeight,
+                offsetX,
+                offsetY
+            }
+
+        }
+        function GetMatrix(img) {
+            const matrix = img.style.transform.match(/matrix\((.+?)\)/);
+            if (!matrix) return [1, 0, 0, 1, 0, 0];
+            let mat = matrix[1].split(',').map(n => +n);
+            if (mat.length === 0) return [1, 0, 0, 1, 0, 0];
+            return mat;
+        }
+        function getImageBounds(img) {
+            const matrix = GetMatrix(img);
+            if (!matrix) return {};
+            const l = img.style.left.replace("px", "") - 0;
+            const t = img.style.top.replace("px", "") - 0;
+            const width = img.width;
+            const height = img.height;
+            const r = l + width;
+            const b = t + height;
+
+            const l1 = matrix[0] * l + matrix[2] * t + matrix[4];
+            const t1 = matrix[1] * l + matrix[3] * t + matrix[5];
+            //r1 = a * l + a * w + c * t + tx
+            //b1 = b * l + d * t + d * h + ty
+            const r1 = matrix[0] * l + matrix[0] * width + matrix[2] * t + matrix[4];
+            const b1 = matrix[1] * l + matrix[3] * height + matrix[3] * t + matrix[5];
+            return {
+                l: l1,
+                t: t1,
+                r: r1,
+                b: b1
+            };
+        }
+        function RenderToCanvas(imgs) {
+
+            // 创建画布
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const {
+                width,
+                height,
+                offsetX,
+                offsetY
+            } = calculateCanvasParams(imgs);
+            // 设置画布尺寸
+            canvas.width = width;
+            canvas.height = height;
+            ctx.translate(-offsetX, -offsetY);
+            // 遍历每个img绘制
+            imgs.forEach(img => {
+
+                // 获取transform矩阵
+                const matrix = GetMatrix(img);
+                if (matrix) {
+                    // 保存/恢复画布状态
+                    ctx.save();
+
+                    ctx.transform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+                    let left = img.style.left.replace("px", "");
+                    let top = img.style.top.replace("px", "");
+                    ctx.drawImage(img, left, top);
+
+                    ctx.restore();
+                }
+
+            });
+            ctx.translate(offsetX, offsetY);
+            // 生成图片
+            const image = new Image();
+            image.setAttribute("crossOrigin", 'Anonymous');
+            document.body.appendChild(canvas);
+            image.src = canvas.toDataURL("png", 0.9);//format,quality
+            document.body.appendChild(image);
         }
     </script>
 </body>

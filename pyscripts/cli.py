@@ -33,9 +33,15 @@ def work(args, params):
         if file_ext == "xml" and filename == "build":
             # build.xml->build.bin
             fn = convert_build_xml
+        if file_ext == "json" and filename == "build":
+            # build.json->build.bin
+            fn = convert_build_json
         if file_ext == "xml" and filename == "anim":
             # anim.xml->anim.bin
             fn = convert_anim_xml
+        if file_ext == "json" and filename == "anim":
+            # anim.json->anim.bin
+            fn = convert_anim_json
         if file_ext == "bin" and filename == "anim":
             # anim.bin->anim.xml
             fn = convert_anim_bin
@@ -181,6 +187,13 @@ def convert_build_xml(filepath, filename, file_ext, params):
         join_all(filepath, filename, output_ext),
     )
 
+def convert_build_json(filepath,filename,file_ext,params):
+    from compiler.anim_build import AnimBuild
+    build_path=join_all(filepath,filename,file_ext)
+    build_file = read_file(build_path,"json")
+    build_class = AnimBuild(build_file)
+    build_class.json_to_bin()
+    build_class.save_bin(filepath)
 
 def convert_anim_xml(filepath, filename, file_ext, params):
     from xmltoanim import XmlToAnim
@@ -194,6 +207,13 @@ def convert_anim_xml(filepath, filename, file_ext, params):
         XmlToAnim(
             input_string, output_file
         )
+
+def convert_anim_json(filepath,filename,file_ext,params):
+    from compiler.anim_bank import AnimBank
+    input_path = join_all(filepath, filename, file_ext)
+    input_data=read_file(input_path,"json")
+    bank_class=AnimBank(input_data)
+    bank_class.save_bin("")
 
 
 def convert_anim_bin(filepath, filename, file_ext, params):

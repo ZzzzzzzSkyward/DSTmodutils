@@ -305,6 +305,10 @@ rename symbol name，将symbol重命名为name
 
 ## index.html
 
+Enable CORS to access online page, or download it.
+
+http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob/master/html/index.html
+
 动画播放器。
 
 打开build.json和anim.json以播放动画
