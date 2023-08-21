@@ -213,7 +213,7 @@
 
         .image-container {
             position: relative;
-            margin-top: 600px;
+            margin-top: 50%;
             margin-left: 30%;
         }
 
@@ -569,7 +569,7 @@
             <div id="tools">
                 <div>
                     <label for="paperSwitch1" class="paper-switch-2-label">
-                        洋葱圈
+                        洋葱皮
                     </label>
                     <label class="paper-switch-2">
                         <input id="paperSwitch1" name="paperSwitch9" type="checkbox" onclick="ChangeOnion();">
@@ -591,7 +591,6 @@
             <pre>
 打开build.json和anim.json以播放动画
 默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
-不支持framenum>1的build
 滚轮改变图片frame
 鼠标拖动图片
 参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
@@ -660,11 +659,10 @@
             load: "自动加载根目录文件",
             selectedBA: "已选bank/anim",
             selectedFolder: "已选文件夹",
-            onion: '洋葱圈',
+            onion: '洋葱皮',
             title: '动画播放器',
             detail: `打开build.json和anim.json以播放动画
 默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
-不支持framenum>1的build
 滚轮改变图片frame
 鼠标拖动图片
 参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
@@ -682,7 +680,7 @@
             selectedBA: "Selected bank/anim",
             dropjson: "anim/build json",
             selectedFolder: "Selected Folder",
-            onion: 'Onion',
+            onion: 'Onion Skin',
             title: 'Animation Player',
             detail: `Open build.json and anim.json to play animation
 The default html file is the same as the image directory. If it is different, you need to manually enter file:///image path, such as file:///C:/Users/x/Desktop/anim/
@@ -694,7 +692,7 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
         };
         let language = "zh";
         let bank = "";
-        let onion = false;
+        let onionskin = false;
         let anim = "";
         let animdata;
         let build_data;
@@ -722,10 +720,10 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
         const dropAreaFloater = document.querySelector('#dropareasfloater');
         const onionInput = document.querySelector('#paperSwitch1');
         function ChangeOnion() {
-            onion = onionInput.checked;
+            onionskin = onionInput.checked;
         }
         function OnOnionChange() {
-            onionInput.checked = onion;
+            onionInput.checked = onionskin;
         }
         ChangeOnion();
         function ChangeLanguage() {
@@ -774,9 +772,9 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
         async function LoadRootFiles() {
 
             // 获取文件路径
-            const animPath = 'anim.json';
-            const buildPath = 'build.json';
-            const ABPath = 'animbuild.json';
+            const animPath = imagepath + 'anim.json';
+            const buildPath = imagepath + 'build.json';
+            const ABPath = imagepath + 'animbuild.json';
 
             // 同时加载两个文件
             try {
@@ -949,7 +947,8 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
             let rotate = rotate0 || rotate1 || rotate2;
             if (rotate) rotate = rotate.toFixed(2); else rotate = "0";
             displayDiv.innerHTML =
-                `${src};<br/>
+                `${src}<br/>
+                layer:${target.getAttribute("layername")}<br/>
                 -x: ${target.style.left}<br/>
                 -y: ${target.style.top}<br/>
                 tx: ${translateX.toFixed(2)}<br/>
@@ -958,7 +957,7 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
                 sy: ${scaleY.toFixed(2)}<br/>
                 angle(approx): ${rotate}deg<br/>
                 matrix: ${mat[0].toFixed(2)},${mat[1].toFixed(2)},${mat[2].toFixed(2)},${mat[3].toFixed(2)}<br/>
-                z-index(reverse):${zIndex}`;
+                50-zindex:${zIndex}`;
             displayDiv.style.display = 'block';
         }
         // 监听鼠标移入事件
@@ -1111,15 +1110,33 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
             UpdateImageInfo(hoverelement || trackingelement);
         }
 
-        function CreateImageFromData(name, frame) {
-            if (!build_data) return null;
-            // 从 build_data 中读取图像数据
-            var imageInfo = build_data[name.toLowerCase()]
-            if (!imageInfo) {
-                //console.log(name, frame, "not found");
-                return null;
+        function CreateImageFromData(name, i, frame) {
+            var imageInfo;
+            if (typeof (name) === "string") {
+
+                if (!build_data) return null;
+                // 从 build_data 中读取图像数据
+                var imageInfo = build_data[name.toLowerCase()];
+                if (!imageInfo) {
+                    //console.log(name, frame, "not found");
+                    return null;
+                }
+                if (i)
+                    imageInfo = imageInfo[i];
+                else {
+                    let _imageInfo = null;
+                    for (let info of imageInfo) {
+                        if (info.framenum <= frame && (info.framenum + info.duration) > frame) {
+                            _imageInfo = info;
+                            break;
+                        }
+                    }
+                    imageInfo = _imageInfo;
+                }
+            } else {
+                imageInfo = name;
+                name = imageInfo.name;
             }
-            imageInfo = imageInfo[frame];
             if (!imageInfo) {
                 //console.log(name, frame, "not found");
                 return null;
@@ -1146,14 +1163,14 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
 
 
             // 设置图像的src属性，格式为：name/name-frame.png
-            var imageUrl = name + "/" + name + "-" + frame + ".png";
+            var imageUrl = name + "/" + name + "-" + (imageInfo.frame || imageInfo.framenum || 0) + ".png";
             img.src = imagepath + imageUrl;
 
             // 绑定id和class属性到图像元素上
-            img.setAttribute("id", name + "-" + frame);
+            img.setAttribute("id", name + "-" + (imageInfo.frame || imageInfo.framenum || 0));
             img.setAttribute("classname", name);
-            img.setAttribute("framenum", frame);
-            img.classList.add(name);
+            img.setAttribute("framenum", (imageInfo.frame || imageInfo.framenum || 0));
+            img.classList.add(name.replace(" ", ""));
             AllowDrag(img);
             //listen DOMNodeRemovedFromDocument
             img.addEventListener('DOMNodeRemovedFromDocument', function (event) {
@@ -1184,44 +1201,6 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
         // 开始观察目标节点及其子孙节点的变化
         observer.observe(imageContainer, observer_config);
 
-        function CreateImageByNameAndFrame(name, frame) {
-            // 创建图像元素
-            var img = document.createElement("img");
-
-            // 设置图像的src属性，格式为：name/name-frame.png
-            var imageUrl = name + "/" + name + "-" + frame + ".png";
-            img.src = imagepath + imageUrl;
-
-            // 返回创建的图像元素
-            return img;
-        }
-
-        function AddImageToContainer(container, imageName, framenum, imageInfo) {
-            var imageId = imageInfo[framenum].framenum;
-
-            // 使用CreateImageByNameAndFrame函数创建图像元素
-            var imgElement = CreateImageByNameAndFrame(imageName, framenum);
-
-            let x = imageInfo[framenum].x - 0;
-            let y = imageInfo[framenum].y - 0;
-            let w = imageInfo[framenum].w - 0;
-            let h = imageInfo[framenum].h - 0;
-
-            let px = w / 2 - x;
-            let py = h / 2 - y;
-
-            imgElement.style.transformOrigin = px + "px " + py + "px";
-
-            imgElement.style.left = -px + "px";
-            imgElement.style.top = -py + "px";
-
-            // 绑定id和class属性到图像元素上
-            imgElement.setAttribute("id", imageName + "-" + framenum);
-            imgElement.setAttribute("classname", imageName);
-            imgElement.classList.add(imageName);
-
-            container.appendChild(imgElement);
-        }
         function AppendBuild(data) {
             let olddata = build_data || {};
             for (const key in data) {
@@ -1245,9 +1224,9 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
             for (let imageName in data) {
                 if (data.hasOwnProperty(imageName)) {
                     let imageInfo = data[imageName];
-                    for (let framenum in imageInfo) {
+                    for (let i in imageInfo) {
                         // 创建图像元素
-                        let img = CreateImageFromData(imageName, framenum);
+                        let img = CreateImageFromData(imageName, i);
                         if (img)
                             container.appendChild(img);
                     }
@@ -1349,10 +1328,12 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
                         if (!document.getElementById(id)) {
                             // create new image element and set its properties
 
-                            let newImage = CreateImageFromData(framedata.name, framedata.frame);
+                            let newImage = CreateImageFromData(framedata.name, null, framedata.frame);
                             // append the new image element to the container
                             if (newImage) {
                                 newImage.setAttribute("id", id);
+                                newImage.setAttribute("layername", framedata.layername);
+                                newImage.setAttribute("name", framedata.name);
                                 ctn.appendChild(newImage);
                             }
                         }
@@ -1388,7 +1369,7 @@ Parameters: image red point coordinates (x, y), zoom (sx, sy), translation (tx, 
                 const frame = frames[currentFrame - 1];
                 let ctn = document.getElementById('image-container');
                 //clone node
-                if (onion)
+                if (onionskin)
                     cloneNode(ctn);
                 else
                     cloneNode();
