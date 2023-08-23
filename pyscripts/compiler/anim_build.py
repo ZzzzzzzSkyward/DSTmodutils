@@ -39,7 +39,7 @@ class AnimBuild():
         if not other.data:
             other.bin_to_json()
 
-        self.data["scale"] = min(self.data["scale"], other.data["scale"])
+        self.data["scale"] = min(self.data.get("scale",1), other.data.get("scale",1))
         for symbol_name, symbol in other.data["Symbol"].items():
             if symbol_name in self.data["Symbol"]:
                 frame_data = {_frame["framenum"]: idx for idx, _frame in enumerate(self.data["Symbol"][symbol_name])}
@@ -500,16 +500,8 @@ class AnimBuild():
 
         return output
     def save_bin_noatlas(self, output: str|ZipFile, name=None):
-        if self.symbol_images:
-            self.noatlas_images()
-
         if not self.content:
             self.json_to_bin()
-
-        if self.atlases and isinstance(output, str):
-            name = name if name is not None else self.data["name"]
-            output = ZipFile(os.path.join(output, name + ".zip"), "w")
-            self.save_atlas(output)
 
         if isinstance(output, str):
             with open(os.path.join(output, f"{self.file_name}.bin"), "wb") as file:

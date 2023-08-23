@@ -452,8 +452,8 @@ def convert_scml_dir(filepath,filename,filelist,params):
     from compiler.anim_build import AnimBuild
     anims=[i for i in filelist if i.endswith("bin") and i.find("anim")>=0]
     builds=[i for i in filelist if i.endswith("bin") and i.find("build")>=0]
-    atlas=[i for i in filelist if i.endswith("tex") and i.find("atlas")>=0]
-    if "anim.bin" in filelist:
+    atlases=[i for i in filelist if i.endswith("tex") and i.find("atlas")>=0]
+    if len(anims)>0:
         #this is a full scml project
         anim_file=join_all(input_path,anims[0])
         anim_class = DSAnim(anim_file)
@@ -466,12 +466,15 @@ def convert_scml_dir(filepath,filename,filelist,params):
             build_class=AnimBuild(build_data,input_path)
             anim_class.parse_file(build_class)
         anim_class.to_scml(output_path)
-    else:
+    elif len(builds)>0:
         for i,build in enumerate(builds):
             build_data=read_file(join_all(input_path,build))
             build_class=AnimBuild(build_data,input_path)
             build_class.bin_to_json()
             build_class.save_symbol_images(input_path)
+    else:
+        for i,atlas in enumerate(atlases):
+            convert_image_tex(filepath,atlas[:-4],"tex")
 
 def convert_scml_build(filepath,filename,file_ext,params):
     if file_ext=="xml":
@@ -505,10 +508,8 @@ def convert_scml_zip(filepath, filename, file_ext, params):
     if hasanim:
         from compiler.anim import DSAnim
         anim_class = DSAnim(input_path)
-        # for anim in anims[1:]:
-        #    anim_class += anim
-        # for anim in anims:
-        #    anim.close()
+        if params.json:
+            anim_class.save_json(filepath)
         anim_class.to_scml(output_path)
     elif hasbuild:
         unzip_file(filepath, filename, file_ext)
@@ -519,16 +520,20 @@ def convert_scml_zip(filepath, filename, file_ext, params):
         with ZipFile(input_path) as build:
             build_class = AnimBuild(build_file, build)
         build_class.bin_to_json()
+        if params.json:
+            build_class.save_json(filepath)
         build_class.save_symbol_images(filepath)
+    else:
+        print("不存在anim.bin或build.bin")
+        unzip_file(filepath,filename,file_ext)
 
 
 def unzip_file(filepath, filename, file_ext):
-    from zipfile import ZipFile
-    input_path = join_all(filepath, filename, file_ext)
     """
     解压给定的 ZIP 文件到当前文件夹
-    :param zip_file_path: 要解压的 ZIP 文件的路径
     """
+    from zipfile import ZipFile
+    input_path = join_all(filepath, filename, file_ext)
     with ZipFile(input_path, 'r') as zip_ref:
         zip_ref.extractall(filepath)
 
