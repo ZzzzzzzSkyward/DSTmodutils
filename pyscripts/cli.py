@@ -99,6 +99,10 @@ def work(args, params):
                     # build.bin + */*.png -> build.zip
                     params.set("filedir1",filedir1)
                     fn=convert_scml_build
+                if file_ext=="json" and filename=="build":
+                    # build.json + */*.png -> build.zip
+                    params.set("filedir1",filedir1)
+                    fn=convert_scml_build
 
     if fn:
         fn(filepath, filename, file_ext, params)
