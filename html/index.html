@@ -916,7 +916,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             }
             let src = target.src;
             const style = window.getComputedStyle(target);
-            let mat = GetMatrixArray(target);
+            let mat = GetMatrix(target);
             // 计算 z-index、translateX、translateY、scaleX、scaleY 和 rotate 值
             const zIndex = style.zIndex;
             //const a,b,c,d,tx,ty=mat

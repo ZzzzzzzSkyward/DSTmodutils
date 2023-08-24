@@ -474,7 +474,7 @@ def convert_scml_dir(filepath,filename,filelist,params):
             build_class.save_symbol_images(input_path)
     else:
         for i,atlas in enumerate(atlases):
-            convert_image_tex(filepath,atlas[:-4],"tex")
+            convert_image_tex(filepath,atlas[:-4],"tex",params)
 
 def convert_scml_build(filepath,filename,file_ext,params):
     if file_ext=="xml":
