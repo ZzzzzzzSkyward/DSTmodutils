@@ -57,10 +57,10 @@ Interpolate keyframes in `test.scon`. This is only for continuous animation with
 python cli.py test.scon -interpolate
 ```
 
-Crop `test.scml` and then generate a `zip`
+Crop `test.scml`
 
 ```shell
-python cropscml.py test.scml -crop
+python cropscml.py test.scml
 ```
 
 Convert `images/*.png` to `xml` atlas and `tex`
@@ -69,7 +69,7 @@ Convert `images/*.png` to `xml` atlas and `tex`
 python cli.py images/ -xml
 ```
 
-Extract `test.zip` containing (`anim.bin`,) `build.bin` and `atlas-0.tex` to `test.scml`
+Extract `test.zip` containing (`anim.bin`,) `build.bin` and `atlas-0.tex` to `test.scml`. Add `-json` to generate `anim.json` and `build.json` by the way.
 
 ```shell
 python cli.py test.zip

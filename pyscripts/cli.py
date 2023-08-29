@@ -503,6 +503,7 @@ def convert_scml_zip(filepath, filename, file_ext, params):
     # check anim.bin
     hasanim = False
     hasbuild = False
+    has_output = False
     with ZipFile(input_path) as input_zip:
         namelist = input_zip.namelist()
         if 'anim.bin' in namelist:
@@ -514,7 +515,13 @@ def convert_scml_zip(filepath, filename, file_ext, params):
         anim_class = DSAnim(input_path)
         if params.json:
             anim_class.save_json(filepath)
-        anim_class.to_scml(output_path)
+            has_output = True
+        if params.scml:
+            anim_class.to_scml(output_path)
+            has_output = True
+        if not has_output:
+            anim_class.to_scml(output_path)
+            has_output = True
     elif hasbuild:
         unzip_file(filepath, filename, file_ext)
         from compiler.anim_build import AnimBuild
@@ -526,6 +533,7 @@ def convert_scml_zip(filepath, filename, file_ext, params):
         build_class.bin_to_json()
         if params.json:
             build_class.save_json(filepath)
+            has_output = True
         build_class.save_symbol_images(filepath)
     else:
         print("不存在anim.bin或build.bin")

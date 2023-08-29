@@ -40,8 +40,8 @@ def png_to_tex(path,dest=None,atlas=None):
             atlas=path.replace(".png",".xml")
         if not atlas.find("xml"):
             atlas=atlas+'.xml'
-    doatlas=f"--atlas {atlas}" if atlas else ""
-    cmd=f"{ktechpath} {doatlas} {path} {dest}"
+    doatlas=f'--atlas "{atlas}"' if atlas else ""
+    cmd=f'{ktechpath} {doatlas} "{path}" "{dest}"'
     return run(cmd)
 def tex_to_png(path,dest=None):
     if dest==None:
@@ -50,6 +50,6 @@ def tex_to_png(path,dest=None):
         for i in path:
             tex_to_png(i,dest)
         return
-    cmd=f"{ktechpath} {path} {dest}"
+    cmd=f'{ktechpath} "{path}" "{dest}"'
     #print(cmd)
     return run(cmd)

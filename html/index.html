@@ -378,13 +378,12 @@
 
         #tools {
             position: absolute;
-            display: flex;
-            align-content: center;
-            flex-wrap: wrap;
-            align-self: le;
+            display: grid;
+            align-content: left;
+            align-self: left;
             left: 0;
+            top: 0;
             height: 100%;
-            flex-direction: column;
         }
 
         #tools div {
@@ -474,6 +473,27 @@
             width: 0;
         }
 
+        .paper-switch-1 input {
+            height: 0;
+            opacity: 0;
+            width: 0;
+            --primary: #e87777e5;
+            color: #41403e;
+            color: var(--primary);
+            border-color: var(--primary);
+            background: transparent;
+            border-bottom-left-radius: 43px 307px;
+            border-bottom-right-radius: 211px 43px;
+            border-style: solid;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            border-width: 2px;
+            display: block;
+            font-size: 1rem;
+            outline: none;
+            padding: 0.5rem;
+        }
+
         .paper-switch-2 input {
             --primary: #e87777e5;
             color: #41403e;
@@ -498,8 +518,26 @@
             width: 17px;
         }
 
+        .paper-switch-1 .paper-switch-slider::before {
+            bottom: 3px;
+            height: 18px;
+            width: 17px;
+        }
+
         .paper-switch .paper-switch-slider::before,
         .paper-switch-2 .paper-switch-slider::before {
+            background: var(--secondary);
+            border-bottom-left-radius: 15px 255px;
+            border-bottom-right-radius: 225px 15px;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            content: "";
+            left: 4px;
+            position: absolute;
+            transition: 0.4s;
+        }
+
+        .paper-switch-1 .paper-switch-slider::before {
             background: var(--secondary);
             border-bottom-left-radius: 15px 255px;
             border-bottom-right-radius: 225px 15px;
@@ -532,9 +570,33 @@
             transition: 0.4s;
         }
 
+        .paper-switch-1 .paper-switch-slider {
+            --secondary: rgba(245, 120, 120, 0.904);
+            --primary: rgba(6, 7, 7, 0.925);
+            background-color: #f2f9ffaf;
+            border-color: var(--primary);
+            border-bottom-left-radius: 15px 255px;
+            border-bottom-right-radius: 225px 15px;
+            border-style: solid;
+            border-top-left-radius: 255px 15px;
+            border-top-right-radius: 15px 225px;
+            border-width: 2px;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: 0.4s;
+        }
+
         .paper-switch input:checked+.paper-switch-slider::before,
         .paper-switch-2 input:checked+.paper-switch-slider::before {
             transform: translateX(24px);
+        }
+
+        .paper-switch-1 input:checked+.paper-switch-slider::before {
+            --secondary: rgba(120, 245, 130, 0.904);
         }
 
         label.paper-switch-2 {
@@ -544,6 +606,16 @@
         }
 
         label.paper-switch-2-label {
+            margin-right: 2px;
+        }
+
+        label.paper-switch-1 {
+            position: relative;
+            display: inline-block;
+            width: 30;
+        }
+
+        label.paper-switch-1-label {
             margin-right: 2px;
         }
 
@@ -573,7 +645,7 @@
                         洋葱皮
                     </label>
                     <label class="paper-switch-2">
-                        <input id="paperSwitch1" name="paperSwitch9" type="checkbox" onclick="ChangeOnion();">
+                        <input id="paperSwitch1" name="paperSwitch1" type="checkbox" onclick="ChangeOnion();">
                         <span class="paper-switch-slider"></span>
                     </label>
                 </div>
@@ -582,7 +654,16 @@
                         English
                     </label>
                     <label class="paper-switch-2">
-                        <input id="paperSwitch2" name="paperSwitch9" type="checkbox" onclick="ChangeLanguage();">
+                        <input id="paperSwitch2" name="paperSwitch2" type="checkbox" onclick="ChangeLanguage();">
+                        <span class="paper-switch-slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label for="paperSwitch3" class="paper-switch-1-label no-select">
+                        服务器
+                    </label>
+                    <label class="paper-switch-1">
+                        <input id="paperSwitch3" name="paperSwitch3" type="checkbox" onclick="UpdateServerState();">
                         <span class="paper-switch-slider"></span>
                     </label>
                 </div>
@@ -614,6 +695,7 @@
                     <div class="floatermenu flex-vertical transition">
                         <div class="item transition paper-border" onclick="SaveFiles()">保存build.json</div>
                         <div class="item transition paper-border" onclick="LoadRootFiles()">自动加载根目录文件</div>
+                        <div class="item transition paper-border" onclick="RenderToCanvas()">截图</div>
                     </div>
                 </div>
             </div>
@@ -653,6 +735,7 @@
             play: "播放",
             language: "Chinese",
             pause: "暂停",
+            serverstate: "服务器",
             nextframe: "下一帧",
             prevframe: "上一帧",
             save: "保存build.json",
@@ -674,6 +757,7 @@
             play: "Play",
             pause: "Pause",
             language: "英语",
+            serverstate: "Server",
             nextframe: "Next",
             prevframe: "Prev",
             save: "Save build.json",
@@ -704,6 +788,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         let requestframe;
         let fromprogressbar;
         let progress = 0;
+        let server_url = "http://localhost:5005"
         const dropZone = document.getElementById('dropZone');
         const playPauseButton = document.getElementById('playPauseButton');
         const NextFrameButton = document.getElementById('NextFrameButton');
@@ -739,6 +824,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             document.getElementById("playPauseButton").innerHTML = strings.play;
             document.getElementsByClassName("paper-switch-2-label")[0].innerHTML = strings.onion;
             document.getElementsByClassName("paper-switch-2-label")[1].innerHTML = strings.language;
+            document.getElementsByClassName("paper-switch-1-label")[0].innerHTML = strings.serverstate;
             document.getElementsByClassName("title")[0].innerHTML = strings.title;
             document.getElementById("detail").firstElementChild.innerHTML = strings.detail;
         }
@@ -1508,8 +1594,8 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 b: b1
             };
         }
-        function RenderToCanvas(imgs) {
-
+        function RenderToCanvas() {
+            const imgs = imageContainer.querySelectorAll('img');
             // 创建画布
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -1544,14 +1630,40 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
 
             });
             ctx.translate(offsetX, offsetY);
-            // 生成图片
-            const image = new Image();
-            image.setAttribute("crossOrigin", 'Anonymous');
-            image.crossOrigin = "anonymous";
             document.body.appendChild(canvas);
-            image.src = canvas.toDataURL("image/png", 0.9);//format,quality
-            document.body.appendChild(image);
+            //scroll to
+            canvas.scrollIntoView();
+            try {
+                // 生成图片
+                const image = new Image();
+                image.setAttribute("crossOrigin", 'anonymous');
+                image.src = canvas.toDataURL("image/png", 0.9);//format,quality
+                //download
+                let a = document.createElement('a');
+                a.href = image.src;
+                a.download = 'image.png';
+                a.click();
+            } catch (e) { }
         }
+        const serverState = document.getElementById("paperSwitch3");
+        function UpdateServerState() {
+            checkServerConnection();
+        }
+        function checkServerConnection() {
+            fetch(server_url)
+                .then(response => {
+                    if (response.ok) {
+                        serverState.checked = true;
+                    } else {
+                        serverState.checked = false;
+                    }
+                })
+                .catch(error => {
+                    serverState.checked = false;
+                });
+        }
+
+        checkServerConnection();
     </script>
 </body>
 

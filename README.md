@@ -167,9 +167,13 @@ py2 enanim.py
 
 
 
-## bmfont
+## bmfont v.1.14a
 
 字体制作软件
+
+官方使用的版本是v1.12a
+
+http://www.angelcode.com/products/bmfont/
 
 ## DSTEd
 
