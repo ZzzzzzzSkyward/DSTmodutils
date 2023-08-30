@@ -1433,7 +1433,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     //clearInterval(animationInterval);
                     //return;
                 }
-                if (currentFrame <= 0) {
+                else if (currentFrame <= 0) {
                     currentFrame = numframes;
                     //clearInterval(animationInterval);
                     //return;
@@ -1444,7 +1444,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 fromprogressbar = false;
 
                 const frame = frames[currentFrame - 1];
-                let ctn = document.getElementById('image-container');
+                let ctn = imageContainer;
                 //clone node
                 if (onionskin)
                     cloneNode(ctn);
@@ -1512,10 +1512,11 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         function handleClick() {
             var fileInput = document.createElement("input");
             fileInput.type = "file";
+            fileInput.setAttribute("multiple","true");
             fileInput.accept = "application/json";
             fileInput.onchange = function (e) {
-                var file = e.target.files[0];
-                handleFile(file);
+                for (var file of e.target.files)
+                    handleFile(file);
             };
             fileInput.click();
         }
