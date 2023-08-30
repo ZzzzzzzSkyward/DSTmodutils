@@ -1137,7 +1137,6 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             bank = selectedOptionList1;
             anim = selectedOptionList2;
             console.log(strings.selectedBA + `${bank} 和 ${anim}`);
-            clearInterval(currenttask);
             RenderAnim(animdata, true);
         }
 
@@ -1378,6 +1377,10 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 frames
             } = data[classname][animation_name];
             totalframes = numframes;
+            if (currenttask) {
+                clearInterval(currenttask);
+                currenttask = null;
+            }
             RequestProgressChange();
             let ctn = document.getElementById('image-container');
             //clear container
