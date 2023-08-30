@@ -804,6 +804,12 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         const dropAreasWrapper = document.querySelector('#dropareaswrapper');
         const dropAreaFloater = document.querySelector('#dropareasfloater');
         const onionInput = document.querySelector('#paperSwitch1');
+        imagePathInput.addEventListener("blur", function (event) {
+            OnImagePathChange();
+        });
+        function OnImagePathChange() {
+            RenderAnim(animdata, true);
+        }
         function ChangeOnion() {
             onionskin = onionInput.checked;
         }
@@ -1438,11 +1444,15 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     //clearInterval(animationInterval);
                     //return;
                 }
-                updateframe(currentFrame);
                 if (!fromprogressbar)
                     RequestProgressChange();
                 fromprogressbar = false;
-
+                renderOneFrame(currentFrame);
+                UpdateImageInfo(hoverelement || trackingelement);
+                currentFrame++;
+            }
+            function renderOneFrame(currentFrame) {
+                updateframe(currentFrame);
                 const frame = frames[currentFrame - 1];
                 let ctn = imageContainer;
                 //clone node
@@ -1467,10 +1477,9 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                         element.style.display = "block";
                     }
                 }
-                UpdateImageInfo(hoverelement || trackingelement);
-
-                currentFrame++;
             }
+            //at least render one
+            renderOneFrame(requestframe || currentFrame);
 
             // Start rendering by calling renderFrame every interval based on framerate
             const animationInterval = setInterval(renderFrame, Math.floor(1000 / framerate));
@@ -1512,7 +1521,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         function handleClick() {
             var fileInput = document.createElement("input");
             fileInput.type = "file";
-            fileInput.setAttribute("multiple","true");
+            fileInput.setAttribute("multiple", "true");
             fileInput.accept = "application/json";
             fileInput.onchange = function (e) {
                 for (var file of e.target.files)
@@ -1667,7 +1676,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 });
         }
 
-        checkServerConnection();
+        //checkServerConnection();
     </script>
 </body>
 
