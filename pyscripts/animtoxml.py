@@ -145,7 +145,7 @@ def AnimToXml(anim, endianstring='<'):
         hashstr = struct.unpack(
             endianstring + str(hashlen) + 's',
             infile.read(hashlen))[0]
-        hashcollection[hashid] =hashstr.decode('utf8')
+        hashcollection[hashid] = hashstr.decode('utf8')
     nodes = root_node.getElementsByTagName("anim")
 
     for inode in nodes:
@@ -158,7 +158,7 @@ def AnimToXml(anim, endianstring='<'):
                 try:
                     ievent.setAttribute("name", str(
                         hashcollection[int(ievent.getAttribute("name"))]))
-                except:
+                except BaseException:
                     pass
             elements = iframe.getElementsByTagName("element")
             for ielement in elements:
@@ -169,7 +169,9 @@ def AnimToXml(anim, endianstring='<'):
                     pass
                 hashid = int(str(ielement.getAttribute("layername")))
                 try:
-                    ielement.setAttribute("layername", str(hashcollection[hashid]))
+                    ielement.setAttribute(
+                        "layername", str(
+                            hashcollection[hashid]))
                 except BaseException:
                     pass
     s = root_node.toprettyxml(indent="\t", newl="\n", encoding="utf-8")

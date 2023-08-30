@@ -1,6 +1,7 @@
-from klei.util import *
+from .anim_util import *
 from PIL import Image
 from xml.etree.ElementTree import Element, ElementTree
+
 
 def SpitImage(xml_path, out_path, image_path):
     tree = ElementTree(file=xml_path) if isinstance(xml_path, str) else xml_path
@@ -22,8 +23,13 @@ def SpitImage(xml_path, out_path, image_path):
 
         print("Spliting", len(data.keys()), "images")
 
-        out_path = out_path + "/" + root.find("Texture").get("filename").replace(".tex", "")
+        out_path = out_path + "/" + \
+            root.find("Texture").get("filename").replace(".tex", "")
         try_makedirs(out_path)
         for name in data.keys():
-            box = (data[name]["x0"] * width, data[name]["y0"] * hight, data[name]["x1"] * width, data[name]["y1"] * hight)
+            box = (
+                data[name]["x0"] * width,
+                data[name]["y0"] * hight,
+                data[name]["x1"] * width,
+                data[name]["y1"] * hight)
             image.crop(box).save(out_path + "/" + name, format="PNG")

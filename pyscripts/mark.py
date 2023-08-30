@@ -45,7 +45,8 @@ def mark(filename, radius=1):
                 for j in range(-radius, radius):
                     if i**2 + j**2 <= radius**2:
                         try:
-                            img[pivot_y + j, pivot_x + i] = np.array([255, 0, 0, 255])
+                            img[pivot_y + j, pivot_x +
+                                i] = np.array([255, 0, 0, 255])
                         except IndexError:
                             pass
 

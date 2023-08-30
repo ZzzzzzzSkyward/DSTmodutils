@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ET
 import sys
 from crop import uncrop as crop_func
+
+
 def crop_pivot_values(xml_file):
     # 解析XML文件
     tree = ET.parse(xml_file)
@@ -11,11 +13,11 @@ def crop_pivot_values(xml_file):
         # 获取pivot_x和pivot_y属性的值
         pivot_x = float(file_node.get('pivot_x'))
         pivot_y = float(file_node.get('pivot_y'))
-        filename=file_node.get('name')
+        filename = file_node.get('name')
         # 使用crop_func函数处理pivot_x和pivot_y的值
         try:
-            pivot_x_new, pivot_y_new = crop_func(filename, pivot_x, 1-pivot_y)
-        except:
+            pivot_x_new, pivot_y_new = crop_func(filename, pivot_x, 1 - pivot_y)
+        except BaseException:
             continue
         # 更新file节点的pivot_x和pivot_y属性
         file_node.set('pivot_x', str(pivot_x_new))
@@ -24,7 +26,8 @@ def crop_pivot_values(xml_file):
     # 保存更改后的XML文件
     tree.write(xml_file, encoding='utf-8', xml_declaration=True)
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     if len(sys.argv) < 2:
         print(
             "Usage: python uncropscml.py [scml file name]\n Uncrop the images and write new coordinates."

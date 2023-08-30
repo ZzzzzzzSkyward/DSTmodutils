@@ -1,16 +1,18 @@
 from PIL import Image
 import sys
 
-def expand(filename, x, y,ratio=2):
+
+def expand(filename, x, y, ratio=2.0):
     # open image
     img = Image.open(filename)
     width, height = img.size
-    new_width = width * ratio
-    new_height = height * ratio
+    new_width = int(width * ratio)
+    new_height = int(height * ratio)
     image_expand = Image.new("RGBA", (new_width, new_height))
     image_expand.paste(img, (int(width * x), int(height * y)))
     image_expand.save(filename)
-    return x,y
+    return x, y
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
@@ -23,5 +25,5 @@ if __name__ == "__main__":
     x = px
     py = float(sys.argv[3])
     y = 1 - py
-    r=float(sys.argv[4] if len(sys.argv)>4 else 2)
+    r = float(sys.argv[4] if len(sys.argv) > 4 else 2)
     expand(im, x, y, r)

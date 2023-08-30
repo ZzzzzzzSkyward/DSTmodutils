@@ -1,7 +1,5 @@
 import math, re, os
 from copy import deepcopy
-import sys
-sys.path.append("compiler")
 from .anim_bank import AnimBank
 from .anim_build import AnimBuild
 from .matrix3 import create_trans_rot_scale_pivot_matrix

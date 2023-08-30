@@ -8,7 +8,7 @@ script_dir = os.path.dirname(script_path)
 
 def locate_exe(exe_name, directories):
     for directory in directories:
-        exe_path = os.path.join(script_dir,directory, exe_name)
+        exe_path = os.path.join(script_dir, directory, exe_name)
         if os.path.exists(exe_path):
             return os.path.abspath(exe_path)
         exe_path = os.path.join(directory, exe_name)
@@ -28,7 +28,7 @@ def run(command):
     运行命令并阻止打印输出
     :param command: 要执行的命令
     """
-    #print(command)
+    # print(command)
     # 执行命令并捕获子进程的输出
     process = subprocess.Popen(
         command,
@@ -51,6 +51,6 @@ def png_to_xml(dir, dest=None):
 
 def xml_to_png(path, dest=None):
     if dest is None:
-        dest = os.path.dirname(path)+"/"+os.path.filename(path)+"/"
+        dest = path.replace(".xml", "/")
     cmd = f'{stexpath} unpack --input "{path}" --output "{dest}"'
     return run(cmd)

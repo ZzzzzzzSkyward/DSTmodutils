@@ -5,19 +5,36 @@ import os
 import sys
 import shutil
 sys.path.append("compiler")
-pretty_error=False
+pretty_error = False
+
 
 def main():
     require()
     args, params = parse()
     if len(args) == 0:
         help()
+        loop()
         return
     filename = args[0]
     if filename == "":
         help()
         return
     work(args, params)
+
+
+def loop():
+    while True:
+        args, params = parse(input(">").strip('"').strip('\n').split(" "))
+        if len(args) == 0:
+            return
+        filename = args[0]
+        if filename == "":
+            help()
+            return
+        try:
+            work(args, params)
+        except Exception as e:
+            print(e)
 
 
 def work(args, params):
@@ -59,7 +76,7 @@ def work(args, params):
             fn = convert_image_png
         if file_ext == "dyn":
             # dyn->zip
-            fn=convert_dyn_zip
+            fn = convert_dyn_zip
         if not file_ext:
             filedir = join_all(filepath, filename)
             if os.path.isdir(filedir):
@@ -67,15 +84,15 @@ def work(args, params):
                 filelist = os.listdir(filedir)
                 scmllist = [i for i in filelist if i.endswith(".scml")]
                 imagelist = [i for i in filelist if i.endswith('.png')]
-                binlist=[i for i in filelist if i.endswith('.bin')]
+                binlist = [i for i in filelist if i.endswith('.bin')]
                 if len(scmllist) > 0:
                     filedir, filename, file_ext = split_all(
                         join_all(filedir, scmllist[0]))
                     fn = convert_scml_scml
                 # check if it is a decompressed zip dir
-                elif len(binlist)>0 and "build.bin" in binlist:
-                    fn=convert_scml_dir
-                    file_ext=filelist
+                elif len(binlist) > 0 and "build.bin" in binlist:
+                    fn = convert_scml_dir
+                    file_ext = filelist
                 # check if it is a bunch of images
                 elif len(imagelist) > 0:
                     fn = convert_image_dir
@@ -91,23 +108,24 @@ def work(args, params):
         if not file_ext1:
             filedir1 = join_all(filepath1, filename1)
             if os.path.isdir(filedir1):
-                if file_ext=="xml" and filename=="build":
+                if file_ext == "xml" and filename == "build":
                     # build.xml + */*.png -> build.zip
-                    params.set("filedir1",filedir1)
-                    fn=convert_scml_build
-                if file_ext=="bin" and filename=="build":
+                    params.set("filedir1", filedir1)
+                    fn = convert_scml_build
+                if file_ext == "bin" and filename == "build":
                     # build.bin + */*.png -> build.zip
-                    params.set("filedir1",filedir1)
-                    fn=convert_scml_build
-                if file_ext=="json" and filename=="build":
+                    params.set("filedir1", filedir1)
+                    fn = convert_scml_build
+                if file_ext == "json" and filename == "build":
                     # build.json + */*.png -> build.zip
-                    params.set("filedir1",filedir1)
-                    fn=convert_scml_build
+                    params.set("filedir1", filedir1)
+                    fn = convert_scml_build
 
     if fn:
         fn(filepath, filename, file_ext, params)
     else:
         print(unrecognized_file)
+        print(args)
 
 
 def help():
@@ -125,18 +143,18 @@ class ParsedArgs:
         setattr(self, name, value)
 
 
-def parse():
-    args = sys.argv[1:]
+def parse(args=None):
+    args = args or sys.argv[1:]
     params_ = {arg.lstrip('-'): True
-              for arg in args if arg.startswith('-')}
-    params={arg.lstrip('-'): True
+               for arg in args if arg.startswith('-')}
+    params = {arg.lstrip('-'): True
               for arg in args if arg.startswith('-')}
     for i in params_:
-        keys=i.split("=")
-        if len(keys)==1:
+        keys = i.split("=")
+        if len(keys) == 1:
             pass
         else:
-            params[keys[0]]="=".join(keys[1:])
+            params[keys[0]] = "=".join(keys[1:])
 
     args = [arg for arg in args if not arg.startswith('-')]
     return args, ParsedArgs(params)
@@ -159,7 +177,7 @@ def join_all(dir, name, ext=None):
 def convert_build_bin(filepath, filename, file_ext, params):
     if params.rename or params.json:
         from compiler.anim_build import AnimBuild
-        build_path=join_all(filepath,filename,file_ext)
+        build_path = join_all(filepath, filename, file_ext)
         build_file = read_file(build_path)
         build_class = AnimBuild(build_file)
         build_class.bin_to_json()
@@ -175,8 +193,8 @@ def convert_build_bin(filepath, filename, file_ext, params):
     else:
         from buildtoxml import BuildToXml
         output_ext = "xml"
-        build_path=join_all(filepath, filename, file_ext)
-        build_file=read_file(build_path)
+        build_path = join_all(filepath, filename, file_ext)
+        build_file = read_file(build_path)
         BuildToXml(
             build_file,
             join_all(filepath, filename, output_ext),
@@ -191,13 +209,15 @@ def convert_build_xml(filepath, filename, file_ext, params):
         join_all(filepath, filename, output_ext),
     )
 
-def convert_build_json(filepath,filename,file_ext,params):
+
+def convert_build_json(filepath, filename, file_ext, params):
     from compiler.anim_build import AnimBuild
-    build_path=join_all(filepath,filename,file_ext)
-    build_file = read_file(build_path,"json")
+    build_path = join_all(filepath, filename, file_ext)
+    build_file = read_file(build_path, "json")
     build_class = AnimBuild(build_file)
     build_class.json_to_bin()
     build_class.save_bin(filepath)
+
 
 def convert_anim_xml(filepath, filename, file_ext, params):
     from xmltoanim import XmlToAnim
@@ -212,11 +232,12 @@ def convert_anim_xml(filepath, filename, file_ext, params):
             input_string, output_file
         )
 
-def convert_anim_json(filepath,filename,file_ext,params):
+
+def convert_anim_json(filepath, filename, file_ext, params):
     from compiler.anim_bank import AnimBank
     input_path = join_all(filepath, filename, file_ext)
-    input_data=read_file(input_path,"json")
-    bank_class=AnimBank(input_data)
+    input_data = read_file(input_path, "json")
+    bank_class = AnimBank(input_data)
     bank_class.save_bin("")
 
 
@@ -225,8 +246,8 @@ def convert_anim_bin(filepath, filename, file_ext, params):
     input_path = join_all(filepath, filename, file_ext)
     if params.json:
         from compiler.anim_bank import AnimBank
-        input_data=read_file(input_path)
-        bank_class=AnimBank(input_data)
+        input_data = read_file(input_path)
+        bank_class = AnimBank(input_data)
         bank_class.save_json("")
     else:
         output_ext = "xml"
@@ -291,8 +312,8 @@ def convert_image_tex(filepath, filename, file_ext, params):
 
 def convert_dyn_zip(filepath, filename, file_ext, params):
     input_path = join_all(filepath, filename, file_ext)
-    zip_path=join_all(filepath,filename,"zip")
-    subdir=join_all(filepath,filename)
+    zip_path = join_all(filepath, filename, "zip")
+    subdir = join_all(filepath, filename)
     from compiler.dynamic import dyn_to_zip
     dyn_to_zip(input_path)
     if params.png:
@@ -314,7 +335,7 @@ def convert_image_xml(filepath, filename, file_ext, params):
     from compiler.stex import xml_to_png
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename)
-    errmsg=xml_to_png(input_path, output_path)
+    errmsg = xml_to_png(input_path, output_path)
     if errmsg:
         print(errmsg)
 
@@ -325,7 +346,7 @@ def detect_special_images(filepath, filename, filelist, params):
     if filename.find("inventoryimages") >= 0:
         fn = convert_inventoryimages
     # minimap icon,crop,atlas to power 2,rename to png
-    if filename.find("minimap") >= 0 or filename.find("mapicon")>=0:
+    if filename.find("minimap") >= 0 or filename.find("mapicon") >= 0:
         fn = convert_map
     # cookbook icon,crop,max to 128x128,crop
     if filename.find("cookbook") >= 0:
@@ -372,7 +393,13 @@ def convert_map(filepath, filename, filelist, params):
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
-    crop_images(temp_dir, filelist, params.maxwidth, params.maxheight, params.targetwidth, params.targetheight)  # 根据需求设置参数
+    crop_images(
+        temp_dir,
+        filelist,
+        params.maxwidth,
+        params.maxheight,
+        params.targetwidth,
+        params.targetheight)  # 根据需求设置参数
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
     shutil.rmtree(temp_dir)
     if errmsg:
@@ -443,53 +470,56 @@ def convert_scml_scml(filepath, filename, file_ext, params):
             crop_pivot_values(temp_path)
             scml_class = Scml(temp_path)
             scml_class.build_scml(filepath, 1)
-            #shutil.rmtree(temp_dir)
+            # shutil.rmtree(temp_dir)
             return
 
     scml_class = Scml(input_path)
     scml_class.build_scml(filepath, 1)
 
-def convert_scml_dir(filepath,filename,filelist,params):
-    input_path=join_all(filepath,filename)
-    output_path=join_all(input_path,filename,"scml")
+
+def convert_scml_dir(filepath, filename, filelist, params):
+    input_path = join_all(filepath, filename)
+    output_path = join_all(input_path, filename, "scml")
     from compiler.anim import DSAnim
     from compiler.anim_build import AnimBuild
-    anims=[i for i in filelist if i.endswith("bin") and i.find("anim")>=0]
-    builds=[i for i in filelist if i.endswith("bin") and i.find("build")>=0]
-    atlases=[i for i in filelist if i.endswith("tex") and i.find("atlas")>=0]
-    if len(anims)>0:
-        #this is a full scml project
-        anim_file=join_all(input_path,anims[0])
+    anims = [i for i in filelist if i.endswith("bin") and i.find("anim") >= 0]
+    builds = [i for i in filelist if i.endswith("bin") and i.find("build") >= 0]
+    atlases = [i for i in filelist if i.endswith(
+        "tex") and i.find("atlas") >= 0]
+    if len(anims) > 0:
+        # this is a full scml project
+        anim_file = join_all(input_path, anims[0])
         anim_class = DSAnim(anim_file)
         for anim in anims[1:]:
-            anim_class2=DSAnim(join_all(input_path,anim))
+            anim_class2 = DSAnim(join_all(input_path, anim))
             anim_class += anim_class2
             anim_class2.close()
-        for i,build in enumerate(builds):
-            build_data=read_file(join_all(input_path,build))
-            build_class=AnimBuild(build_data,input_path)
+        for i, build in enumerate(builds):
+            build_data = read_file(join_all(input_path, build))
+            build_class = AnimBuild(build_data, input_path)
             anim_class.parse_file(build_class)
         anim_class.to_scml(output_path)
-    elif len(builds)>0:
-        for i,build in enumerate(builds):
-            build_data=read_file(join_all(input_path,build))
-            build_class=AnimBuild(build_data,input_path)
+    elif len(builds) > 0:
+        for i, build in enumerate(builds):
+            build_data = read_file(join_all(input_path, build))
+            build_class = AnimBuild(build_data, input_path)
             build_class.bin_to_json()
             build_class.save_symbol_images(input_path)
     else:
-        for i,atlas in enumerate(atlases):
-            convert_image_tex(filepath,atlas[:-4],"tex",params)
+        for i, atlas in enumerate(atlases):
+            convert_image_tex(filepath, atlas[:-4], "tex", params)
 
-def convert_scml_build(filepath,filename,file_ext,params):
-    if file_ext=="xml":
+
+def convert_scml_build(filepath, filename, file_ext, params):
+    if file_ext == "xml":
         print("xml格式暂时不可用，请改用bin或json格式")
         return
-    build_path = join_all(filepath, filename,file_ext)
-    build_file = read_file(build_path,ftype=file_ext)
+    build_path = join_all(filepath, filename, file_ext)
+    build_file = read_file(build_path, ftype=file_ext)
     from compiler.anim_build import AnimBuild
     build_class = None
-    image_path=params.filedir1
-    build_class = AnimBuild(build_file,None,image_path)
+    image_path = params.filedir1
+    build_class = AnimBuild(build_file, None, image_path)
     build_class.bin_to_json()
     if params.rename:
         build_class.set_build_name(params.rename)
@@ -537,7 +567,7 @@ def convert_scml_zip(filepath, filename, file_ext, params):
         build_class.save_symbol_images(filepath)
     else:
         print("不存在anim.bin或build.bin")
-        unzip_file(filepath,filename,file_ext)
+        unzip_file(filepath, filename, file_ext)
 
 
 def unzip_file(filepath, filename, file_ext):
@@ -591,7 +621,7 @@ def require():
         from rich.traceback import install
         install()
         global pretty_error
-        pretty_error=True
+        pretty_error = True
     except BaseException as e:
         pass
 

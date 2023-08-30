@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 
-def make_transparent(dir_path,half=False):
+def make_transparent(dir_path, half=False):
     if not os.path.exists(dir_path):
         print('Directory does not exist: ' + dir_path)
         return
@@ -28,12 +28,23 @@ def make_transparent(dir_path,half=False):
         basename = os.path.basename(png_file)
         backup_path = os.path.join(backup_dir, basename)
         shutil.copy2(png_file, backup_path)
-        png_file=os.path.abspath(png_file)
+        png_file = os.path.abspath(png_file)
         print(png_file)
-        params=['magick', 'convert', '-alpha', 'set', '-channel', 'A', '-evaluate', 'set', '0%', png_file, png_file]
+        params = [
+            'magick',
+            'convert',
+            '-alpha',
+            'set',
+            '-channel',
+            'A',
+            '-evaluate',
+            'set',
+            '0%',
+            png_file,
+            png_file]
         if half:
-            params[7]='divide'
-            params[8]='2'
+            params[7] = 'divide'
+            params[8] = '2'
         subprocess.call(params)
 
 
@@ -63,8 +74,8 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('Usage: transparent.py [--revert/half] dir1 dir2 ...')
         sys.exit(1)
-    revert = sys.argv[1].find('-r')>=0
-    half=sys.argv[1].find('-h')>=0
+    revert = sys.argv[1].find('-r') >= 0
+    half = sys.argv[1].find('-h') >= 0
     if revert:
         dir_paths = sys.argv[2:]
         for dir_path in dir_paths:
@@ -73,4 +84,4 @@ if __name__ == '__main__':
         # get directory paths from command line arguments
         dir_paths = sys.argv[1:]
         for dir_path in dir_paths:
-            make_transparent(dir_path,half)
+            make_transparent(dir_path, half)

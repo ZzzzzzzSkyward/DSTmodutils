@@ -28,19 +28,19 @@ def SplitAltas(
             try_makedirs(symbol_path)
 
             for frame in symbol.findall(".//Frame"):
-                alpha_idx = int(frame.get("alphaidx"))
+                alpha_idx = int(frame.get("alphaidx", "0"))
                 frame_path = f"{symbol_path}/{symbol_name}-{frame.get('framenum')}.png"
 
-                w = int(float(frame.get("w")))
-                h = int(float(frame.get("h")))
-                x = float(frame.get("x"))
-                y = float(frame.get("y"))
+                w = int(float(frame.get("w", "0")))
+                h = int(float(frame.get("h", "0")))
+                x = float(frame.get("x", "0"))
+                y = float(frame.get("y", "0"))
 
                 x_offset = x - w // 2
                 y_offset = y - h // 2
 
                 verticies = alphaverts[alpha_idx: alpha_idx +
-                                       int(frame.get("alphacount"))]
+                                       int(frame.get("alphacount", "0"))]
 
                 if (verticies_len := len(verticies)) == 0 or max(
                         u_list := [v[3] for v in verticies] or [0]) == min(u_list):
@@ -85,7 +85,7 @@ def SplitAltas(
 
 def BuildToXml(build_file, output_path, images=[]):
     hash_dict = {}
-    build_file=BytesIO(build_file)
+    build_file = BytesIO(build_file)
     head = struct.unpack(endianstring + "cccci", build_file.read(8))
 
     symbol_num = struct.unpack(endianstring + "I", build_file.read(4))[0]
@@ -202,16 +202,15 @@ if __name__ == "__main__":
                     tex_to_png(f'{temp_dir}/{tex}', temp_dir)
 
                 BuildToXml(
-                    endianstring,
                     f"{temp_dir}/build.bin",
                     root_part,
                     images=[
                         f"{temp_dir}/{image}" for image in images])
 
     if file_type == ".bin":
-        BuildToXml(endianstring,
-                   input_path,
-                   root_part,
-                   [os.path.abspath(root_part + "/" + i)
-                    for i in os.listdir(root_part) if i.endswith(".png")]
-                   )
+        BuildToXml(
+            input_path,
+            root_part,
+            [os.path.abspath(root_part + "/" + i)
+             for i in os.listdir(root_part) if i.endswith(".png")]
+        )

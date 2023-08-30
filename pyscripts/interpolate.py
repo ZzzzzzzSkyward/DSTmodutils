@@ -1,6 +1,6 @@
 import json
 import sys
-import matplotlib.bezier as bz
+import bezier as bz
 import copy
 _print = print
 
