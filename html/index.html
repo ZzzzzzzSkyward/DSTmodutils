@@ -219,9 +219,12 @@
         }
 
         .image-container {
-            position: relative;
+            position: absolute;
             margin-top: 50%;
-            margin-left: 30%;
+            margin-left: 50%;
+            padding: 10%;
+            min-width: 10%;
+            min-height: 10%;
         }
 
         .image-container img {
@@ -232,6 +235,12 @@
 
         body {
             min-height: 2000px;
+        }
+
+        svg.svgfilter {
+            visibility: hidden;
+            width: 0;
+            height: 0;
         }
 
         select {
@@ -718,8 +727,8 @@
             <div id="slider" class="slider">
             </div>
         </div>
-        <div id="displayDiv" style="display: none;z-index:1001;"></div>
-        <svg>
+        <div id="displayDiv" style="display: none;z-index:1001;" tabindex="2"></div>
+        <svg class="svgfilter">
             <filter id="colorMeMatrixRed">
                 <feColorMatrix in="SourceGraphic" type="matrix" values="1 1 1 1 0
 				              0 0 0 0 0
@@ -729,7 +738,7 @@
         </svg>
     </div>
     <div id="image-container-clone" class="image-container clone-container"></div>
-    <div id="image-container" class="image-container"></div>
+    <div id="image-container" class="image-container" tabindex="1"></div>
     <script>
         let strings = {
             play: "播放",
@@ -778,8 +787,8 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         let bank = "";
         let onionskin = false;
         let anim = "";
-        let animdata;
-        let build_data;
+        let animdata = {};
+        let build_data = {};
         let currenttask;
         let imagepath = "";
         let playing = false;
@@ -993,6 +1002,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         imageContainer.addEventListener('wheel', function (event) {
             event.preventDefault(); // 阻止默认的页面滚动行为
             let imgElement = event.target;
+            if (imgElement.tagName.toLowerCase() !== "img") return;
             const zoomAmount = event.deltaY > 0 ? 1 : -1;
             let src = imgElement.src
             let number = src.match(/(\d+)\.png/)[1] - 0;
@@ -1006,6 +1016,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 displayDiv.style.display = 'none';
                 return;
             }
+            if (target.tagName.toLowerCase() !== "img") return;
             let src = target.src;
             const style = window.getComputedStyle(target);
             let mat = GetMatrix(target);
@@ -1189,27 +1200,25 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         }
 
         function CreateImageFromData(name, i, frame) {
-            var imageInfo;
+            let imageInfo, folderInfo;
             if (typeof (name) === "string") {
 
                 if (!build_data) return null;
                 // 从 build_data 中读取图像数据
-                var imageInfo = build_data[name.toLowerCase()];
-                if (!imageInfo) {
+                folderInfo = build_data[name.toLowerCase()];
+                if (!folderInfo) {
                     //console.log(name, frame, "not found");
                     return null;
                 }
                 if (i)
-                    imageInfo = imageInfo[i];
+                    imageInfo = folderInfo[i];
                 else {
-                    let _imageInfo = null;
-                    for (let info of imageInfo) {
+                    for (let info of folderInfo) {
                         if (info.framenum <= frame && (info.framenum + info.duration) > frame) {
-                            _imageInfo = info;
+                            imageInfo = info;
                             break;
                         }
                     }
-                    imageInfo = _imageInfo;
                 }
             } else {
                 imageInfo = name;
@@ -1242,7 +1251,8 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
 
             // 设置图像的src属性，格式为：name/name-frame.png
             var imageUrl = name + "/" + name + "-" + (imageInfo.frame || imageInfo.framenum || 0) + ".png";
-            img.src = imagepath + imageUrl;
+            let baseurl = imageInfo.path || (folderInfo && folderInfo.path) || "";
+            img.src = imagepath + baseurl + imageUrl;
 
             // 绑定id和class属性到图像元素上
             img.setAttribute("id", name + "-" + (imageInfo.frame || imageInfo.framenum || 0));
@@ -1279,18 +1289,19 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         // 开始观察目标节点及其子孙节点的变化
         observer.observe(imageContainer, observer_config);
 
-        function AppendBuild(data) {
-            let olddata = build_data || {};
+        function AppendBuild(data, path) {
+            let olddata = build_data;
             for (const key in data) {
                 if (data.hasOwnProperty(key)) {
                     const element = data[key];
+                    element.path = path;
                     olddata[key] = element;
                 }
             }
             build_data = olddata;
         }
-        function RenderImage(data) {
-            AppendBuild(data);
+        function RenderImage(data, path) {
+            AppendBuild(data, path);
             data = build_data;
             // data: { image_name: { framenum: image_id } }
             // display the image having src=image_name/image_name-image_id.png
@@ -1508,7 +1519,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     var ImageData = jsonData.Symbol;
                     var AnimData = jsonData.banks;
                     if (ImageData)
-                        RenderImage(ImageData);
+                        RenderImage(ImageData, jsonData.Path);
                     if (AnimData)
                         RenderAnim(AnimData);
                 };
@@ -1675,6 +1686,45 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     serverState.checked = false;
                 });
         }
+        displayDiv.addEventListener('keydown', function (event) {
+            let handled = true;
+            if (event.key === '1') {
+                oneframe(-1);
+            }
+            else if (event.key === '2') {
+                oneframe(1);
+            }
+            else if (event.key === '3') {
+                requestframe = 1;
+            }
+            else if (event.key === '4') {
+                playing = !playing;
+            }
+            else if (event.key === '5') {
+                requestframe = totalframes;
+            }
+            else if (event.key === ' ') {
+                playing = !playing;
+            }
+            else if (event.key === 'p') {
+                playing = false;
+            }
+            else if (event.key === ']') {
+                let scale = imageContainer.style.transform.match(/[0-9.]+/) || "1";
+                scale = Math.min(scale - 0.1, 10);
+                imageContainer.style.transform = `scale(${scale})`;
+            }
+            else if (event.key === '[') {
+                let scale = imageContainer.style.transform.match(/[0-9.]+/) || "1";
+                scale = Math.max(scale - 0 + 0.1, 0.1);
+                imageContainer.style.transform = `scale(${scale})`;
+            }
+            else {
+                handled = false;
+            }
+            if (handled) event.preventDefault();
+
+        });
 
         //checkServerConnection();
     </script>
