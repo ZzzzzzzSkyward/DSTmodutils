@@ -44,22 +44,22 @@ def work(args, params):
     if len(args) == 1:
         if file_ext == "xml":
             fn = convert_image_xml
-        if file_ext == "bin" and filename == "build":
+        if file_ext == "bin" and (filename == "build" or params.build):
             # build.bin->build.xml
             fn = convert_build_bin
-        if file_ext == "xml" and filename == "build":
+        if file_ext == "xml" and (filename == "build" or params.build):
             # build.xml->build.bin
             fn = convert_build_xml
-        if file_ext == "json" and filename == "build":
+        if file_ext == "json" and (filename == "build" or params.build):
             # build.json->build.bin
             fn = convert_build_json
-        if file_ext == "xml" and filename == "anim":
+        if file_ext == "xml" and (filename == "anim" or params.anim):
             # anim.xml->anim.bin
             fn = convert_anim_xml
-        if file_ext == "json" and filename == "anim":
+        if file_ext == "json" and (filename == "anim" or params.anim):
             # anim.json->anim.bin
             fn = convert_anim_json
-        if file_ext == "bin" and filename == "anim":
+        if file_ext == "bin" and (filename == "anim" or params.anim):
             # anim.bin->anim.xml
             fn = convert_anim_bin
         if file_ext == "scml" or file_ext == "scon":
@@ -108,15 +108,15 @@ def work(args, params):
         if not file_ext1:
             filedir1 = join_all(filepath1, filename1)
             if os.path.isdir(filedir1):
-                if file_ext == "xml" and filename == "build":
+                if file_ext == "xml" and (filename == "build" or params.build):
                     # build.xml + */*.png -> build.zip
                     params.set("filedir1", filedir1)
                     fn = convert_scml_build
-                if file_ext == "bin" and filename == "build":
+                if file_ext == "bin" and (filename == "build" or params.build):
                     # build.bin + */*.png -> build.zip
                     params.set("filedir1", filedir1)
                     fn = convert_scml_build
-                if file_ext == "json" and filename == "build":
+                if file_ext == "json" and (filename == "build" or params.build):
                     # build.json + */*.png -> build.zip
                     params.set("filedir1", filedir1)
                     fn = convert_scml_build
@@ -214,6 +214,12 @@ def convert_build_json(filepath, filename, file_ext, params):
     from compiler.anim_build import AnimBuild
     build_path = join_all(filepath, filename, file_ext)
     build_file = read_file(build_path, "json")
+    if params.clip:
+        import clip_build
+        print("-clip参数仅仅裁剪", filename, "并覆盖原文件")
+        if clip_build.clip(build_file):
+            save_file(build_path, build_file)
+        return
     build_class = AnimBuild(build_file)
     build_class.json_to_bin()
     build_class.save_bin(filepath)
@@ -516,6 +522,9 @@ def convert_scml_build(filepath, filename, file_ext, params):
         return
     build_path = join_all(filepath, filename, file_ext)
     build_file = read_file(build_path, ftype=file_ext)
+    if params.clip and file_ext == "json":
+        import clip_build
+        clip_build.clip(build_file)
     from compiler.anim_build import AnimBuild
     build_class = None
     image_path = params.filedir1
@@ -523,6 +532,8 @@ def convert_scml_build(filepath, filename, file_ext, params):
     build_class.bin_to_json()
     if params.rename:
         build_class.set_build_name(params.rename)
+    elif not 'name' in build_class.data:
+        build_class.set_build_name(filename)
     build_class.save_bin(filepath)
 
 
@@ -588,18 +599,24 @@ def read_file(file, ftype=None):
             data = json.load(f)
         else:
             data = f.read()
+    if not data:
+        print("无法打开文件", file)
     return data
 
 
 def save_file(file, data):
     import json
-    with open(file, 'w') as f:
-        json.dump(data, f, indent=2)
+    try:
+        with open(file, 'w') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False, sort_keys=True)
+    except OSError:
+        print("保存文件", file, "出错")
 
 
 image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 
 helptext = '''饥荒动画转换工具DS Anim Convert Tools
+可通过 -anim -build 识别文件类型
 [1]build.bin<->build.xml -json
 [2]build.bin -rename="build name"
 [3]anim.bin<->anim.xml
@@ -608,7 +625,7 @@ helptext = '''饥荒动画转换工具DS Anim Convert Tools
 [6]zip->scml images [without anim.bin]
 [7]xml<->images [auto resize cookbook, inventoryimages, minimap]
 [8]scon -interpolate -fps=30
-[9]build.bin */*.png ->zip -rename="build name"
+[9]build.bin/json */*.png ->zip -rename="build name"
 '''
 unrecognized_file = '''无法识别文件
 Cannot Identify File

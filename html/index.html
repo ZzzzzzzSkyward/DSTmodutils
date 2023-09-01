@@ -1036,11 +1036,17 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             const rotate1 = Math.asin((b - c) / (2 * Math.sqrt(a ** 2 + c ** 2))) / Math.PI * 180;
             const rotate2 = Math.acos((a + d) / (2 * Math.sqrt(b ** 2 + d ** 2))) / Math.PI * 180;
             let rotate = rotate0 || rotate1 || rotate2 || 0;
+            const dx = (target.style.left.replace("px", "") || 0) - 0;
+            const dy = (target.style.top.replace("px", "") || 0) - 0;
+            const w = (target.width|| 0) - 0;
+            const h = (target.height || 0) - 0;
+            const pivotx = dx + w / 2;
+            const pivoty = dy + h / 2;
             displayDiv.innerHTML =
                 `${src}<br/>
                 layer:${target.getAttribute("layername")}<br/>
-                -x: ${target.style.left}<br/>
-                -y: ${target.style.top}<br/>
+                -x: ${dx.toFixed(2)}, px: ${pivotx.toFixed(3)}<br/>
+                -y: ${dy.toFixed(2)}, py: ${pivoty.toFixed(3)}<br/>
                 tx: ${tx.toFixed(2)}<br/>
                 ty: ${ty.toFixed(2)}<br/>
                 sx: ${scaleX.toFixed(2)}<br/>

@@ -2,6 +2,29 @@ from PIL import Image
 import sys
 
 
+def crop_abs(filename, x, y):
+    # open image
+    img = Image.open(filename)
+    # 获取 alpha 通道中不透明的部分
+    bbox = img.split()[-1].getbbox()
+    if not bbox:
+        # print("不可裁剪的图片")
+        return None, None, None, None
+    # 裁剪图片
+    img_cropped = img.crop(bbox)
+    w, h = img_cropped.size
+    bw = bbox[0]
+    bh = bbox[1]
+    if bw == 0 and bh == 0:
+        print("不可裁剪的图片")
+        return None, None, None, None
+    x_final = x - bw
+    y_final = y - bh
+    # save image
+    img_cropped.save(filename)
+    return x_final, y_final, w, h
+
+
 def crop(filename, x=None, y=None, nosave=False):
     shouldprint = __name__ == "__main__"
     # open image
@@ -19,12 +42,12 @@ def crop(filename, x=None, y=None, nosave=False):
         w_, h_ = img_cropped.size
         wx = x * w
         hy = y * h
-        bw = bbox[0]
-        bh = bbox[1]
+        bw = bbox[0] if bbox else 0
+        bh = bbox[1] if bbox else 0
         if bw == 0 and bh == 0:
             if shouldprint:
                 print("Warning: the image is already cropped.")
-            return
+            return None, None, None, None
         x_final = (wx - bw) / w_
         y_final = (hy - bh) / h_
         y_final = 1 - y_final
@@ -36,6 +59,7 @@ def crop(filename, x=None, y=None, nosave=False):
         img_cropped.save(filename)
     if x is not None and y is not None:
         return x_final, y_final, w_, h_
+    return None, None, None, None
 
 
 def crop_image(filename, max_width=None, max_height=None,
@@ -47,7 +71,9 @@ def crop_image(filename, max_width=None, max_height=None,
     if target_width and target_height:
         new_width, new_height = target_width, target_height
     elif max_width and max_height:
-        aspect_ratio = min(1,min(float(max_width) / width, float(max_height) / height))
+        aspect_ratio = min(
+            1, min(
+                float(max_width) / width, float(max_height) / height))
         new_width = int(width * aspect_ratio)
         new_height = int(height * aspect_ratio)
     else:
@@ -97,14 +123,14 @@ if __name__ == "__main__":
         )
         exit(1)
     im = sys.argv[1]
-    if len(sys.argv)<4:
+    if len(sys.argv) < 4:
         crop_image(im)
         exit(0)
     px = float(sys.argv[2])
     x = px
     py = float(sys.argv[3])
-    if x>10:
-        crop_image(im,px,py)
+    if x > 10:
+        crop_image(im, px, py)
         exit(0)
     y = 1 - py
     nosave = len(sys.argv) > 4 and sys.argv[4][0] == "n"
