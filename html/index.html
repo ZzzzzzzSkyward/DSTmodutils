@@ -1038,7 +1038,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             let rotate = rotate0 || rotate1 || rotate2 || 0;
             const dx = (target.style.left.replace("px", "") || 0) - 0;
             const dy = (target.style.top.replace("px", "") || 0) - 0;
-            const w = (target.width|| 0) - 0;
+            const w = (target.width || 0) - 0;
             const h = (target.height || 0) - 0;
             const pivotx = dx + w / 2;
             const pivoty = dy + h / 2;
@@ -1624,6 +1624,11 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 b: b1
             };
         }
+        function compare_zindex(a, b) {
+            let za = a.style.zIndex || 0;
+            let zb = b.style.zIndex || 0;
+            return za > zb;
+        }
         function RenderToCanvas() {
             const imgs = imageContainer.querySelectorAll('img');
             // 创建画布
@@ -1639,8 +1644,9 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             canvas.width = width;
             canvas.height = height;
             ctx.translate(-offsetX, -offsetY);
+            let imgs_sorted = Array.from(imgs).sort(compare_zindex);
             // 遍历每个img绘制
-            imgs.forEach(img => {
+            imgs_sorted.forEach(img => {
                 if (img.style.display == 'none') return;
                 if (img.style.visibility == 'hidden') return;
                 if (img.style.opacity == '0') return;
