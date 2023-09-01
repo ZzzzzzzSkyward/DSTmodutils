@@ -278,7 +278,7 @@ def convert_image_png(filepath, filename, file_ext, params):
     if file_ext != "png":
         convert_to_png(filepath, filename, file_ext, params)
         file_ext = "png"
-    from compiler.ktech import png_to_tex
+    from compiler.stex import png_to_tex
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename, "tex")
     atlas_path = join_all(filepath, filename, "xml") if params.xml else None

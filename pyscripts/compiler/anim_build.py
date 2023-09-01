@@ -8,7 +8,8 @@ from .anim_util import *
 from .anim_bank import AnimBank
 from .symbol_map import GetSwapSymbol
 from . import atlas_image, optimize_image
-from .ktech import tex_to_png, png_to_tex
+from .ktech import tex_to_png
+from .stex import png_to_tex
 
 class AnimBuild():
     version = 6
