@@ -254,7 +254,7 @@ def convert_anim_bin(filepath, filename, file_ext, params):
         from compiler.anim_bank import AnimBank
         input_data = read_file(input_path)
         bank_class = AnimBank(input_data)
-        bank_class.save_json("")
+        bank_class.save_json(filepath)
     else:
         output_ext = "xml"
         output_path = join_all(filepath, filename, output_ext)
