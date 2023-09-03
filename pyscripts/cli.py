@@ -278,7 +278,12 @@ def convert_image_png(filepath, filename, file_ext, params):
     if file_ext != "png":
         convert_to_png(filepath, filename, file_ext, params)
         file_ext = "png"
-    from compiler.stex import png_to_tex
+    if params.ktech:
+        from compiler.ktech import png_to_tex
+    elif params.ztools:
+        from compiler.ztools import png_to_tex
+    else:
+        from compiler.stex import png_to_tex
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename, "tex")
     atlas_path = join_all(filepath, filename, "xml") if params.xml else None
@@ -310,7 +315,10 @@ def convert_image_tex(filepath, filename, file_ext, params):
         os.remove(zip_path)
     else:
         output_path = join_all(filepath, filename, "png")
-        from compiler.ktech import tex_to_png
+        if params.ktech or True:
+            from compiler.ktech import tex_to_png
+        else:
+            from compiler.stex import tex_to_png
         errmsg = tex_to_png(input_path, output_path)
         if errmsg:
             print(errmsg)
@@ -338,7 +346,10 @@ def convert_image_dir(filepath, filename, filelist, params):
 
 
 def convert_image_xml(filepath, filename, file_ext, params):
-    from compiler.stex import xml_to_png
+    if params.ztools:
+        from compiler.ztools import xml_to_png
+    else:
+        from compiler.stex import xml_to_png
     input_path = join_all(filepath, filename, file_ext)
     output_path = join_all(filepath, filename)
     errmsg = xml_to_png(input_path, output_path)
@@ -383,7 +394,10 @@ def mkdir(d):
 
 
 def convert_inventoryimages(filepath, filename, filelist, params):
-    from compiler.stex import png_to_xml
+    if params.ztools:
+        from compiler.ztools import png_to_xml
+    else:
+        from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
@@ -395,7 +409,10 @@ def convert_inventoryimages(filepath, filename, filelist, params):
 
 
 def convert_map(filepath, filename, filelist, params):
-    from compiler.stex import png_to_xml
+    if params.ztools:
+        from compiler.ztools import png_to_xml
+    else:
+        from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
@@ -413,7 +430,10 @@ def convert_map(filepath, filename, filelist, params):
 
 
 def convert_cookbook(filepath, filename, filelist, params):
-    from compiler.stex import png_to_xml
+    if params.ztools:
+        from compiler.ztools import png_to_xml
+    else:
+        from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
@@ -425,7 +445,10 @@ def convert_cookbook(filepath, filename, filelist, params):
 
 
 def convert_xml_common(filepath, filename, filelist, params):
-    from compiler.stex import png_to_xml
+    if params.ztools:
+        from compiler.ztools import png_to_xml
+    else:
+        from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
     shutil.copytree(input_dir, temp_dir)
@@ -577,7 +600,7 @@ def convert_scml_zip(filepath, filename, file_ext, params):
             has_output = True
         build_class.save_symbol_images(filepath)
     else:
-        print("不存在anim.bin或build.bin")
+        print("不存在anim.bin或build.bin，直接解压")
         unzip_file(filepath, filename, file_ext)
 
 

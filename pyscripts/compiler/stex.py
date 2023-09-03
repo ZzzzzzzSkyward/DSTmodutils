@@ -54,10 +54,63 @@ def run(command):
         stderr = stderr.decode("utf-8")
     if stdout:
         stdout = stdout.decode('utf-8')
-    return stderr or stdout
+    return stderr  # or stdout
 
 
 def png_to_tex(input_path, output_path=None, atlas=None):
+    basepath, filename, fileext = split_all(input_path)
+    if not output_path:
+        output_file = os.path.abspath(basepath)
+        output_path = basepath
+    else:
+        output_file = os.path.abspath(output_path)
+        output_path = os.path.dirname(output_file)
+    tempname=filename#TODO
+    temp_path = join_all(basepath, tempname) + "/"
+    if os.path.exists(temp_path):
+        shutil.rmtree(temp_path)
+    os.mkdir(temp_path)
+    temp_file = join_all(temp_path, filename, fileext)
+    shutil.copyfile(input_path, temp_file)
+    dir = temp_path
+    dest = temp_path
+    cmd = f'{stexpath} pack --input "{dir}" --output "{dest}"'
+    errmsg = run(cmd)
+    temp_file = join_all(temp_path, tempname, "tex")
+    target_file = join_all(output_path, tempname, "tex")
+    if os.path.exists(temp_file):
+        if os.path.exists(target_file):
+            os.remove(target_file)
+        shutil.move(temp_file, output_path)
+    if target_file!=output_file:
+        if os.path.exists(output_file):
+            os.remove(output_file)
+        os.rename(target_file, output_file)
+    if atlas:
+        output_file = os.path.abspath(atlas)
+        output_path= os.path.dirname(output_file)
+        temp_file = join_all(temp_path, tempname, "xml")
+        target_file = join_all(output_path, tempname, "xml")
+        if os.path.exists(temp_file):
+            if os.path.exists(target_file):
+                os.remove(target_file)
+            shutil.move(temp_file, output_path)
+        if target_file!=output_file:
+            if os.path.exists(output_file):
+                os.remove(output_file)
+            os.rename(target_file, output_file)
+        shutil.rmtree(temp_path)
+    return errmsg
+
+
+stex_xml = '''<Atlas>
+<Texture filename="{input_name}.tex" /><Elements>
+<Element name="{output_name}.tex" u1="0.000976563" u2="0.999023" v1="0.000976563" v2="0.999023" />
+</Elements></Atlas>
+'''
+
+
+def tex_to_png(input_path, output_path=None):
     basepath, filename, fileext = split_all(input_path)
     if not output_path:
         output_file = os.path.abspath(basepath)
@@ -71,14 +124,19 @@ def png_to_tex(input_path, output_path=None, atlas=None):
     os.mkdir(temp_path)
     temp_file = join_all(temp_path, filename, fileext)
     shutil.copyfile(input_path, temp_file)
-    dir = temp_path
+    input_xml = join_all(temp_path, "temp", "xml")
     dest = temp_path
-    cmd = f'{stexpath} pack --input "{dir}" --output "{dest}"'
+    # write a xml to temp
+    with open("temp.xml", 'w', encoding='utf-8') as f:
+        f.write(stex_xml.format(input_name=filename, output_name="tempstex"))
+    cmd = f'{stexpath} unpack --input "{input_xml}" --output "{dest}"'
     errmsg = run(cmd)
-    temp_file = join_all(temp_path, "tempstex", "tex")
+    temp_file = join_all(temp_path, "tempstex", "png")
     if os.path.exists(temp_file):
         shutil.move(temp_file, output_path)
-    temp_file = join_all(basepath, "tempstex", "tex")
+    temp_file = join_all(basepath, "tempstex", "png")
+    if os.path.exists(output_file):
+        os.remove(output_file)
     os.rename(temp_file, output_file)
     shutil.rmtree(temp_path)
     return errmsg

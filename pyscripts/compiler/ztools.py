@@ -42,7 +42,13 @@ def run(command):
     return stderr or stdout
 
 
-def png_to_xml_ztools(dir, dest=None):
+def png_to_xml(dir, dest=None):
+    if dest is None:
+        dest = os.path.dirname(dir) or dir
+    cmd = f'{ztoolspath} "{dir}" "{dest}"'
+    return run(cmd)
+
+def tex_to_png(dir,dest=None):
     if dest is None:
         dest = os.path.dirname(dir) or dir
     cmd = f'{ztoolspath} "{dir}" "{dest}"'
