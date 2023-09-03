@@ -1,0 +1,1 @@
+python -m nuitka cli.py --onefile --enable-console --lto=yes --jobs=8 --windows-icon-from-ico=assets/icon.ico
