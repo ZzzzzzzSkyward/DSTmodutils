@@ -17,6 +17,8 @@ python cli.py filename [parameters]
 
 parameters are recognized in the form of `-key=value`.
 
+`-build` tells that the input is a build, `-anim` an anim.
+
 ## Dependencies
 
 python3, tested in python3.10
@@ -28,6 +30,8 @@ pillow
 ktech.exe(for Windows only, see `compiler/ktech.py`)
 
 stex.exe(for Windows only, see `compiler/stex.py`)
+
+`stex` is preferred. Use `-ktech`, `-ztools` to tell which program to use. 
 
 ## Example commands
 
