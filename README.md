@@ -14,6 +14,8 @@
 
 原仓库：https://github.com/nsimplex/ktools
 
+fork仓库：https://github.com/dstmodders/ktools
+
 用法：
 
 1. tex到png
