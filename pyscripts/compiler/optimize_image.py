@@ -29,9 +29,11 @@ def Analyze(image: Image, bbox: BBox):
     for y in range(bbox.y, bbox.y + bbox.h):
         for x in range(bbox.x, bbox.x + bbox.w):
             p = pixels[x, y]
-            if p[3] == 0:
+            if type(p) is not int:
+                p = p[-1] # A for RGBA, B for RGB, ? for index, K for CMYK
+            if p == 0:
                 numblank += 1
-            elif p[3] == 255:
+            elif p == 255:
                 numopaque += 1
             else:
                 numalpha += 1
