@@ -457,6 +457,10 @@ class AnimBuild():
                 file_name = frame_name = f"{folder_name}-{framenum}"
                 x, y = frame["x"], frame["y"]
                 width, height = frame["w"], frame["h"]
+                if width==0:
+                    width=1
+                if height==0:
+                    height=1
                 pivot_x, pivot_y = 0.5 - x / width, 0.5 + y / height
 
                 if frame_name in self.symbol_images:

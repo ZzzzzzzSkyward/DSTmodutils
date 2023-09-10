@@ -47,7 +47,7 @@ def crop(filename, x=None, y=None, nosave=False):
         if bw == 0 and bh == 0:
             if shouldprint:
                 print("Warning: the image is already cropped.")
-            return None, None, None, None
+            return None, None, w, h
         x_final = (wx - bw) / w_
         y_final = (hy - bh) / h_
         y_final = 1 - y_final

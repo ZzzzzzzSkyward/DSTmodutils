@@ -26,6 +26,8 @@ def Analyze(image: Image, bbox: BBox):
     numopaque = 0
 
     pixels = image.load()
+    if image.mode!="RGBA":
+        image=image.convert("RGBA")
     for y in range(bbox.y, bbox.y + bbox.h):
         for x in range(bbox.x, bbox.x + bbox.w):
             p = pixels[x, y]

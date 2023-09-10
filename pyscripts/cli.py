@@ -59,6 +59,9 @@ def work(args, params):
         if file_ext == "json" and (filename == "anim" or params.anim):
             # anim.json->anim.bin
             fn = convert_anim_json
+            # anim.json rebuild
+            if params.crop:
+                fn=rebuild_anim_json
         if file_ext == "bin" and (filename == "anim" or params.anim):
             # anim.bin->anim.xml
             fn = convert_anim_bin
@@ -214,9 +217,9 @@ def convert_build_json(filepath, filename, file_ext, params):
     from compiler.anim_build import AnimBuild
     build_path = join_all(filepath, filename, file_ext)
     build_file = read_file(build_path, "json")
-    if params.clip:
+    if params.crop:
         import clip_build
-        print("-clip参数仅仅裁剪", filename, "并覆盖原文件")
+        print("-crop参数仅仅裁剪", filename, "并覆盖原文件")
         if clip_build.clip(build_file):
             save_file(build_path, build_file)
         return
@@ -545,9 +548,9 @@ def convert_scml_build(filepath, filename, file_ext, params):
         return
     build_path = join_all(filepath, filename, file_ext)
     build_file = read_file(build_path, ftype=file_ext)
-    if params.clip and file_ext == "json":
+    if params.crop and file_ext == "json":
         import clip_build
-        clip_build.clip(build_file)
+        clip_build.crop(build_file)
     from compiler.anim_build import AnimBuild
     build_class = None
     image_path = params.filedir1
@@ -602,6 +605,19 @@ def convert_scml_zip(filepath, filename, file_ext, params):
     else:
         print("不存在anim.bin或build.bin，直接解压")
         unzip_file(filepath, filename, file_ext)
+
+def rebuild_anim_json(filepath, filename, file_ext, params):
+    #该指令用于修复错误的anim边框
+    input_path = join_all(filepath, filename, file_ext)
+    build_path = params.crop
+    anim_data=read_file(input_path,"json")
+    build_data=read_file(build_path,"json")
+    if not anim_data or not build_data:
+        print("缺失文件Missing File")
+        return
+    from compiler.scml import Scml
+    Scml.rebuild_anim(anim_data,build_data)
+    save_file(input_path,anim_data)
 
 
 def unzip_file(filepath, filename, file_ext):
