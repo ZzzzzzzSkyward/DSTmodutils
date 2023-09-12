@@ -219,8 +219,11 @@ def convert_build_json(filepath, filename, file_ext, params):
     build_file = read_file(build_path, "json")
     if params.crop:
         import clip_build
-        print("-crop参数仅仅裁剪", filename, "并覆盖原文件")
-        if clip_build.clip(build_file):
+        print("-crop参数仅仅裁剪", filename, "并覆盖原文件","补偿",not not params.compensate,"裁剪图片",not not params.clip)
+        if params.remove_vert:
+            if "Vert" in build_file:
+                del build_file["Vert"]
+        if clip_build.clip(build_file,compensate_pivot=params.compensate,clip_image=params.clip):
             save_file(build_path, build_file)
         return
     build_class = AnimBuild(build_file)
@@ -550,7 +553,7 @@ def convert_scml_build(filepath, filename, file_ext, params):
     build_file = read_file(build_path, ftype=file_ext)
     if params.crop and file_ext == "json":
         import clip_build
-        clip_build.crop(build_file)
+        clip_build.clip(build_file)
     from compiler.anim_build import AnimBuild
     build_class = None
     image_path = params.filedir1

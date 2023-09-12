@@ -958,6 +958,11 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             progress = newProgress;
             OnProgressChange();
         });
+        function UpdateImageOffset(element, x, y) {
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+            element.style.transformOrigin = `${-x}px ${-y}px`;
+        }
 
         function AllowDrag(imgElement) {
             let isDragging = false;
@@ -967,15 +972,28 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 if (isDragging) {
                     const newX = event.clientX - startX;
                     const newY = event.clientY - startY;
-
-                    // 更新图片元素的 left 和 top 属性以改变其位置
-                    imgElement.style.left = `${newX}px`;
-                    imgElement.style.top = `${newY}px`;
-                    //更新transform-origin
-                    imgElement.style.transformOrigin = `${-newX}px ${-newY}px`;
-
-                    // 可根据需要进行其他操作，例如限制范围等
-
+                    UpdateImageOffset(imgElement, newX, newY);
+                }
+            }
+            let keymove = function (event) {
+                if (isDragging) {
+                    let newX = imgElement.style.left.replace("px", "") - 0;
+                    let newY = imgElement.style.top.replace("px", "") - 0;
+                    let flag = true;
+                    if (event.key === "ArrowLeft") { newX -= 0.5; }
+                    else if (event.key === "ArrowRight") { newX += 0.5; }
+                    else if (event.key === "ArrowDown") { newY += 0.5; }
+                    else if (event.key === "ArrowUp") { newY -= 0.5; }
+                    else {
+                        console.log(event.key);
+                        flag = false;
+                    }
+                    if (flag) {
+                        event.preventDefault();
+                    }
+                    UpdateImageOffset(newX, newY);
+                    //更新图片
+                    UpdateImageInfo(imgElement);
                 }
             }
 
@@ -990,6 +1008,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 isDragging = true; // 开始拖动状态
                 // 监听鼠标移动事件，在拖动状态下更新图片位置
                 document.addEventListener('mousemove', updatedrag);
+                document.addEventListener('keydown', keymove);
             });
 
             // 鼠标松开时停止拖动状态
