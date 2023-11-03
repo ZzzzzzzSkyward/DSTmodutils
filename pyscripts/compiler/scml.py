@@ -55,6 +55,28 @@ def flatten(bone_frame: dict, bone_frames: list[dict]):
 
     bone_frame["is_flattened"] = True
 
+def TO_STR(element):
+    """
+    处理单个 XML 元素
+    
+    参数：
+    element: 要处理的 XML 元素
+    """
+    # 处理整数类型
+    for i,v in element.attrib.items():
+        if type(i) is not str:
+            print('not str attribute',i,v)
+            # 将整数转换为字符串类型
+            element.set(str(i),str(v))
+            del element.attrib[i]
+            continue
+        if type(v) is not str:
+            print('not str value',i,v)
+            element.set(i,str(v))
+
+    # 递归处理子元素
+    for child in element:
+        TO_STR(child)
 
 class Scml(ElementTree):
     def __init__(self, file=None):
@@ -72,7 +94,11 @@ class Scml(ElementTree):
 
     def writr(self, output):
         indent(self, space="  ")
+        TO_STR(self.getroot())
+        if type(output) is str:
+            output=open(output,'wb')
         ElementTree.write(self, output, encoding="utf-8")
+        output.close()
 
     def build_image(self, scale: float = 1) -> tuple[dict, dict]:
         build_path = os.path.split(self.path)[0]

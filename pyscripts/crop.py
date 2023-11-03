@@ -61,7 +61,7 @@ def crop(filename, x=None, y=None, nosave=False):
         return x_final, y_final, w_, h_
     return None, None, None, None
 
-
+import math
 def crop_image(filename, max_width=None, max_height=None,
                target_width=None, target_height=None):
     img = Image.open(filename).convert("RGBA")
@@ -69,7 +69,16 @@ def crop_image(filename, max_width=None, max_height=None,
 
     # 计算裁剪后的尺寸
     if target_width and target_height:
-        new_width, new_height = target_width, target_height
+        ratio = min(target_width/width, target_height/height)
+        new_width = math.ceil(width * ratio)
+        new_height = math.ceil(height * ratio)
+        
+        new_img = Image.new('RGBA', (target_width, target_height))
+        img_resized = img.resize((new_width, new_height))
+        new_img.paste(img_resized, ((target_width-new_width)//2, 
+                                    (target_height-new_height)//2))
+        new_img.save(filename)
+        return
     elif max_width and max_height:
         aspect_ratio = min(
             1, min(

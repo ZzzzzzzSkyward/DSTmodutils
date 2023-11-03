@@ -173,7 +173,7 @@ py2 enanim.py
 
 字体制作软件
 
-官方使用的版本是v1.12a
+官方使用的版本是v1.12a。SHA256=6b675a96fba2e5b071323b60d7c476a80ea994888b4abd1b24485b8ce3e94614
 
 http://www.angelcode.com/products/bmfont/
 

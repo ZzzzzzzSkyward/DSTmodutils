@@ -406,10 +406,12 @@ def convert_inventoryimages(filepath, filename, filelist, params):
         from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
-    shutil.copytree(input_dir, temp_dir)
+    pngs=[os.path.join(input_dir,item) for item in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir,item)) and item.lower().endswith('.png')]
+    pngs=[shutil.copy2(png, temp_dir) for png in pngs]
     crop_images(temp_dir, filelist, None, None, 64, 64)
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
-    shutil.rmtree(temp_dir)
+    if not params.preserve_temp:
+        shutil.rmtree(temp_dir)
     if errmsg:
         print(errmsg)
 
@@ -421,7 +423,8 @@ def convert_map(filepath, filename, filelist, params):
         from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
-    shutil.copytree(input_dir, temp_dir)
+    pngs=[os.path.join(input_dir,item) for item in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir,item)) and item.lower().endswith('.png')]
+    pngs=[shutil.copy2(png, temp_dir) for png in pngs]
     crop_images(
         temp_dir,
         filelist,
@@ -442,7 +445,8 @@ def convert_cookbook(filepath, filename, filelist, params):
         from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
-    shutil.copytree(input_dir, temp_dir)
+    pngs=[os.path.join(input_dir,item) for item in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir,item)) and item.lower().endswith('.png')]
+    pngs=[shutil.copy2(png, temp_dir) for png in pngs]
     crop_images(temp_dir, filelist, None, None, 128, 128)  # 根据需求设置参数
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
     shutil.rmtree(temp_dir)
@@ -457,7 +461,8 @@ def convert_xml_common(filepath, filename, filelist, params):
         from compiler.stex import png_to_xml
     input_dir = join_all(filepath, filename)
     temp_dir = make_temp_dir(filepath, filename)
-    shutil.copytree(input_dir, temp_dir)
+    pngs=[os.path.join(input_dir,item) for item in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir,item)) and item.lower().endswith('.png')]
+    pngs=[shutil.copy2(png, temp_dir) for png in pngs]
     crop_images(temp_dir, filelist, None, None, None, None)  # 根据需求设置参数
     errmsg = png_to_xml(temp_dir, filepath or input_dir)
     shutil.rmtree(temp_dir)
@@ -467,7 +472,9 @@ def convert_xml_common(filepath, filename, filelist, params):
 
 def make_temp_dir(root, dir):
     dir = dir.strip('/').strip('\\')
-    return join_all(root, dir + '/' + dir)
+    ret=join_all(root, dir + '/' + dir)
+    mkdir(ret)
+    return ret
 
 
 def convert_scml_scml(filepath, filename, file_ext, params):
@@ -551,9 +558,6 @@ def convert_scml_build(filepath, filename, file_ext, params):
         return
     build_path = join_all(filepath, filename, file_ext)
     build_file = read_file(build_path, ftype=file_ext)
-    if params.crop and file_ext == "json":
-        import clip_build
-        clip_build.clip(build_file)
     from compiler.anim_build import AnimBuild
     build_class = None
     image_path = params.filedir1
@@ -659,7 +663,7 @@ image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 
 helptext = '''饥荒动画转换工具DS Anim Convert Tools
 可通过 -anim -build 识别文件类型
-[1]build.bin<->build.xml -json
+[1]build.bin<->build.xml -json -remove_vert -crop
 [2]build.bin -rename="build name"
 [3]anim.bin<->anim.xml
 [4]zip<->scml -crop

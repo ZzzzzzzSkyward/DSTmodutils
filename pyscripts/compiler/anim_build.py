@@ -438,6 +438,7 @@ class AnimBuild():
                             folders[element_name][element["frame"]] = {"framenum": element["frame"], "duration": 1, "x": 0, "y": 0, "w": int(frame["w"]), "h": int(frame["h"])}
 
         for folder_idx, (folder_name, symbol) in enumerate(folders.items()):
+            folder_name=str(folder_name)
             folder = SubElement(scml, "folder", id=str(folder_idx), name=folder_name)
 
             folder_path = os.path.join(output, folder_name)
@@ -558,6 +559,7 @@ class AnimBuild():
 
     def save_symbol_images(self, output_path, auto_completion=False):
         for symbol_name, frames in self.data["Symbol"].items():
+            symbol_name=str(symbol_name)
             symbol_path = os.path.join(output_path, symbol_name)
             try_makedirs(symbol_path)
             for frame in frames:

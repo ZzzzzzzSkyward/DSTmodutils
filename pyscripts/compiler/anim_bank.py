@@ -94,8 +94,12 @@ class AnimBank():
         for idx in range(hash_dict_len):
             hash = struct.unpack(endianstring + "I", data_content[: 4])[0]
             name_len = struct.unpack(endianstring + "i", data_content[4: 8])[0]
-            name = struct.unpack(endianstring + str(name_len) + "s",  data_content[8: 8 + name_len])[0].decode("utf-8")
-
+            name = struct.unpack(endianstring + str(name_len) + "s",  data_content[8: 8 + name_len])[0]
+            try:
+                name=name.decode("utf-8")
+            except:
+                print(f'Not decodable {name}')
+                name=str(name)
             if hash in self.data["banks"]:
                 self.data["banks"][name] = self.data["banks"][hash]
                 del self.data["banks"][hash]
@@ -104,8 +108,8 @@ class AnimBank():
             data_content = data_content[8 + name_len: ]
 
         for element in elements:
-            element["name"] = hash_dict[element["name"]].lower()
-            element["layername"] = hash_dict[element["layername"]]
+            element["name"] = hash_dict[element["name"]].lower() if element["name"] in hash_dict else str(element["name"])
+            element["layername"] = hash_dict[element["layername"]] if element['layername'] in hash_dict else str(element["layername"])
 
     def json_to_bin(self):
         if not self.data:
@@ -129,8 +133,13 @@ class AnimBank():
                         anim_name = result.group(1)
                         facingbyte = byte
                         break
-
-                anim_name = anim_name.encode("ascii")
+                try:
+                    anim_name = anim_name.encode("ascii")
+                except:
+                    try:
+                        anim_name=anim_name.encode('utf-8')
+                    except:
+                        print(f"anim_name{anim_name} not encodable")
                 self.content += struct.pack(endianstring + "i" + str(len(anim_name)) + "s", len(anim_name), anim_name)
                 self.content += struct.pack(endianstring + "B", facingbyte)
                 self.content += struct.pack(endianstring + "I", strhash(bank_name, hash_dict))
@@ -155,7 +164,14 @@ class AnimBank():
         self.content += struct.pack(endianstring + "I", len(hash_dict))
         for hash, name in hash_dict.items():
             self.content += struct.pack(endianstring + "I", hash)
-            self.content += struct.pack(endianstring + "i" + str(len(name)) + "s", len(name), name.encode("ascii"))
+            try:
+                name_byte=name.encode("ascii")
+            except:
+                try:
+                    name_byte=name.encode("utf-8")
+                except:
+                    print(f'name {name} not encodable')
+            self.content += struct.pack(endianstring + "i" + str(len(name)) + "s", len(name), name_byte)
 
         head = struct.pack(endianstring +  "cccci", b"A", b"N", b"I", b"M", self.version)
         head += struct.pack(endianstring + "I", element_num)
