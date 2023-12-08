@@ -676,6 +676,15 @@
                         <span class="paper-switch-slider"></span>
                     </label>
                 </div>
+                <div>
+                    <label for="paperSwitch4" class="paper-switch-2-label no-select">
+                        编辑模式
+                    </label>
+                    <label class="paper-switch-2">
+                        <input id="paperSwitch4" name="paperSwitch4" type="checkbox" onclick="ChangeEditMode();">
+                        <span class="paper-switch-slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
         <div id="detail" style="display: none;">
@@ -756,6 +765,7 @@
             selectedBA: "已选bank/anim",
             selectedFolder: "已选文件夹",
             onion: '洋葱皮',
+            editmode: '编辑模式',
             title: '动画播放器',
             detail: `打开build.json和anim.json以播放动画
 默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
@@ -778,6 +788,7 @@
             dropjson: "anim/build json",
             selectedFolder: "Selected Folder",
             onion: 'Onion Skin',
+            editmode: 'Edit Mode',
             title: 'Animation Player',
             detail: `Open build.json and anim.json to play animation
 The default html file is the same as the image directory. If it is different, you need to manually enter file:///image path, such as file:///C:/Users/x/Desktop/anim/
@@ -801,76 +812,98 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         let fromprogressbar;
         let progress = 0;
         let server_url = "http://localhost:5005"
-        const dropZone = document.getElementById('dropZone');
-        const playPauseButton = document.getElementById('playPauseButton');
-        const NextFrameButton = document.getElementById('NextFrameButton');
-        const PrevFramePauseButton = document.getElementById('PrevFramePauseButton');
-        const imageContainer = document.getElementById('image-container');
-        const displayDiv = document.getElementById('displayDiv');
+        const dropZone = document.getElementById( 'dropZone' );
+        const playPauseButton = document.getElementById( 'playPauseButton' );
+        const NextFrameButton = document.getElementById( 'NextFrameButton' );
+        const PrevFramePauseButton = document.getElementById( 'PrevFramePauseButton' );
+        const imageContainer = document.getElementById( 'image-container' );
+        const displayDiv = document.getElementById( 'displayDiv' );
         let trackingelement = null;
         let hoverelement = null;
+        let editmode = true;
 
-        const progressBar = document.querySelector('.progress-bar');
-        const slider = document.getElementById('slider');
-        const imagePathInput = document.querySelector('#imagepath');
-        const dropAreasWrapper = document.querySelector('#dropareaswrapper');
-        const dropAreaFloater = document.querySelector('#dropareasfloater');
-        const onionInput = document.querySelector('#paperSwitch1');
-        imagePathInput.addEventListener("blur", function (event) {
+        const progressBar = document.querySelector( '.progress-bar' );
+        const slider = document.getElementById( 'slider' );
+        const imagePathInput = document.querySelector( '#imagepath' );
+        const dropAreasWrapper = document.querySelector( '#dropareaswrapper' );
+        const dropAreaFloater = document.querySelector( '#dropareasfloater' );
+        const onionInput = document.querySelector( '#paperSwitch1' );
+        const editmodeInput = document.querySelector( '#paperSwitch4' );
+        imagePathInput.addEventListener( "blur", function ( event ) {
             OnImagePathChange();
-        });
+        } );
+
         function OnImagePathChange() {
-            RenderAnim(animdata, true);
+            RenderAnim( animdata, true );
         }
+
         function ChangeOnion() {
             onionskin = onionInput.checked;
         }
+
+        function ChangeEditMode() {
+            onionskin = editmodeInput.checked;
+        }
+
         function OnOnionChange() {
             onionInput.checked = onionskin;
         }
+
+        function OnEditModeChange() {
+            editmodeInput.checked = editmode;
+        }
         ChangeOnion();
+        ChangeEditMode();
+
         function ChangeLanguage() {
-            const languageInput = document.querySelector('#paperSwitch2');
+            const languageInput = document.querySelector( '#paperSwitch2' );
             language = languageInput.checked ? "en" : "zh";
             strings = language == "en" ? strings_en : strings_zh;
-            document.getElementById("NextFrameButton").innerHTML = strings.nextframe;
-            document.getElementById("PrevFramePauseButton").innerHTML = strings.prevframe;
-            document.getElementById("dropareasfloater").firstElementChild.children[0].innerHTML = strings.save;
-            document.getElementById("dropareasfloater").firstElementChild.children[1].innerHTML = strings.load;
-            document.getElementById("drop-area").innerHTML = strings.dropjson;
-            document.getElementById("dropZone").innerHTML = strings.selectedFolder;
-            document.getElementById("playPauseButton").innerHTML = strings.play;
-            document.getElementsByClassName("paper-switch-2-label")[0].innerHTML = strings.onion;
-            document.getElementsByClassName("paper-switch-2-label")[1].innerHTML = strings.language;
-            document.getElementsByClassName("paper-switch-1-label")[0].innerHTML = strings.serverstate;
-            document.getElementsByClassName("title")[0].innerHTML = strings.title;
-            document.getElementById("detail").firstElementChild.innerHTML = strings.detail;
+            document.getElementById( "NextFrameButton" ).innerHTML = strings.nextframe;
+            document.getElementById( "PrevFramePauseButton" ).innerHTML = strings.prevframe;
+            document.getElementById( "dropareasfloater" ).firstElementChild.children[ 0 ].innerHTML = strings.save;
+            document.getElementById( "dropareasfloater" ).firstElementChild.children[ 1 ].innerHTML = strings.load;
+            document.getElementById( "drop-area" ).innerHTML = strings.dropjson;
+            document.getElementById( "dropZone" ).innerHTML = strings.selectedFolder;
+            document.getElementById( "playPauseButton" ).innerHTML = strings.play;
+            document.getElementsByClassName( "paper-switch-2-label" )[ 0 ].innerHTML = strings.onion;
+            document.getElementsByClassName( "paper-switch-2-label" )[ 1 ].innerHTML = strings.language;
+            document.getElementsByClassName( "paper-switch-2-label" )[ 2 ].innerHTML = strings.editmode;
+            document.getElementsByClassName( "paper-switch-1-label" )[ 0 ].innerHTML = strings.serverstate;
+            document.getElementsByClassName( "title" )[ 0 ].innerHTML = strings.title;
+            document.getElementById( "detail" ).firstElementChild.innerHTML = strings.detail;
         }
         ChangeLanguage();
-        dropAreasWrapper.addEventListener('mouseenter', showFloat);
-        dropAreasWrapper.addEventListener('mouseleave', hideFloat);
+        dropAreasWrapper.addEventListener( 'mouseenter', showFloat );
+        dropAreasWrapper.addEventListener( 'mouseleave', hideFloat );
+
         function showFloat() {
-            dropAreaFloater.classList.add("show-floater");
+            dropAreaFloater.classList.add( "show-floater" );
         }
 
         function hideFloat() {
-            dropAreaFloater.classList.remove("show-floater");
+            dropAreaFloater.classList.remove( "show-floater" );
         }
+
         function SaveFiles() {
-            if (!build_data) return;
-            let json = JSON.stringify({ Symbol: build_data });
+            if ( !build_data ) return;
+            let json = JSON.stringify( {
+                Symbol: build_data
+            } );
 
-            let blob = new Blob([json], { type: "application/json" });
+            let blob = new Blob( [ json ], {
+                type: "application/json"
+            } );
 
-            let url = URL.createObjectURL(blob);
+            let url = URL.createObjectURL( blob );
 
-            let a = document.createElement('a');
+            let a = document.createElement( 'a' );
             a.href = url;
             a.download = 'build.json';
 
             a.click();
 
-            URL.revokeObjectURL(url);
+            URL.revokeObjectURL( url );
 
         }
         async function LoadRootFiles() {
@@ -883,125 +916,133 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             // 同时加载两个文件
             try {
                 const animRes = await
-                    fetch(animPath);
+                fetch( animPath );
 
                 // 解析JSON
                 const animData = await animRes.json();
-                RenderAnim(animData.banks);
-            } catch (e) { }
+                RenderAnim( animData.banks );
+            } catch ( e ) {}
             try {
                 const buildRes = await
-                    fetch(buildPath);
+                fetch( buildPath );
 
                 // 解析JSON
                 const buildData = await buildRes.json();
-                RenderImage(buildData.Symbol);
-            } catch (e) { }
+                RenderImage( buildData.Symbol );
+            } catch ( e ) {}
             try {
-                const ABRes = await fetch(abPath);
+                const ABRes = await fetch( abPath );
                 const ABData = await ABRes.json();
-                RenderAnim(ABData.banks);
-                RenderImage(ABData.Symbol);
-            } catch (e) { }
+                RenderAnim( ABData.banks );
+                RenderImage( ABData.Symbol );
+            } catch ( e ) {}
         }
         // 监听输入框的 change 事件
-        imagePathInput.addEventListener('change', function (event) {
+        imagePathInput.addEventListener( 'change', function ( event ) {
             imagepath = event.target.value; // 获取输入框的值并存储在变量中
-        });
+        } );
         imagepath = imagePathInput.value;
         // 鼠标按下时开始监听鼠标移动事件
-        slider.addEventListener('mousedown', function (event) {
+        slider.addEventListener( 'mousedown', function ( event ) {
             event.preventDefault();
-            slider.classList.add('transition');
+            slider.classList.add( 'transition' );
             // 获取初始位置
             const startX = event.clientX;
             const oldprogress = progress;
 
             // 监听鼠标移动事件，更新进度条和全局变量
-            function moveSlider(event) {
+            function moveSlider( event ) {
                 const dx = event.clientX - startX;
-                let newProgress = Math.max(0, Math.min(oldprogress + (dx / progressBar.offsetWidth), 1));
+                let newProgress = Math.max( 0, Math.min( oldprogress + ( dx / progressBar.offsetWidth ), 1 ) );
                 //console.log(event.clientX, startX, dx, progressBar.offsetWidth, newProgress, progress);
                 fromprogressbar = true;
-                updateProgressBar(newProgress);
+                updateProgressBar( newProgress );
                 progress = newProgress;
                 OnProgressChange();
             }
 
             // 鼠标松开时停止监听鼠标移动事件
             function stopMove() {
-                document.removeEventListener('mousemove', moveSlider);
-                document.removeEventListener('mouseup', stopMove);
-                slider.classList.remove('transition');
+                document.removeEventListener( 'mousemove', moveSlider );
+                document.removeEventListener( 'mouseup', stopMove );
+                slider.classList.remove( 'transition' );
             }
 
 
-            document.addEventListener('mousemove', moveSlider);
-            document.addEventListener('mouseup', stopMove);
-        });
+            document.addEventListener( 'mousemove', moveSlider );
+            document.addEventListener( 'mouseup', stopMove );
+        } );
 
         function OnProgressChange() {
             requestframe = progress * totalframes;
-            requestframe = Math.round(requestframe);
+            requestframe = Math.round( requestframe );
         }
 
         // 更新进度条和滑块位置
-        function updateProgressBar(value) {
-            if (!value) return;
+        function updateProgressBar( value ) {
+            if ( !value ) return;
             slider.style.left = `${value * 100}%`;
             progressBar.style.background =
                 `linear-gradient(to right, var(--slider1) ${value * 100}%, var(--slider2) ${value * 100}%)`;
         }
         // 点击进度条时更新滑块位置和全局变量
-        progressBar.addEventListener('click', function (event) {
+        progressBar.addEventListener( 'click', function ( event ) {
             const clickX = event.clientX - progressBar.getBoundingClientRect().left;
-            const newProgress = Math.max(0, Math.min(clickX / progressBar.offsetWidth, 1));
-            updateProgressBar(newProgress);
+            const newProgress = Math.max( 0, Math.min( clickX / progressBar.offsetWidth, 1 ) );
+            updateProgressBar( newProgress );
             fromprogressbar = true;
             progress = newProgress;
             OnProgressChange();
-        });
-        function UpdateImageOffset(element, x, y) {
+        } );
+
+        function UpdateImageOffset( element, x, y ) {
             element.style.left = `${x}px`;
             element.style.top = `${y}px`;
             element.style.transformOrigin = `${-x}px ${-y}px`;
         }
 
-        function AllowDrag(imgElement) {
+        function AllowDrag( imgElement ) {
             let isDragging = false;
             let startX, startY;
 
-            let updatedrag = function (event) {
-                if (isDragging) {
+            let updatedrag = function ( event ) {
+                if ( isDragging ) {
                     const newX = event.clientX - startX;
                     const newY = event.clientY - startY;
-                    UpdateImageOffset(imgElement, newX, newY);
+                    UpdateImageOffset( imgElement, newX, newY );
                 }
             }
-            let keymove = function (event) {
-                if (isDragging) {
-                    let newX = imgElement.style.left.replace("px", "") - 0;
-                    let newY = imgElement.style.top.replace("px", "") - 0;
+            let keymove = function ( event ) {
+                if ( isDragging ) {
+                    let newX = imgElement.style.left.replace( "px", "" ) - 0;
+                    let newY = imgElement.style.top.replace( "px", "" ) - 0;
                     let flag = true;
-                    if (event.key === "ArrowLeft") { newX -= 0.5; }
-                    else if (event.key === "ArrowRight") { newX += 0.5; }
-                    else if (event.key === "ArrowDown") { newY += 0.5; }
-                    else if (event.key === "ArrowUp") { newY -= 0.5; }
-                    else {
-                        console.log(event.key);
+                    if ( event.key === "ArrowLeft" ) {
+                        newX -= 0.5;
+                    } else if ( event.key === "ArrowRight" ) {
+                        newX += 0.5;
+                    } else if ( event.key === "ArrowDown" ) {
+                        newY += 0.5;
+                    } else if ( event.key === "ArrowUp" ) {
+                        newY -= 0.5;
+                    } else {
+                        console.log( event.key );
                         flag = false;
                     }
-                    if (flag) {
+                    if ( flag ) {
                         event.preventDefault();
                     }
-                    UpdateImageOffset(newX, newY);
+                    UpdateImageOffset( newX, newY );
                     //更新图片
-                    UpdateImageInfo(imgElement);
+                    UpdateImageInfo( imgElement );
+                    //保存
+                    if(editmode)
+                    UpdateBuild(imgElement);
                 }
             }
 
             // 鼠标按下时开始拖动
-            imgElement.addEventListener('mousedown', function (event) {
+            imgElement.addEventListener( 'mousedown', function ( event ) {
                 event.preventDefault();
 
                 // 获取初始位置和鼠标点击位置的偏移量
@@ -1010,58 +1051,59 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
 
                 isDragging = true; // 开始拖动状态
                 // 监听鼠标移动事件，在拖动状态下更新图片位置
-                document.addEventListener('mousemove', updatedrag);
-                document.addEventListener('keydown', keymove);
-            });
+                document.addEventListener( 'mousemove', updatedrag );
+                document.addEventListener( 'keydown', keymove );
+            } );
 
             // 鼠标松开时停止拖动状态
-            document.addEventListener('mouseup', function () {
+            document.addEventListener( 'mouseup', function () {
                 isDragging = false;
-                document.removeEventListener('mousemove', updatedrag);
-            });
+                document.removeEventListener( 'mousemove', updatedrag );
+            } );
         }
         // 监听鼠标滚轮事件
-        imageContainer.addEventListener('wheel', function (event) {
+        imageContainer.addEventListener( 'wheel', function ( event ) {
             event.preventDefault(); // 阻止默认的页面滚动行为
             let imgElement = event.target;
-            if (imgElement.tagName.toLowerCase() !== "img") return;
+            if ( imgElement.tagName.toLowerCase() !== "img" ) return;
             const zoomAmount = event.deltaY > 0 ? 1 : -1;
             let src = imgElement.src
-            let number = src.match(/(\d+)\.png/)[1] - 0;
+            let number = src.match( /(\d+)\.png/ )[ 1 ] - 0;
             number += zoomAmount;
-            if (number < 0) number = 0;
-            let newsrc = src.replace(/(\d+)\.png/, number + ".png");
+            if ( number < 0 ) number = 0;
+            let newsrc = src.replace( /(\d+)\.png/, number + ".png" );
             imgElement.src = newsrc;
-        });
-        function UpdateImageInfo(target) {
-            if (!target) {
+        } );
+
+        function UpdateImageInfo( target ) {
+            if ( !target ) {
                 displayDiv.style.display = 'none';
                 return;
             }
-            if (target.tagName.toLowerCase() !== "img") return;
+            if ( target.tagName.toLowerCase() !== "img" ) return;
             let src = target.src;
-            const style = window.getComputedStyle(target);
-            let mat = GetMatrix(target);
+            const style = window.getComputedStyle( target );
+            let mat = GetMatrix( target );
             // 计算 z-index、translateX、translateY、scaleX、scaleY 和 rotate 值
             const zIndex = style.zIndex;
             //const a,b,c,d,tx,ty=mat
-            const a = mat[0];
-            const b = mat[1];
-            const c = mat[2];
-            const d = mat[3];
-            const tx = mat[4];
-            const ty = mat[5];
-            const scaleX = Math.sqrt(a ** 2 + b ** 2);
-            const scaleY = Math.sqrt(c ** 2 + d ** 2);
-            const rotate0 = Math.atan2(b,
-                a) / Math.PI * 180;
-            const rotate1 = Math.asin((b - c) / (2 * Math.sqrt(a ** 2 + c ** 2))) / Math.PI * 180;
-            const rotate2 = Math.acos((a + d) / (2 * Math.sqrt(b ** 2 + d ** 2))) / Math.PI * 180;
+            const a = mat[ 0 ];
+            const b = mat[ 1 ];
+            const c = mat[ 2 ];
+            const d = mat[ 3 ];
+            const tx = mat[ 4 ];
+            const ty = mat[ 5 ];
+            const scaleX = Math.sqrt( a ** 2 + b ** 2 );
+            const scaleY = Math.sqrt( c ** 2 + d ** 2 );
+            const rotate0 = Math.atan2( b,
+                a ) / Math.PI * 180;
+            const rotate1 = Math.asin( ( b - c ) / ( 2 * Math.sqrt( a ** 2 + c ** 2 ) ) ) / Math.PI * 180;
+            const rotate2 = Math.acos( ( a + d ) / ( 2 * Math.sqrt( b ** 2 + d ** 2 ) ) ) / Math.PI * 180;
             let rotate = rotate0 || rotate1 || rotate2 || 0;
-            const dx = (target.style.left.replace("px", "") || 0) - 0;
-            const dy = (target.style.top.replace("px", "") || 0) - 0;
-            const w = (target.width || 0) - 0;
-            const h = (target.height || 0) - 0;
+            const dx = ( target.style.left.replace( "px", "" ) || 0 ) - 0;
+            const dy = ( target.style.top.replace( "px", "" ) || 0 ) - 0;
+            const w = ( target.width || 0 ) - 0;
+            const h = ( target.height || 0 ) - 0;
             const pivotx = dx + w / 2;
             const pivoty = dy + h / 2;
             displayDiv.innerHTML =
@@ -1080,43 +1122,42 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         }
         // 监听鼠标移入事件
 
-        imageContainer.addEventListener('mouseover', function (event) {
+        imageContainer.addEventListener( 'mouseover', function ( event ) {
             // 检查是否是 img 元素
-            if (event.target.tagName === 'IMG') {
-                const src = event.target.getAttribute('src');
+            if ( event.target.tagName === 'IMG' ) {
+                const src = event.target.getAttribute( 'src' );
                 const target = event.target;
                 hoverelement = target;
-                UpdateImageInfo(target);
+                UpdateImageInfo( target );
             }
-        });
-        imageContainer.addEventListener('click', function (event) {
+        } );
+        imageContainer.addEventListener( 'click', function ( event ) {
             // 检查是否是 img 元素
-            if (event.target.tagName === 'IMG') {
-                const src = event.target.getAttribute('src');
+            if ( event.target.tagName === 'IMG' ) {
+                const src = event.target.getAttribute( 'src' );
                 const target = event.target;
                 const IsRightClick = event.button === 2;
-                if (trackingelement && trackingelement == target && IsRightClick) {
+                if ( trackingelement && trackingelement == target && IsRightClick ) {
                     trackingelement = null;
                 } else {
                     trackingelement = target;
                 }
-                UpdateImageInfo(hoverelement || trackingelement);
-            }
-            else {
+                UpdateImageInfo( hoverelement || trackingelement );
+            } else {
                 trackingelement = null;
-                UpdateImageInfo(hoverelement);
+                UpdateImageInfo( hoverelement );
             }
-        });
+        } );
 
         // 监听鼠标移出事件
-        imageContainer.addEventListener('mouseout', function () {
+        imageContainer.addEventListener( 'mouseout', function () {
             hoverelement = null;
-            UpdateImageInfo(trackingelement);
-        });
+            UpdateImageInfo( trackingelement );
+        } );
 
-        function updateframe(f) {
+        function updateframe( f ) {
             currentframe = f;
-            let ctn = document.getElementById('valueContainer');
+            let ctn = document.getElementById( 'valueContainer' );
             ctn.innerText = f;
         }
 
@@ -1130,119 +1171,120 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             playPauseButton.textContent = strings.play;
         }
 
-        playPauseButton.addEventListener('click', function () {
-            if (playing) {
+        playPauseButton.addEventListener( 'click', function () {
+            if ( playing ) {
                 pause();
             } else {
                 play();
             }
-        });
+        } );
 
-        function oneframe(f) {
+        function oneframe( f ) {
             requestframe = currentframe + f;
         }
-        NextFrameButton.addEventListener('click', function () {
-            oneframe(1);
-        });
-        PrevFramePauseButton.addEventListener('click', function () {
-            oneframe(-1);
-        });
+        NextFrameButton.addEventListener( 'click', function () {
+            oneframe( 1 );
+        } );
+        PrevFramePauseButton.addEventListener( 'click', function () {
+            oneframe( -1 );
+        } );
 
         // 阻止浏览器默认行为
-        dropZone.addEventListener('dragover', (e) => {
+        dropZone.addEventListener( 'dragover', ( e ) => {
             e.preventDefault();
             dropZone.style.backgroundColor = '#f7f7f7';
             return false;
-        });
+        } );
 
         // 恢复背景颜色
-        dropZone.addEventListener('dragleave', () => {
+        dropZone.addEventListener( 'dragleave', () => {
             dropZone.style.backgroundColor = '';
-        });
+        } );
 
         // 处理拖放事件
-        dropZone.addEventListener('drop', (e) => {
+        dropZone.addEventListener( 'drop', ( e ) => {
             e.preventDefault();
             //get the folder path
-            const folderPath = e.dataTransfer.items[0].webkitGetAsEntry().fullPath;
-            console.log(strings.selectedFolder + folderPath);
+            const folderPath = e.dataTransfer.items[ 0 ].webkitGetAsEntry().fullPath;
+            console.log( strings.selectedFolder + folderPath );
             imagepath = folderPath;
             return false;
-        });
+        } );
         // 获取第一个列表元素
-        const list1 = document.getElementById('list1');
+        const list1 = document.getElementById( 'list1' );
 
         // 获取第二个列表元素
-        const list2 = document.getElementById('list2');
+        const list2 = document.getElementById( 'list2' );
 
         // 定义函数以读取所选的项目
         function readSelectedItem() {
-            const selectedOptionList1 = list1.options[list1.selectedIndex].text;
-            const selectedOptionList2 = list2.options[list2.selectedIndex].text;
+            const selectedOptionList1 = list1.options[ list1.selectedIndex ].text;
+            const selectedOptionList2 = list2.options[ list2.selectedIndex ].text;
             bank = selectedOptionList1;
             anim = selectedOptionList2;
-            console.log(strings.selectedBA + `${bank} 和 ${anim}`);
-            RenderAnim(animdata, true);
+            console.log( strings.selectedBA + `${bank} 和 ${anim}` );
+            RenderAnim( animdata, true );
         }
 
         // 添加事件监听器以在选择发生变化时调用readSelectedItem函数
-        list1.addEventListener('change', readSelectedItem);
-        list2.addEventListener('change', readSelectedItem);
+        list1.addEventListener( 'change', readSelectedItem );
+        list2.addEventListener( 'change', readSelectedItem );
 
-        function generateListItems(classes, anims) {
+        function generateListItems( classes, anims ) {
             let array = classes;
             let listElement = list1;
             // 清空当前列表内容
             listElement.innerHTML = '';
 
             // 遍历数组并创建新的列表项
-            array.forEach(item => {
-                const option = document.createElement('option');
+            array.forEach( item => {
+                const option = document.createElement( 'option' );
                 option.value = item;
                 option.textContent = item;
                 // 将新创建的列表项添加到对应的父元素中
-                listElement.appendChild(option);
-            });
+                listElement.appendChild( option );
+            } );
             array = anims;
             listElement = list2;
             // 清空当前列表内容
             listElement.innerHTML = '';
 
             // 遍历数组并创建新的列表项
-            array.forEach(item => {
-                const option = document.createElement('option');
+            array.forEach( item => {
+                const option = document.createElement( 'option' );
                 option.value = item;
                 option.textContent = item;
                 // 将新创建的列表项添加到对应的父元素中
-                listElement.appendChild(option);
-            });
+                listElement.appendChild( option );
+            } );
         }
-        function OnImageRemoved(img) {
-            if (trackingelement == img) {
+
+        function OnImageRemoved( img ) {
+            if ( trackingelement == img ) {
                 trackingelement = null;
             }
-            if (hoverelement == img) {
+            if ( hoverelement == img ) {
                 hoverelement = null;
             }
-            UpdateImageInfo(hoverelement || trackingelement);
+            UpdateImageInfo( hoverelement || trackingelement );
         }
 
-        function CreateImageFromData(name, i, frame) {
+        function CreateImageFromData( name, i, frame ) {
             let imageInfo, folderInfo;
-            if (typeof (name) === "string") {
+            if ( typeof ( name ) === "string" ) {
 
-                if (!build_data) return null;
+                if ( !build_data ) return null;
                 // 从 build_data 中读取图像数据
-                folderInfo = build_data[name.toLowerCase()];
-                if (!folderInfo) {
+                folderInfo = build_data[ name.toLowerCase() ];
+                if ( !folderInfo ) {
                     //console.log(name, frame, "not found");
                     return null;
                 }
-                if (i)
-                    imageInfo = folderInfo[i];
+                if ( i )
+                    imageInfo = folderInfo[ i ];
                 else {
-                    for (let info of folderInfo) {
-                        if (info.framenum <= frame && (info.framenum + info.duration) > frame) {
+                    for ( let info of folderInfo ) {
+                        if ( info.framenum <= frame && ( info.framenum + info.duration ) > frame ) {
                             imageInfo = info;
                             break;
                         }
@@ -1252,13 +1294,13 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 imageInfo = name;
                 name = imageInfo.name;
             }
-            if (!imageInfo) {
+            if ( !imageInfo ) {
                 //console.log(name, frame, "not found");
                 return null;
             }
 
             // 创建图像元素
-            var img = document.createElement("img");
+            var img = document.createElement( "img" );
 
             let x = imageInfo.x - 0;
             let y = imageInfo.y - 0;
@@ -1278,110 +1320,113 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
 
 
             // 设置图像的src属性，格式为：name/name-frame.png
-            var imageUrl = name + "/" + name + "-" + (imageInfo.frame || imageInfo.framenum || 0) + ".png";
-            let baseurl = imageInfo.path || (folderInfo && folderInfo.path) || "";
+            var imageUrl = name + "/" + name + "-" + ( imageInfo.frame || imageInfo.framenum || 0 ) + ".png";
+            let baseurl = imageInfo.path || ( folderInfo && folderInfo.path ) || "";
             img.src = imagepath + baseurl + imageUrl;
 
             // 绑定id和class属性到图像元素上
-            img.setAttribute("id", name + "-" + (imageInfo.frame || imageInfo.framenum || 0));
-            img.setAttribute("classname", name);
-            img.setAttribute("framenum", (imageInfo.frame || imageInfo.framenum || 0));
-            img.classList.add(name.replace(" ", ""));
-            AllowDrag(img);
+            img.setAttribute( "id", name + "-" + ( imageInfo.frame || imageInfo.framenum || 0 ) );
+            img.setAttribute( "classname", name );
+            img.setAttribute( "framenum", ( imageInfo.frame || imageInfo.framenum || 0 ) );
+            img.classList.add( name.replace( " ", "" ) );
+            AllowDrag( img );
             //listen DOMNodeRemovedFromDocument
-            img.addEventListener('DOMNodeRemovedFromDocument', function (event) {
-                OnImageRemoved(img);
-            });
+            img.addEventListener( 'DOMNodeRemovedFromDocument', function ( event ) {
+                OnImageRemoved( img );
+            } );
             //add classname animimage
-            img.classList.add("animimage");
+            img.classList.add( "animimage" );
             // 返回创建的图像元素
             return img;
         }
 
         // 创建一个观察器实例
-        const observer = new MutationObserver((mutationsList) => {
-            for (let mutation of mutationsList) {
-                if (mutation.type === 'childList' && mutation.removedNodes.length > 0) {
-                    Array.from(mutation.removedNodes).forEach(function (node) {
-                        if (node.classList.contains("animimage")) {
-                            OnImageRemoved(node);
+        const observer = new MutationObserver( ( mutationsList ) => {
+            for ( let mutation of mutationsList ) {
+                if ( mutation.type === 'childList' && mutation.removedNodes.length > 0 ) {
+                    Array.from( mutation.removedNodes ).forEach( function ( node ) {
+                        if ( node.classList.contains( "animimage" ) ) {
+                            OnImageRemoved( node );
                         }
-                    });
+                    } );
                 }
             }
-        });
+        } );
 
         // 配置观察选项
-        const observer_config = { childList: true };
+        const observer_config = {
+            childList: true
+        };
 
         // 开始观察目标节点及其子孙节点的变化
-        observer.observe(imageContainer, observer_config);
+        observer.observe( imageContainer, observer_config );
 
-        function AppendBuild(data, path) {
+        function AppendBuild( data, path ) {
             let olddata = build_data;
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const element = data[key];
+            for ( const key in data ) {
+                if ( data.hasOwnProperty( key ) ) {
+                    const element = data[ key ];
                     element.path = path;
-                    olddata[key] = element;
+                    olddata[ key ] = element;
                 }
             }
             build_data = olddata;
         }
-        function RenderImage(data, path) {
-            AppendBuild(data, path);
+
+        function RenderImage( data, path ) {
+            AppendBuild( data, path );
             data = build_data;
             // data: { image_name: { framenum: image_id } }
             // display the image having src=image_name/image_name-image_id.png
             // use document.createElement("img") to create a new image element
             // 获取包含图像的容器元素
-            let container = document.getElementById("image-container");
+            let container = document.getElementById( "image-container" );
 
             // 遍历 data 对象的每个键值对
-            for (let imageName in data) {
-                if (data.hasOwnProperty(imageName)) {
-                    let imageInfo = data[imageName];
-                    for (let i in imageInfo) {
+            for ( let imageName in data ) {
+                if ( data.hasOwnProperty( imageName ) ) {
+                    let imageInfo = data[ imageName ];
+                    for ( let i in imageInfo ) {
                         // 创建图像元素
-                        let img = CreateImageFromData(imageName, i);
-                        if (img)
-                            container.appendChild(img);
+                        let img = CreateImageFromData( imageName, i );
+                        if ( img )
+                            container.appendChild( img );
                     }
                 }
             }
         }
 
-        function cloneNode(node) {
-            const ctn = document.getElementById("image-container-clone");
-            while (ctn.firstChild) {
-                ctn.removeChild(ctn.firstChild);
+        function cloneNode( node ) {
+            const ctn = document.getElementById( "image-container-clone" );
+            while ( ctn.firstChild ) {
+                ctn.removeChild( ctn.firstChild );
             }
-            if (!node) return;
+            if ( !node ) return;
             // 移除克隆节点及其子节点的id属性
-            const imgs = node.querySelectorAll('img');
-            imgs.forEach(element => {
-                if (element.style.display == 'none') return;
-                const cloned = element.cloneNode(true);
-                cloned.removeAttribute('id');
-                cloned.classList.remove('animimage');
-                cloned.classList.add('clonedanimimage');
-                cloned.classList.add('no-select');
+            const imgs = node.querySelectorAll( 'img' );
+            imgs.forEach( element => {
+                if ( element.style.display == 'none' ) return;
+                const cloned = element.cloneNode( true );
+                cloned.removeAttribute( 'id' );
+                cloned.classList.remove( 'animimage' );
+                cloned.classList.add( 'clonedanimimage' );
+                cloned.classList.add( 'no-select' );
                 cloned.oncontextmenu = "return false;"
-                ctn.appendChild(cloned);
-            });
+                ctn.appendChild( cloned );
+            } );
         }
 
-        function HideAll(parent) {
-            Array.from(parent.children).forEach(child => {
+        function HideAll( parent ) {
+            Array.from( parent.children ).forEach( child => {
                 child.style.display = 'none';
-            });
+            } );
         }
 
         function RequestProgressChange() {
             let newprogress = currentframe / totalframes;
-            if (!newprogress) newprogress = 0;
+            if ( !newprogress ) newprogress = 0;
             progress = newprogress;
-            updateProgressBar(progress);
+            updateProgressBar( progress );
         }
         //data:{classname:{animation_name:{framerate:30,numframes:10,frames:[frame]}}}
         //frame:{elements:[images]}
@@ -1392,71 +1437,71 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         //each frame is defined by an array of images
         //each image is defined by its name and transform matrix, translate by (m_tx,m_ty), and z-index by z_index
         //use document.getElementById to get the image element with imageName + "-" + frame
-        function RenderAnim(data, skipparse = false) {
+        function RenderAnim( data, skipparse = false ) {
             animdata = data;
-            if (!skipparse) {
+            if ( !skipparse ) {
                 //generate list items
                 let anims = [];
-                for (const classname in data) {
-                    if (data.hasOwnProperty(classname)) {
-                        const element = data[classname];
-                        for (const animation_name in element) {
-                            if (element.hasOwnProperty(animation_name)) {
-                                anims.push(animation_name);
+                for ( const classname in data ) {
+                    if ( data.hasOwnProperty( classname ) ) {
+                        const element = data[ classname ];
+                        for ( const animation_name in element ) {
+                            if ( element.hasOwnProperty( animation_name ) ) {
+                                anims.push( animation_name );
                             }
                         }
                     }
                 }
-                generateListItems(Object.keys(data), anims);
+                generateListItems( Object.keys( data ), anims );
             }
             // Get the first animation in the first class
             let classname = bank;
-            if (classname === "")
-                classname = Object.keys(data)[0];
+            if ( classname === "" )
+                classname = Object.keys( data )[ 0 ];
             let animation_name = anim;
-            if (animation_name === "")
-                animation_name = Object.keys(data[classname])[0];
+            if ( animation_name === "" )
+                animation_name = Object.keys( data[ classname ] )[ 0 ];
             const {
                 framerate,
                 numframes,
                 frames
-            } = data[classname][animation_name];
+            } = data[ classname ][ animation_name ];
             totalframes = numframes;
-            if (currenttask) {
-                clearInterval(currenttask);
+            if ( currenttask ) {
+                clearInterval( currenttask );
                 currenttask = null;
             }
             RequestProgressChange();
-            let ctn = document.getElementById('image-container');
+            let ctn = document.getElementById( 'image-container' );
             //clear container
-            while (ctn.firstChild) {
-                ctn.removeChild(ctn.firstChild);
+            while ( ctn.firstChild ) {
+                ctn.removeChild( ctn.firstChild );
             }
             // assign an id to every image within an animation if not exist
-            for (let i = 0; i < frames.length; i++) {
-                let frame = frames[i].elements;
-                if (frame) {
+            for ( let i = 0; i < frames.length; i++ ) {
+                let frame = frames[ i ].elements;
+                if ( frame ) {
                     let idCounter = {}; // new variable to generate unique IDs
-                    for (let j = 0; j < frame.length; j++) {
-                        let framedata = frame[j];
+                    for ( let j = 0; j < frame.length; j++ ) {
+                        let framedata = frame[ j ];
                         let id = `${framedata.name}-${framedata.frame}-`; // add unique ID to the image name
-                        if (idCounter[id] === undefined)
-                            idCounter[id] = 0;
+                        if ( idCounter[ id ] === undefined )
+                            idCounter[ id ] = 0;
                         else {
                             //console.log(idCounter[id], framedata.name, framedata.frame);
-                            idCounter[id]++;
+                            idCounter[ id ]++;
                         }
-                        id = id + idCounter[id];
-                        if (!document.getElementById(id)) {
+                        id = id + idCounter[ id ];
+                        if ( !document.getElementById( id ) ) {
                             // create new image element and set its properties
 
-                            let newImage = CreateImageFromData(framedata.name, null, framedata.frame);
+                            let newImage = CreateImageFromData( framedata.name, null, framedata.frame );
                             // append the new image element to the container
-                            if (newImage) {
-                                newImage.setAttribute("id", id);
-                                newImage.setAttribute("layername", framedata.layername);
-                                newImage.setAttribute("name", framedata.name);
-                                ctn.appendChild(newImage);
+                            if ( newImage ) {
+                                newImage.setAttribute( "id", id );
+                                newImage.setAttribute( "layername", framedata.layername );
+                                newImage.setAttribute( "name", framedata.name );
+                                ctn.appendChild( newImage );
                             }
                         }
                     }
@@ -1466,140 +1511,145 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
 
             // Function to render each frame
             function renderFrame() {
-                if (!playing && !requestframe) return;
+                if ( !playing && !requestframe ) return;
                 let requestframed = false;
-                if (requestframe) {
+                if ( requestframe ) {
                     currentFrame = requestframe;
                     requestframed = true;
                     requestframe = null;
                 }
-                if (currentFrame > numframes) {
+                if ( currentFrame > numframes ) {
                     currentFrame = 1;
                     //clearInterval(animationInterval);
                     //return;
-                }
-                else if (currentFrame <= 0) {
+                } else if ( currentFrame <= 0 ) {
                     currentFrame = numframes;
                     //clearInterval(animationInterval);
                     //return;
                 }
-                if (!fromprogressbar)
+                if ( !fromprogressbar )
                     RequestProgressChange();
                 fromprogressbar = false;
-                renderOneFrame(currentFrame);
-                UpdateImageInfo(hoverelement || trackingelement);
+                renderOneFrame( currentFrame );
+                UpdateImageInfo( hoverelement || trackingelement );
                 currentFrame++;
             }
-            function renderOneFrame(currentFrame) {
-                updateframe(currentFrame);
-                const frame = frames[currentFrame - 1];
+
+            function renderOneFrame( currentFrame ) {
+                updateframe( currentFrame );
+                const frame = frames[ currentFrame - 1 ];
                 let ctn = imageContainer;
                 //clone node
-                if (onionskin)
-                    cloneNode(ctn);
+                if ( onionskin )
+                    cloneNode( ctn );
                 else
                     cloneNode();
-                HideAll(ctn);
+                HideAll( ctn );
                 let idCounter = {};
                 // Loop through each image in the frame and update their properties
-                for (const image of frame.elements) {
+                for ( const image of frame.elements ) {
                     let elementId = `${image.name}-${image.frame}-`;
-                    if (undefined === idCounter[elementId])
-                        idCounter[elementId] = 0;
-                    else idCounter[elementId]++;
-                    elementId = elementId + idCounter[elementId];
-                    const element = document.getElementById(elementId);
-                    if (element) {
+                    if ( undefined === idCounter[ elementId ] )
+                        idCounter[ elementId ] = 0;
+                    else idCounter[ elementId ]++;
+                    elementId = elementId + idCounter[ elementId ];
+                    const element = document.getElementById( elementId );
+                    if ( element ) {
                         element.style.transform =
                             `matrix(${image.m_a}, ${image.m_b}, ${image.m_c}, ${image.m_d}, ${image.m_tx}, ${image.m_ty})`;
-                        element.style.zIndex = (50 - image.z_index).toString();
+                        element.style.zIndex = ( 50 - image.z_index ).toString();
                         element.style.display = "block";
                     }
                 }
             }
             //at least render one
-            renderOneFrame(requestframe || currentFrame);
+            renderOneFrame( requestframe || currentFrame );
 
             // Start rendering by calling renderFrame every interval based on framerate
-            const animationInterval = setInterval(renderFrame, Math.floor(1000 / framerate));
+            const animationInterval = setInterval( renderFrame, Math.floor( 1000 / framerate ) );
             currenttask = animationInterval;
         }
 
-        function handleDrop(e) {
+        function handleDrop( e ) {
             e.preventDefault();
-            var file = e.dataTransfer.files[0];
-            handleFile(file);
+            var file = e.dataTransfer.files[ 0 ];
+            handleFile( file );
         }
 
-        function handleDragOver(e) {
+        function handleDragOver( e ) {
             e.preventDefault();
         }
 
-        function handleFile(file) {
-            if (file.type === "application/json") {
+        function handleFile( file ) {
+            if ( file.type === "application/json" ) {
                 //display the name of the file
                 let name = file.name;
-                document.querySelector('.drop-area').innerHTML = name;
+                document.querySelector( '.drop-area' ).innerHTML = name;
                 var reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function ( e ) {
                     var contents = e.target.result;
-                    var jsonData = JSON.parse(contents);
+                    var jsonData = JSON.parse( contents );
                     var ImageData = jsonData.Symbol;
                     var AnimData = jsonData.banks;
-                    if (ImageData)
-                        RenderImage(ImageData, jsonData.Path);
-                    if (AnimData)
-                        RenderAnim(AnimData);
+                    if ( ImageData )
+                        RenderImage( ImageData, jsonData.Path );
+                    if ( AnimData )
+                        RenderAnim( AnimData );
                 };
-                reader.readAsText(file);
+                reader.readAsText( file );
             } else {
-                alert("请拖入有效的JSON文件！");
+                alert( "请拖入有效的JSON文件！" );
             }
         }
 
         function handleClick() {
-            var fileInput = document.createElement("input");
+            var fileInput = document.createElement( "input" );
             fileInput.type = "file";
-            fileInput.setAttribute("multiple", "true");
+            fileInput.setAttribute( "multiple", "true" );
             fileInput.accept = "application/json";
-            fileInput.onchange = function (e) {
-                for (var file of e.target.files)
-                    handleFile(file);
+            fileInput.onchange = function ( e ) {
+                for ( var file of e.target.files )
+                    handleFile( file );
             };
             fileInput.click();
         }
 
-        var dropAreas = document.getElementsByClassName("drop-area");
-        for (let dropArea of dropAreas) {
-            dropArea.addEventListener("drop", handleDrop, false);
-            dropArea.addEventListener("dragover", handleDragOver, false);
-            dropArea.addEventListener("click", handleClick, false);
+        var dropAreas = document.getElementsByClassName( "drop-area" );
+        for ( let dropArea of dropAreas ) {
+            dropArea.addEventListener( "drop", handleDrop, false );
+            dropArea.addEventListener( "dragover", handleDragOver, false );
+            dropArea.addEventListener( "click", handleClick, false );
         }
 
 
         //render
-        function calculateCanvasParams(imgs) {
+        function calculateCanvasParams( imgs ) {
 
             let maxR = 0;
             let maxB = 0;
             let minL = 0;
             let minT = 0;
 
-            imgs.forEach(img => {
+            imgs.forEach( img => {
 
                 // 获取带transform后的坐标
-                const { l, t, r, b } = getImageBounds(img);
-                console.log(img.src, l, t, r, b);
-                if (l) {
+                const {
+                    l,
+                    t,
+                    r,
+                    b
+                } = getImageBounds( img );
+                console.log( img.src, l, t, r, b );
+                if ( l ) {
 
-                    maxR = Math.max(maxR, r);
-                    maxB = Math.max(maxB, b);
+                    maxR = Math.max( maxR, r );
+                    maxB = Math.max( maxB, b );
 
-                    minL = Math.min(minL, l);
-                    minT = Math.min(minT, t);
+                    minL = Math.min( minL, l );
+                    minT = Math.min( minT, t );
                 }
 
-            });
+            } );
 
             // 计算canvas大小
             const canvasWidth = maxR - minL;
@@ -1616,29 +1666,31 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             }
 
         }
-        function GetMatrix(img) {
-            const matrix = img.style.transform.match(/matrix\((.+?)\)/);
-            if (!matrix) return [1, 0, 0, 1, 0, 0];
-            let mat = matrix[1].split(',').map(n => +n);
-            if (mat.length === 0) return [1, 0, 0, 1, 0, 0];
+
+        function GetMatrix( img ) {
+            const matrix = img.style.transform.match( /matrix\((.+?)\)/ );
+            if ( !matrix ) return [ 1, 0, 0, 1, 0, 0 ];
+            let mat = matrix[ 1 ].split( ',' ).map( n => +n );
+            if ( mat.length === 0 ) return [ 1, 0, 0, 1, 0, 0 ];
             return mat;
         }
-        function getImageBounds(img) {
-            const matrix = GetMatrix(img);
-            if (!matrix) return {};
-            const l = img.style.left.replace("px", "") - 0;
-            const t = img.style.top.replace("px", "") - 0;
+
+        function getImageBounds( img ) {
+            const matrix = GetMatrix( img );
+            if ( !matrix ) return {};
+            const l = img.style.left.replace( "px", "" ) - 0;
+            const t = img.style.top.replace( "px", "" ) - 0;
             const width = img.width;
             const height = img.height;
             const r = l + width;
             const b = t + height;
 
-            const l1 = matrix[0] * l + matrix[2] * t + matrix[4];
-            const t1 = matrix[1] * l + matrix[3] * t + matrix[5];
+            const l1 = matrix[ 0 ] * l + matrix[ 2 ] * t + matrix[ 4 ];
+            const t1 = matrix[ 1 ] * l + matrix[ 3 ] * t + matrix[ 5 ];
             //r1 = a * l + a * w + c * t + tx
             //b1 = b * l + d * t + d * h + ty
-            const r1 = matrix[0] * l + matrix[0] * width + matrix[2] * t + matrix[4];
-            const b1 = matrix[1] * l + matrix[3] * height + matrix[3] * t + matrix[5];
+            const r1 = matrix[ 0 ] * l + matrix[ 0 ] * width + matrix[ 2 ] * t + matrix[ 4 ];
+            const b1 = matrix[ 1 ] * l + matrix[ 3 ] * height + matrix[ 3 ] * t + matrix[ 5 ];
             return {
                 l: l1,
                 t: t1,
@@ -1646,119 +1698,115 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 b: b1
             };
         }
-        function compare_zindex(a, b) {
+
+        function compare_zindex( a, b ) {
             let za = a.style.zIndex || 0;
             let zb = b.style.zIndex || 0;
             return za > zb;
         }
+
         function RenderToCanvas() {
-            const imgs = imageContainer.querySelectorAll('img');
+            const imgs = imageContainer.querySelectorAll( 'img' );
             // 创建画布
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+            const canvas = document.createElement( 'canvas' );
+            const ctx = canvas.getContext( '2d' );
             const {
                 width,
                 height,
                 offsetX,
                 offsetY
-            } = calculateCanvasParams(imgs);
+            } = calculateCanvasParams( imgs );
             // 设置画布尺寸
             canvas.width = width;
             canvas.height = height;
-            ctx.translate(-offsetX, -offsetY);
-            let imgs_sorted = Array.from(imgs).sort(compare_zindex);
+            ctx.translate( -offsetX, -offsetY );
+            let imgs_sorted = Array.from( imgs ).sort( compare_zindex );
             // 遍历每个img绘制
-            imgs_sorted.forEach(img => {
-                if (img.style.display == 'none') return;
-                if (img.style.visibility == 'hidden') return;
-                if (img.style.opacity == '0') return;
+            imgs_sorted.forEach( img => {
+                if ( img.style.display == 'none' ) return;
+                if ( img.style.visibility == 'hidden' ) return;
+                if ( img.style.opacity == '0' ) return;
                 // 获取transform矩阵
-                const matrix = GetMatrix(img);
-                if (matrix) {
+                const matrix = GetMatrix( img );
+                if ( matrix ) {
                     // 保存/恢复画布状态
                     ctx.save();
 
-                    ctx.transform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
-                    let left = img.style.left.replace("px", "");
-                    let top = img.style.top.replace("px", "");
-                    ctx.drawImage(img, left, top);
+                    ctx.transform( matrix[ 0 ], matrix[ 1 ], matrix[ 2 ], matrix[ 3 ], matrix[ 4 ], matrix[
+                        5 ] );
+                    let left = img.style.left.replace( "px", "" );
+                    let top = img.style.top.replace( "px", "" );
+                    ctx.drawImage( img, left, top );
 
                     ctx.restore();
                 }
 
-            });
-            ctx.translate(offsetX, offsetY);
-            document.body.appendChild(canvas);
+            } );
+            ctx.translate( offsetX, offsetY );
+            document.body.appendChild( canvas );
             //scroll to
             canvas.scrollIntoView();
             try {
                 // 生成图片
                 const image = new Image();
-                image.setAttribute("crossOrigin", 'anonymous');
-                image.src = canvas.toDataURL("image/png", 0.9);//format,quality
+                image.setAttribute( "crossOrigin", 'anonymous' );
+                image.src = canvas.toDataURL( "image/png", 0.9 ); //format,quality
                 //download
-                let a = document.createElement('a');
+                let a = document.createElement( 'a' );
                 a.href = image.src;
                 a.download = 'image.png';
                 a.click();
-            } catch (e) { }
+            } catch ( e ) {}
         }
-        const serverState = document.getElementById("paperSwitch3");
+        const serverState = document.getElementById( "paperSwitch3" );
+
         function UpdateServerState() {
             checkServerConnection();
         }
+
         function checkServerConnection() {
-            fetch(server_url)
-                .then(response => {
-                    if (response.ok) {
+            fetch( server_url )
+                .then( response => {
+                    if ( response.ok ) {
                         serverState.checked = true;
                     } else {
                         serverState.checked = false;
                     }
-                })
-                .catch(error => {
+                } )
+                .catch( error => {
                     serverState.checked = false;
-                });
+                } );
         }
-        displayDiv.addEventListener('keydown', function (event) {
+        displayDiv.addEventListener( 'keydown', function ( event ) {
             let handled = true;
-            if (event.key === '1') {
-                oneframe(-1);
-            }
-            else if (event.key === '2') {
-                oneframe(1);
-            }
-            else if (event.key === '3') {
+            if ( event.key === '1' ) {
+                oneframe( -1 );
+            } else if ( event.key === '2' ) {
+                oneframe( 1 );
+            } else if ( event.key === '3' ) {
                 requestframe = 1;
-            }
-            else if (event.key === '4') {
+            } else if ( event.key === '4' ) {
                 playing = !playing;
-            }
-            else if (event.key === '5') {
+            } else if ( event.key === '5' ) {
                 requestframe = totalframes;
-            }
-            else if (event.key === ' ') {
+            } else if ( event.key === ' ' ) {
                 playing = !playing;
-            }
-            else if (event.key === 'p') {
+            } else if ( event.key === 'p' ) {
                 playing = false;
-            }
-            else if (event.key === ']') {
-                let scale = imageContainer.style.transform.match(/[0-9.]+/) || "1";
-                scale = Math.min(scale - 0.1, 10);
+            } else if ( event.key === ']' ) {
+                let scale = imageContainer.style.transform.match( /[0-9.]+/ ) || "1";
+                scale = Math.min( scale - 0.1, 10 );
                 imageContainer.style.transform = `scale(${scale})`;
-            }
-            else if (event.key === '[') {
-                let scale = imageContainer.style.transform.match(/[0-9.]+/) || "1";
-                scale = Math.max(scale - 0 + 0.1, 0.1);
+            } else if ( event.key === '[' ) {
+                let scale = imageContainer.style.transform.match( /[0-9.]+/ ) || "1";
+                scale = Math.max( scale - 0 + 0.1, 0.1 );
                 imageContainer.style.transform = `scale(${scale})`;
-            }
-            else {
+            } else {
                 handled = false;
             }
-            if (handled) event.preventDefault();
+            if ( handled ) event.preventDefault();
 
-        });
+        } );
 
         //checkServerConnection();
     </script>

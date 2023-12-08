@@ -2,6 +2,5 @@ DSTModToolKit\*
 DSTModToolKit
 *.ini
 __pycache__
-pyscripts\compiler\dynamic.py
 FsbExtractor14.03.10\FsbExtractor.ini
 .vscode/settings.json

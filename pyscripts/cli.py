@@ -50,7 +50,7 @@ def work(args, params):
         if file_ext == "xml" and (filename == "build" or params.build):
             # build.xml->build.bin
             fn = convert_build_xml
-        if file_ext == "json" and (filename == "build" or params.build):
+        if (file_ext == "json" or file_ext=="js") and (filename == "build" or params.build):
             # build.json->build.bin
             fn = convert_build_json
         if file_ext == "xml" and (filename == "anim" or params.anim):
@@ -573,6 +573,8 @@ def convert_scml_build(filepath, filename, file_ext, params):
 def convert_scml_zip(filepath, filename, file_ext, params):
     from zipfile import ZipFile
     input_path = join_all(filepath, filename, file_ext)
+    output_dir=join_all(filepath,filename)
+    mkdir(output_dir)
     output_path = join_all(filepath, filename, "scml")
     # check anim.bin
     hasanim = False
@@ -588,7 +590,7 @@ def convert_scml_zip(filepath, filename, file_ext, params):
         from compiler.anim import DSAnim
         anim_class = DSAnim(input_path)
         if params.json:
-            anim_class.save_json(filepath)
+            anim_class.save_json(output_dir)
             has_output = True
         if params.scml:
             anim_class.to_scml(output_path)
@@ -606,9 +608,9 @@ def convert_scml_zip(filepath, filename, file_ext, params):
             build_class = AnimBuild(build_file, build)
         build_class.bin_to_json()
         if params.json:
-            build_class.save_json(filepath)
+            build_class.save_json(output_dir)
             has_output = True
-        build_class.save_symbol_images(filepath)
+        build_class.save_symbol_images(output_dir)
     else:
         print("不存在anim.bin或build.bin，直接解压")
         unzip_file(filepath, filename, file_ext)

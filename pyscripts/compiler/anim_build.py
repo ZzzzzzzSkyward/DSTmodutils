@@ -122,8 +122,8 @@ class AnimBuild():
             for frame in self.data["Symbol"][symbol_name]:
                 frame_name = f'{symbol_name}-{frame["framenum"]}'
 
-                x_offset = frame["x"] - frame["w"] / 2
-                y_offset = frame["y"] - frame["h"] / 2
+                x_offset = frame["x"] - frame["w"] // 2
+                y_offset = frame["y"] - frame["h"] // 2
 
                 frame["alphaidx"] = len(self.data["Vert"])
                 frame["alphacount"] = 0
@@ -205,8 +205,8 @@ class AnimBuild():
             for frame in self.data["Symbol"][symbol_name]:
                 frame_name = f'{symbol_name}-{frame["framenum"]}'
 
-                x_offset = frame["x"] - frame["w"] / 2
-                y_offset = frame["y"] - frame["h"] / 2
+                x_offset = frame["x"] - frame["w"] // 2
+                y_offset = frame["y"] - frame["h"] // 2
 
                 frame["alphaidx"] = len(self.data["Vert"])
                 frame["alphacount"] = 0

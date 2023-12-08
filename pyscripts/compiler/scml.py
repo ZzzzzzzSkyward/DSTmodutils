@@ -142,8 +142,8 @@ class Scml(ElementTree):
 
                 w, h = int(file.get("width", 0)), int(file.get("height", 0))
 
-                x = w / 2 - float(file.get("pivot_x", "0")) * w
-                y = h / 2 - float(file.get("pivot_y", "0")) * h
+                x = w // 2 - float(file.get("pivot_x", "0")) * w
+                y = h // 2 - float(file.get("pivot_y", "0")) * h
                 y = -y
 
                 build_data["Symbol"][folder_name].append(
@@ -281,7 +281,7 @@ class Scml(ElementTree):
                     frame_w, frame_h = right - left, down - up
                     frame_x = frame_w / 2 - (frame_pivot_x - left)
                     frame_y = frame_h / 2 - (frame_pivot_y - up)
-                    Frame["x"], Frame["y"], Frame["w"], Frame["h"] = frame_x, frame_y, frame_w, frame_h
+                    Frame["x"], Frame["y"], Frame["w"], Frame["h"] = frame_x, -frame_y, frame_w, frame_h
 
                     anim_data["banks"][entity_name][animation_name]["frames"].append(
                         Frame)
