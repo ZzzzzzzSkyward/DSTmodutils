@@ -333,7 +333,6 @@ class Scml(ElementTree):
                             'm_c'], layer['m_d'], layer['m_tx'], layer['m_ty']
                         sum_tx += tx
                         sum_ty += ty
-                        length += 1
                         img = Scml.fetch_image(
                             layer['name'], layer['frame'], builddata)
                         if not img:
@@ -344,6 +343,7 @@ class Scml(ElementTree):
                         Scml.apply_matrix_transform(
                             verts, a, b, c, d, tx, ty, x, y)
                         frame_verts.extend(verts)
+                        length += 1
                     if length > 0:
                         x_vert, y_vert = zip(*frame_verts)
                         left, right, up, down = min(x_vert), max(

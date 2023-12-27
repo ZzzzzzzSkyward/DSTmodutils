@@ -5,6 +5,11 @@ import os
 import sys
 import shutil
 sys.path.append("compiler")
+# 获取当前脚本所在的目录
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 将当前目录添加到sys.path
+sys.path.append(current_dir)
+sys.path.append(os.path.join(current_dir,"compiler"))
 pretty_error = False
 
 
