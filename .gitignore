@@ -4,3 +4,8 @@ DSTModToolKit
 __pycache__
 FsbExtractor14.03.10\FsbExtractor.ini
 .vscode/settings.json
+pyscripts/cli.build
+pyscripts/cli.dist
+pyscripts/cli.onefile-build
+pyscripts/dsanimtool.exe
+pyscripts/__pycache__
