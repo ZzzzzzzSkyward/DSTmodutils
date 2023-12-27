@@ -52,7 +52,7 @@ When finished, a subfolder with the name of the atlas will be created within the
 
 
 ### Advance Usage
-- If the alpha channel was pre-multiplied when a given TEX atlas was created, the **-s** switch must be passed to **unpack** for the images to be recovered correctly. This is handled automatically for atlas/key pairs that were generated with Stex's pack command, as detailed in the "Additional Features" section 
+- If the alpha channel was **not** pre-multiplied when a given TEX atlas was created, the **-s** switch must be passed to **unpack** for the images to be recovered correctly. This is handled automatically for atlas/key pairs that were generated with Stex's pack command, as detailed in the "Additional Features" section 
 - See the following section for more detailed options/modes.
 
 
@@ -109,35 +109,6 @@ Still, for this reason it is recommended to keep original copies of your texture
 
 --------------------------------------------------------------------------------
  
-
-## Exit Codes
-Once stex has finished executing an exit code is reported that indicates the "error status" of the program, which can be useful for recording/determining issues. The exit code can be obtained by running the application in the following manner:
-
-    start /wait CLIFp.exe [parameters]
-    echo %errorlevel%
-
-| Value | Code               | Description                                                              |
-|-------|--------------------|--------------------------------------------------------------------------|
-| 0     | NO_ERR             | The application completed successfully                                   |
-| 1     | INVALID_ARGS       | The arguments provided were not recognized or were formatted incorrectly |
-| 2     | NO_INPUT           | The required input directory was not provided                            |
-| 3     | NO_OUTPUT          | The required output directory was not provided                           |
-| 4     | INVALID_INPUT      | The provided input directory is invalid                                  |
-| 5     | INVALID_OUTPUT     | The provided output directory is invalid                                 |
-| 101   | INVALID_FORMAT     | The provided pixel format is invalid                                     |
-| 102   | NO_IMAGES          | The provided input directory contains no images                          |
-| 103   | DUPLICATE_NAME     | The provided input directory contains images with the same basename      |
-| 104   | CANT_READ_IMAGE    | Failed to read an input image                                            |
-| 105   | CANT_WRITE_ATLAS   | Failed to write the output atlas                                         |
-| 106   | CANT_WRITE_KEY     | Failed to write the output atlas key                                     |
-| 201   | CANT_READ_KEY      | Failed to read the input atlas key                                       |
-| 202   | ATLAS_DOESNT_EXIST | The TEX file specified within the input atlas key could not be found     |
-| 203   | CANT_READ_ATALAS   | Failed to read the input atlas                                           |
-| 204   | ATLAS_UNSUPPORTED  | The provided input atlas uses an unknown format                          |
-| 205   | CANT_CREATE_DIR    | Failed to create the element output directory                            |
-| 206   | CANT_WRITE_IMAGE   | Failed to write an output image                                          |
-
-
 ## Additional Information
 **Automatic Pre-multiplied Alpha Handling**
 
@@ -145,7 +116,7 @@ A small shortcoming of the TEX format is that it doesn't store whether or not it
 
 Simply put, if you always pack and unpack your multi-image atlases with Stex you will never have to worry about this.
 
-Although this breaks the "standard" for atlas keys, since they are just XML files the games parser will simply ignore this extra element and it therefore causes no issues and maintains compatibility.
+Although this breaks the "standard" for atlas keys, since they are just XML files the game's parser will simply ignore this extra element and it therefore causes no issues and maintains compatibility.
 
 **Atlas Key Element Extensions**
 
@@ -159,34 +130,31 @@ Although in a practical sense they shouldn't be needed, some atlas elements requ
 
 This extension will be removed during filename assignment when unpacking an atlas.
 
-
 ## Source
-This tool was written in C++ 17 targeting Windows/Debian and has the following dependencies:
 
-**Common:**
- - Qt 5.15.2
- - Qxtended (my own personal Qt based library, see below)
- - libsquish 1.15
+### Summary
 
-**Windows:**
- - Windows 10 SDK 10.0.19041.0 or later
- - MSVC2019 v142 or later
+ - C++20
+ - CMake 3.23.0
+ - Targets:
+	 - Windows 10+
+	 - Linux
 
-**Debian:**
-- g++ 9.3.0 or later
-- libgomp1
+### Dependencies
+- Qt6
+- [Qx](https://github.com/oblivioncth/Qx/)
+- [libsquish](https://sourceforge.net/projects/libsquish/)
+- [OBCMake](https://github.com/oblivioncth/OBCmake)
 
-Builds have been tested on Windows 10 21H1 and Ubuntu 20.04
+## Pre-built Releases/Artifacts
 
-Because of the allowances by various licenses and overall small footprints, this repository comes with everything needed to build for the target platform, other than a build of Qt itself. This includes pre-built static libs of Qxtended (source code available upon request), and libquish for Debug/Release and x86/x64.
+Releases and some workflows currently provide builds of Stex in various combinations of platforms and compilers. View the repository [Actions](https://github.com/oblivioncth/Stexatlaser/actions) or [Releases](https://github.com/oblivioncth/Stexatlaser/releases) to see examples
 
-This project is configured for the qmake build system and can be built using it directly or through Qt Creator via the included .pro file.
-
-Other platforms are possible to compile for with some modifications.
-
+### Details
+The source for this project is managed by a sensible CMake configuration that allows for straightforward compilation and consumption of its target(s), either as a sub-project or as an imported package. All required dependencies except for Qt6 are automatically acquired via CMake's FetchContent mechanism.
 
 ## Klei TEX Format
-When creating this tool I couldn't find any documentation on the Klei TEX format and had to use other existing tools' code as reference. I have provided my interpretation here for convivence:
+When creating this tool I couldn't find any documentation on the Klei TEX format and had to use other existing tools' code as reference. I have provided my interpretation here for convenience:
 
     KTEX FORMAT
     ============
@@ -231,4 +199,4 @@ When creating this tool I couldn't find any documentation on the Klei TEX format
     ----------
     0x00 - uint8[Data_Size]: Image Data
 
-This tools defaults both flags in the newer header spec (the only one used when writing) to high. If anyone knows the purpose of these flags I'd be grateful if you could share it with me.
+This tool defaults both flags in the newer header spec (the only one used when writing) to high. If anyone knows the purpose of these flags I'd be grateful if you could share it with me.
