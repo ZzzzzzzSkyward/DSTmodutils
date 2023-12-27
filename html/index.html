@@ -1152,7 +1152,11 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         } );
 
         // 监听鼠标移出事件
-        imageContainer.addEventListener( 'mouseout', function () {
+        imageContainer.addEventListener( 'mouseout', function ( e ) {
+            //如果移入的区域是显示面板则取消
+            if ( e.relatedTarget == displayDiv ) {
+                return;
+            }
             hoverelement = null;
             UpdateImageInfo( trackingelement );
         } );
@@ -1627,10 +1631,10 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         //render
         function calculateCanvasParams( imgs ) {
 
-            let maxR = 0;
-            let maxB = 0;
-            let minL = 0;
-            let minT = 0;
+            let maxR = -1e5;
+            let maxB = -1e5;
+            let minL = 1e5;
+            let minT = 1e5;
 
             imgs.forEach( img => {
 
@@ -1641,7 +1645,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     r,
                     b
                 } = getImageBounds( img );
-                console.log( img.src, l, t, r, b );
+                console.log( img, l, t, r, b );
                 if ( l ) {
 
                     maxR = Math.max( maxR, r );
@@ -1680,6 +1684,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         function getImageBounds( img ) {
             const matrix = GetMatrix( img );
             if ( !matrix ) return {};
+
             const l = img.style.left.replace( "px", "" ) - 0;
             const t = img.style.top.replace( "px", "" ) - 0;
             const width = img.width;
@@ -1687,19 +1692,32 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             const r = l + width;
             const b = t + height;
 
-            const l1 = matrix[ 0 ] * l + matrix[ 2 ] * t + matrix[ 4 ];
-            const t1 = matrix[ 1 ] * l + matrix[ 3 ] * t + matrix[ 5 ];
-            //r1 = a * l + a * w + c * t + tx
-            //b1 = b * l + d * t + d * h + ty
-            const r1 = matrix[ 0 ] * l + matrix[ 0 ] * width + matrix[ 2 ] * t + matrix[ 4 ];
-            const b1 = matrix[ 1 ] * l + matrix[ 3 ] * height + matrix[ 3 ] * t + matrix[ 5 ];
+            // 计算四个顶点的坐标
+            const topLeft = transformPoint( matrix, l, t );
+            const topRight = transformPoint( matrix, r, t );
+            const bottomLeft = transformPoint( matrix, l, b );
+            const bottomRight = transformPoint( matrix, r, b );
+
+            // 取最小和最大值
+            const minX = Math.min( topLeft[ 0 ], topRight[ 0 ], bottomLeft[ 0 ], bottomRight[ 0 ] );
+            const minY = Math.min( topLeft[ 1 ], topRight[ 1 ], bottomLeft[ 1 ], bottomRight[ 1 ] );
+            const maxX = Math.max( topLeft[ 0 ], topRight[ 0 ], bottomLeft[ 0 ], bottomRight[ 0 ] );
+            const maxY = Math.max( topLeft[ 1 ], topRight[ 1 ], bottomLeft[ 1 ], bottomRight[ 1 ] );
+
             return {
-                l: l1,
-                t: t1,
-                r: r1,
-                b: b1
+                l: minX,
+                t: minY,
+                r: maxX,
+                b: maxY
             };
         }
+
+        function transformPoint( matrix, x, y ) {
+            const transformedX = matrix[ 0 ] * x + matrix[ 2 ] * y + matrix[ 4 ];
+            const transformedY = matrix[ 1 ] * x + matrix[ 3 ] * y + matrix[ 5 ];
+            return [ transformedX, transformedY ];
+        }
+
 
         function compare_zindex( a, b ) {
             let za = a.style.zIndex || 0;
