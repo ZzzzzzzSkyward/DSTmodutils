@@ -834,7 +834,9 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         } );
 
         function OnImagePathChange() {
-            RenderAnim( animdata, true );
+            if ( animdata ) {
+                RenderAnim( animdata, true );
+            }
         }
 
         function ChangeOnion() {
@@ -1036,8 +1038,8 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     //更新图片
                     UpdateImageInfo( imgElement );
                     //保存
-                    if(editmode)
-                    UpdateBuild(imgElement);
+                    if ( editmode )
+                        UpdateBuild( imgElement );
                 }
             }
 
@@ -1702,7 +1704,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         function compare_zindex( a, b ) {
             let za = a.style.zIndex || 0;
             let zb = b.style.zIndex || 0;
-            return za > zb;
+            return za - zb;
         }
 
         function RenderToCanvas() {
@@ -1726,6 +1728,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 if ( img.style.display == 'none' ) return;
                 if ( img.style.visibility == 'hidden' ) return;
                 if ( img.style.opacity == '0' ) return;
+                if ( !img.complete ) return;
                 // 获取transform矩阵
                 const matrix = GetMatrix( img );
                 if ( matrix ) {
