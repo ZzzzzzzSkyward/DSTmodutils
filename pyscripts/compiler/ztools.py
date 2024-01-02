@@ -19,7 +19,7 @@ def locate_exe(exe_name, directories):
 
 ztoolspath = locate_exe(ztools_exe, possible_paths)
 if not ztoolspath:
-    print("ztools.exe，请手动修改possible_paths里的搜索路径。Cannot find ztools.exe ,please manually modify possible_paths.")
+    print("找不到ztools.exe，请手动修改possible_paths里的搜索路径。Cannot find ztools.exe, please manually modify possible_paths.")
     ztoolspath = ztools_exe
 
 

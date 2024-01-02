@@ -16,7 +16,7 @@ def locate_exe(exe_name, directories):
 
 ktechpath=locate_exe(ktech_exe,possible_paths)
 if not ktechpath:
-    print("找不到ktech.exe，请手动修改possible_paths里的搜索路径。Cannot find ktech.exe ,please manually modify possible_paths.")
+    print("找不到ktech.exe，请手动修改possible_paths里的搜索路径。Cannot find ktech.exe, please manually modify possible_paths.")
     ktechpath=ktech_exe
 import subprocess
 
