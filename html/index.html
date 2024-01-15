@@ -695,7 +695,7 @@
         <div id="detail" style="display: none;">
             <pre>
 打开build.json和anim.json以播放动画
-默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
+默认该html文件与图片所在目录相同，如果不同需要手动输入图片路径，比如C:/Users/x/Desktop/anim/
 滚轮改变图片frame
 鼠标拖动图片
 参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
@@ -774,7 +774,7 @@
             editmode: '编辑模式',
             title: '动画播放器',
             detail: `打开build.json和anim.json以播放动画
-默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
+默认该html文件与图片所在目录相同，如果不同需要手动输入图片路径，比如C:/Users/x/Desktop/anim/
 滚轮改变图片frame
 鼠标拖动图片
 参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
@@ -798,7 +798,7 @@
             editmode: 'Edit Mode',
             title: 'Animation Player',
             detail: `Open build.json and anim.json to play animation
-The default html file is the same as the image directory. If it is different, you need to manually enter file:///image path, such as file:///C:/Users/x/Desktop/anim/
+The default html file is the same as the image directory. If it is different, you need to manually enter image path, such as C:/Users/x/Desktop/anim/
 Mouse wheel to change image frame
 Drag the image with the mouse
 Parameters: image pivot (px, py), zoom (sx, sy), translation (tx, ty), rotation (an), layer order (z-index) (the larger the value, the closer to the front, the real value is 50-zindex)
@@ -844,7 +844,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
         function AddFilePrefix( newimagepath ) {
             // Check if newimagepath includes either :// or :\\
-            if ( /:[\/\\]/.test( newimagepath ) ) {
+            if ( /^[a-zA-Z]:[\/\\]/.test( newimagepath ) ) {
                 // Add file:/// prefix
                 newimagepath = "file:///" + newimagepath;
                 if ( !( /[\/\\]$/.test( newimagepath ) ) ) {
