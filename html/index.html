@@ -208,6 +208,11 @@
             padding: 10px;
             background-color: rgba(0, 0, 0, .7);
             color: white;
+            max-width: 40%;
+            overflow: auto;
+            max-height: 40%;
+            line-break: anywhere;
+
         }
 
         .drop-area2 {
@@ -308,7 +313,7 @@
         }
 
         #topflex {
-            height: 4em;
+            height: 6em;
         }
 
         #topflex,
@@ -646,7 +651,7 @@
 <body>
     <div id="panel">
         <div id="topflex" class="center">
-            <h1 class="title no-select transition" onclick="document.getElementById('detail').style.display='block';">
+            <h1 class="title no-select transition" onclick="ToggleInfo();">
                 动画播放器</h1>
             <div id="tools">
                 <div>
@@ -694,6 +699,7 @@
 滚轮改变图片frame
 鼠标拖动图片
 参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
+在编辑模式下，可以用键盘的上下左右或wsad移动图片（0.5/ctrl0.1/alt10/shift1），或者鼠标拖动，会自动更新build
             </pre>
         </div>
         <div id="info">
@@ -794,7 +800,8 @@
 The default html file is the same as the image directory. If it is different, you need to manually enter file:///image path, such as file:///C:/Users/x/Desktop/anim/
 Mouse wheel to change image frame
 Drag the image with the mouse
-Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (an), layer order (z-index) (the larger the value, the closer to the front, the real value is 50-zindex)
+Parameters: image pivot (px, py), zoom (sx, sy), translation (tx, ty), rotation (an), layer order (z-index) (the larger the value, the closer to the front, the real value is 50-zindex)
+In edit mode, you can move image via key wsad and arrows, or drag. The offset will be saved into build.
 `
         };
         let language = "zh";
@@ -820,7 +827,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         const displayDiv = document.getElementById( 'displayDiv' );
         let trackingelement = null;
         let hoverelement = null;
-        let editmode = true;
+        let isEditing = false;
 
         const progressBar = document.querySelector( '.progress-bar' );
         const slider = document.getElementById( 'slider' );
@@ -829,13 +836,40 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         const dropAreaFloater = document.querySelector( '#dropareasfloater' );
         const onionInput = document.querySelector( '#paperSwitch1' );
         const editmodeInput = document.querySelector( '#paperSwitch4' );
-        imagePathInput.addEventListener( "blur", function ( event ) {
+        const detailArea = document.getElementById( 'detail' );
+        imagePathInput.addEventListener( "change", function ( event ) {
             OnImagePathChange();
         } );
 
+        function AddFilePrefix( newimagepath ) {
+            // Check if newimagepath includes either :// or :\\
+            if ( /:[\/\\]/.test( newimagepath ) ) {
+                // Add file:/// prefix
+                newimagepath = "file:///" + newimagepath;
+                if ( !( /[\/\\]$/.test( newimagepath ) ) ) {
+                    newimagepath = newimagepath + '/';
+                }
+            }
+            // You may want to handle other cases or conditions based on your requirements
+            // For example, checking if it's a network path or a local path
+
+            return newimagepath;
+        }
+
         function OnImagePathChange() {
+            let newimagepath = imagePathInput.value;
+            //add file:/// if it is a driver directory
+            imagepath = AddFilePrefix( newimagepath );
             if ( animdata ) {
                 RenderAnim( animdata, true );
+            }
+        }
+
+        function ToggleInfo() {
+            if ( detailArea.style.display == 'none' ) {
+                detailArea.style.display = 'block';
+            } else {
+                detailArea.style.display = 'none';
             }
         }
 
@@ -844,7 +878,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         }
 
         function ChangeEditMode() {
-            onionskin = editmodeInput.checked;
+            isEditing = editmodeInput.checked;
         }
 
         function OnOnionChange() {
@@ -852,7 +886,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         }
 
         function OnEditModeChange() {
-            editmodeInput.checked = editmode;
+            editmodeInput.checked = isEditing;
         }
         ChangeOnion();
         ChangeEditMode();
@@ -891,7 +925,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             if ( !build_data ) return;
             let json = JSON.stringify( {
                 Symbol: build_data
-            } );
+            }, null, 2 );
 
             let blob = new Blob( [ json ], {
                 type: "application/json"
@@ -939,11 +973,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 RenderImage( ABData.Symbol );
             } catch ( e ) {}
         }
-        // 监听输入框的 change 事件
-        imagePathInput.addEventListener( 'change', function ( event ) {
-            imagepath = event.target.value; // 获取输入框的值并存储在变量中
-        } );
-        imagepath = imagePathInput.value;
+        imagepath = AddFilePrefix( imagePathInput.value );
         // 鼠标按下时开始监听鼠标移动事件
         slider.addEventListener( 'mousedown', function ( event ) {
             event.preventDefault();
@@ -1003,6 +1033,27 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             element.style.transformOrigin = `${-x}px ${-y}px`;
         }
 
+        //更新build的信息
+        function UpdateBuildOffset( element, px, py ) {
+            let name = element.getAttribute( 'name' );
+            let framenum = element.getAttribute( 'framenum' );
+            if ( !name ) return;
+            let data = indexImageInfo( name, framenum );
+            if ( !data ) {
+                return;
+            }
+            if ( data.w != element.width || data.h != element.height ) {
+                console.log( `图片${name}${framenum}的宽度或高度不正确` );
+                data.w = element.width
+                data.h = element.height
+            }
+
+            let x = data.w / 2 + px;
+            let y = data.h / 2 + py;
+            data.x = x;
+            data.y = y;
+        }
+
         function AllowDrag( imgElement ) {
             let isDragging = false;
             let startX, startY;
@@ -1012,34 +1063,12 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     const newX = event.clientX - startX;
                     const newY = event.clientY - startY;
                     UpdateImageOffset( imgElement, newX, newY );
-                }
-            }
-            let keymove = function ( event ) {
-                if ( isDragging ) {
-                    let newX = imgElement.style.left.replace( "px", "" ) - 0;
-                    let newY = imgElement.style.top.replace( "px", "" ) - 0;
-                    let flag = true;
-                    if ( event.key === "ArrowLeft" ) {
-                        newX -= 0.5;
-                    } else if ( event.key === "ArrowRight" ) {
-                        newX += 0.5;
-                    } else if ( event.key === "ArrowDown" ) {
-                        newY += 0.5;
-                    } else if ( event.key === "ArrowUp" ) {
-                        newY -= 0.5;
-                    } else {
-                        console.log( event.key );
-                        flag = false;
-                    }
-                    if ( flag ) {
-                        event.preventDefault();
-                    }
-                    UpdateImageOffset( newX, newY );
-                    //更新图片
                     UpdateImageInfo( imgElement );
-                    //保存
-                    if ( editmode )
-                        UpdateBuild( imgElement );
+                    if ( isEditing ) {
+                        let newX = imgElement.style.left.replace( "px", "" ) - 0;
+                        let newY = imgElement.style.top.replace( "px", "" ) - 0;
+                        UpdateBuildOffset( imgElement, newX, newY );
+                    }
                 }
             }
 
@@ -1054,7 +1083,6 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 isDragging = true; // 开始拖动状态
                 // 监听鼠标移动事件，在拖动状态下更新图片位置
                 document.addEventListener( 'mousemove', updatedrag );
-                document.addEventListener( 'keydown', keymove );
             } );
 
             // 鼠标松开时停止拖动状态
@@ -1063,6 +1091,43 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 document.removeEventListener( 'mousemove', updatedrag );
             } );
         }
+        let keymove = function ( event ) {
+            let imgElement = trackingelement;
+            if ( !imgElement ) return;
+            if ( isEditing ) {
+                let newX = imgElement.style.left.replace( "px", "" ) - 0;
+                let newY = imgElement.style.top.replace( "px", "" ) - 0;
+                let flag = true;
+                let off = 0.5;
+                if ( event.altKey ) {
+                    off = 10;
+                } else if ( event.ctrlKey ) {
+                    off = 0.1;
+                } else if ( event.shiftKey ) {
+                    off = 1;
+                }
+                if ( event.key === "ArrowLeft" || event.key === "A" ) {
+                    newX -= off;
+                } else if ( event.key === "ArrowRight" || event.key === "D" ) {
+                    newX += off;
+                } else if ( event.key === "ArrowDown" || event.key === "S" ) {
+                    newY += off;
+                } else if ( event.key === "ArrowUp" || event.key === "W" ) {
+                    newY -= off;
+                } else {
+                    flag = false;
+                }
+                if ( flag ) {
+                    event.preventDefault();
+                }
+                UpdateImageOffset( imgElement, newX, newY );
+                //更新图片
+                UpdateImageInfo( imgElement );
+                //保存
+                UpdateBuildOffset( imgElement, newX, newY );
+            }
+        }
+        document.addEventListener( 'keydown', keymove );
         // 监听鼠标滚轮事件
         imageContainer.addEventListener( 'wheel', function ( event ) {
             event.preventDefault(); // 阻止默认的页面滚动行为
@@ -1275,6 +1340,21 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             UpdateImageInfo( hoverelement || trackingelement );
         }
 
+        function indexImageInfo( name, frame ) {
+            let imageInfo;
+            let folderInfo = build_data[ name.toLowerCase() ];
+            if ( !folderInfo ) {
+                return null;
+            }
+            for ( let info of folderInfo ) {
+                if ( info.framenum <= frame && ( info.framenum + info.duration ) > frame ) {
+                    imageInfo = info;
+                    break;
+                }
+            }
+            return imageInfo;
+        }
+
         function CreateImageFromData( name, i, frame ) {
             let imageInfo, folderInfo;
             if ( typeof ( name ) === "string" ) {
@@ -1289,12 +1369,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                 if ( i )
                     imageInfo = folderInfo[ i ];
                 else {
-                    for ( let info of folderInfo ) {
-                        if ( info.framenum <= frame && ( info.framenum + info.duration ) > frame ) {
-                            imageInfo = info;
-                            break;
-                        }
-                    }
+                    imageInfo = indexImageInfo( name, frame );
                 }
             } else {
                 imageInfo = name;
@@ -1337,9 +1412,10 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             img.classList.add( name.replace( " ", "" ) );
             AllowDrag( img );
             //listen DOMNodeRemovedFromDocument
-            img.addEventListener( 'DOMNodeRemovedFromDocument', function ( event ) {
-                OnImageRemoved( img );
-            } );
+            //deprecated
+            //img.addEventListener( 'DOMNodeRemovedFromDocument', function ( event ) {
+            //    OnImageRemoved( img );
+            //} );
             //add classname animimage
             img.classList.add( "animimage" );
             // 返回创建的图像元素
@@ -1400,6 +1476,26 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
                     }
                 }
             }
+            //监听图片删除事件
+            // 创建 MutationObserver 实例，并指定回调函数
+            var observer = new MutationObserver( function ( mutations ) {
+                mutations.forEach( function ( mutation ) {
+                    // 检查是否有节点被移除
+                    if ( mutation.type === 'childList' && mutation.removedNodes.length > 0 ) {
+                        // 在此处执行处理被移除节点的逻辑
+                        for ( let i of mutation.removedNodes )
+                            OnImageRemoved( i );
+                    }
+                } );
+            } );
+
+            // 配置观察器以监视子节点的变化
+            var config = {
+                childList: true
+            };
+
+            // 将观察器连接到目标节点
+            observer.observe( container, config );
         }
 
         function cloneNode( node ) {
@@ -1579,6 +1675,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         function handleDrop( e ) {
             e.preventDefault();
             var file = e.dataTransfer.files[ 0 ];
+            window.filedata = e;
             handleFile( file );
         }
 
@@ -1587,7 +1684,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
         }
 
         function handleFile( file ) {
-            if ( file.type === "application/json" ) {
+            if ( IsJsonFile( file ) ) {
                 //display the name of the file
                 let name = file.name;
                 document.querySelector( '.drop-area' ).innerHTML = name;
@@ -1608,6 +1705,25 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             }
         }
 
+        function IsJsonFile( file ) {
+            return file.type === "application/json" || file.type === "application/javascript"
+        }
+
+        function handleRightClick( e ) {
+            var fileInput = document.createElement( "input" );
+            fileInput.type = "file";
+            fileInput.setAttribute( "multiple", "true" );
+            fileInput.setAttribute( "webkitdirectory", "true" );
+            fileInput.accept = "*/*";
+            fileInput.onchange = function ( e ) {
+                for ( var file of e.target.files ) {
+                    if ( IsJsonFile( file ) )
+                        handleFile( file );
+                }
+            };
+            fileInput.click();
+        }
+
         function handleClick() {
             var fileInput = document.createElement( "input" );
             fileInput.type = "file";
@@ -1625,6 +1741,7 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
             dropArea.addEventListener( "drop", handleDrop, false );
             dropArea.addEventListener( "dragover", handleDragOver, false );
             dropArea.addEventListener( "click", handleClick, false );
+            dropArea.addEventListener( "contextmenu", handleRightClick, false );
         }
 
 
@@ -1829,7 +1946,75 @@ Parameters: image pivot (x, y), zoom (sx, sy), translation (tx, ty), rotation (a
 
         } );
 
+        // 保存值到LocalStorage
+        function saveToLocalStorage( key, value ) {
+            localStorage.setItem( key, value );
+        }
+
+        // 从LocalStorage获取值
+        function getFromLocalStorage( key ) {
+            const storedValue = localStorage.getItem( key );
+            return storedValue;
+        }
+        let autosavedItems = {};
+        let initAutosave = false;
         //checkServerConnection();
+        function registerAutoSave( selector ) {
+            const element = document.querySelector( selector );
+
+            if ( !element ) {
+                console.error( `Element with selector "${selector}" not found.` );
+                return;
+            }
+            if ( element.tagName !== "INPUT" ) {
+                console.error( `Element with selector "${selector} is not an input element` );
+                return;
+            }
+            autosavedItems[ selector ] = element;
+            if ( !initAutosave ) {
+                initAutosave = true;
+                window.addEventListener( 'beforeunload', () => {
+                    for ( let i in autosavedItems ) {
+                        if ( autosavedItems.hasOwnProperty( i ) ) {
+                            let element = autosavedItems[ i ];
+                            const valueToSave = element.value || element.innerText;
+                            saveToLocalStorage( i, valueToSave );
+                        }
+                    }
+                } );
+                // 在页面加载时恢复值
+                window.addEventListener( 'load', () => {
+                    for ( let i in autosavedItems ) {
+                        if ( autosavedItems.hasOwnProperty( i ) ) {
+                            let element = autosavedItems[ i ];
+                            const savedValue = getFromLocalStorage( i );
+                            if ( savedValue !== null && savedValue !== "" ) {
+                                if ( element.tagName === 'INPUT' ) {
+                                    if ( element.type === 'checkbox' || element.type === 'radio' ) {
+                                        element.checked = savedValue;
+                                    } else {
+                                        element.value = savedValue;
+                                    }
+                                    // 手动触发change事件
+                                    const event = new Event( 'change', {
+                                        bubbles: true
+                                    } );
+                                    element.dispatchEvent( event );
+                                } else if ( element.tagName === 'TEXTAREA' ) {
+                                    element.value = savedValue;
+                                } else {
+                                    element.innerText = savedValue;
+                                }
+                            }
+                        }
+                    }
+                } );
+
+            }
+        }
+
+        // 示例用法
+        registerAutoSave( '#imagepath' );
     </script>
 </body>
 
