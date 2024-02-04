@@ -10,27 +10,46 @@ db={}
 lookup={}
 banlist=["STRINGS","CHARACTERS","NAMES","DESCRIBE"]
 sentences = []
+sentences_trans = []
 tfidf_vectorizer=None
 tfidf_matrix=None
+tfidf_vectorizer_trans=None
+tfidf_matrix_trans=None
+reverse_index={}
 # 加载数据库
 def loaddb():
     global db
     global tfidf_vectorizer
+    global tfidf_vectorizer_trans
     global tfidf_matrix
+    global tfidf_matrix_trans
     if not os.path.exists('chinese_s.po'):
         messagebox.showerror('错误','找不到chinese_s.po')
         exit(0)
     pofile=polib.pofile('chinese_s.po')
     db={i.msgctxt:i.msgstr for i in pofile}
     # 将句子按照.和_分隔符划分
-    for sentence in db.keys():
+    cached={}
+    for sentence in list(db.keys()):
         st=preprocess_input(sentence)
-        lookup[st]=sentence
+        tr=preprocess_input(db[sentence])
+        if len(st)==0 or len(tr)==0:
+            del db[sentence]
+            continue
+        elif sentence!=st:
+            lookup[st]=sentence
         sentences.append(st)
-
+        if tr not in cached:
+            sentences_trans.append(tr)
+            cached[tr]=True
+            reverse_index[tr]=[sentence]
+        else:
+            reverse_index[tr].append(sentence)
     # 计算 TF-IDF
     tfidf_vectorizer = TfidfVectorizer()
+    tfidf_vectorizer_trans = TfidfVectorizer()
     tfidf_matrix = tfidf_vectorizer.fit_transform(sentences)
+    tfidf_matrix_trans = tfidf_vectorizer_trans.fit_transform(sentences_trans)
 
 def preprocess_input(sentence):
     # 将输入的句子按照.和_分隔符划分
@@ -39,7 +58,10 @@ def preprocess_input(sentence):
     # 展平子标记列表
     flat_subtokens = [subtoken for sublist in subtokens for subtoken in sublist]
     flat_subtokens=[i for i in flat_subtokens if i not in banlist]
-    return " ".join(flat_subtokens)
+    #分割\n
+    s=" ".join(flat_subtokens)
+    return s.replace('\n',' ').replace('\r',' ')
+
 def get_translation(key):
     if key in db:
         return db[key]
@@ -69,46 +91,149 @@ class MyApp:
         self.output_text.pack(padx=0,pady=10)
 
 inited=False
+oldst=""
+import time
+# 全局变量，用于存储上次调用的时间
+last_call_time = None
+
+# 定义函数，用于测量调用的耗时并打印
+def measure_time():
+    return
+    global last_call_time
+    
+    # 获取当前时间
+    current_time = time.time()
+    
+    # 如果是第一次调用，则无法计算上次调用的耗时
+    if last_call_time is not None:
+        # 计算距离上次调用的时间间隔
+        time_elapsed = current_time - last_call_time
+        print("距离上次调用的耗时:", time_elapsed, "秒")
+    else:
+        print("计时器初始化")
+    
+    # 更新上次调用的时间为当前时间
+    last_call_time = current_time
+def retrieve_tf_idf(candidate,lasti,cached):
+    results=[]
+    # 计算输入句子的 TF-IDF
+    input_tfidf = tfidf_vectorizer.transform(candidate)
+
+    # 计算输入句子与数据库中句子的相似度
+    similarities = cosine_similarity(input_tfidf, tfidf_matrix)
+
+    # 获取相似度最高的前10个句子
+    similar_indices = similarities.argsort()[0][lasti-length:][::-1]
+    # 在输出文本框中展示相似句子及其翻译
+    for i, idx in enumerate(similar_indices):
+        similar_sentence = get_key(sentences[idx])
+        translation = get_translation(similar_sentence)
+        similarity_score = similarities[0][idx]  # 获取相似度值
+        if lasti==length:
+            break
+        if similarity_score<0.01:
+            break
+        if similar_sentence not in cached:
+            results.append(similar_sentence)
+            cached[similar_sentence]=True
+            lasti+=1
+    return results,lasti
 def retrieve_similar_sentences(event):
+    measure_time()
+    global oldst
     global inited
     if not inited:
         loaddb()
         inited=True
     input_sentence = input_text.get("1.0", "end-1c").strip()
-    if input_sentence:
-        input_tokens = preprocess_input(input_sentence)
-        
-        # 计算输入句子的 TF-IDF
-        input_tfidf = tfidf_vectorizer.transform([input_tokens])
-
-        # 计算输入句子与数据库中句子的相似度
-        similarities = cosine_similarity(input_tfidf, tfidf_matrix)
-
-        # 获取相似度最高的前10个句子
-        similar_indices = similarities.argsort()[0][-length:][::-1]
-
-        # 在输出文本框中展示相似句子及其翻译
-        lasti=-1
+    input_tokens = preprocess_input(input_sentence)
+    measure_time()
+    if input_tokens and input_tokens!=oldst:
         output_text.delete('1.0', tk.END)
-        for i, idx in enumerate(similar_indices):
-            similar_sentence = get_key(sentences[idx])
-            translation = get_translation(similar_sentence)
-            similarity_score = similarities[0][idx]  # 获取相似度值
-            if similarity_score>0.01:
-                output_text.insert(tk.END, f"代码={similar_sentence}\n翻译={translation}\n\n")
+        oldst=input_tokens
+        lasti=0
+        candidate=[input_tokens]
+        results=[]
+        cached={}
+        results_special={}
+        results_special[False]=[]
+        if input_tokens in db:
+            translation=db[input_tokens]
+            results_special[True]=translation
+            cached[input_tokens]=True
+            lasti+=1
+        elif input_sentence in db:
+            translation=db[input_sentence]
+            results_special[True]=translation
+            cached[input_sentence]=True
+            lasti+=1
+        else:
+            for i in db:
+                translation=db[i]
+                trans=preprocess_input(translation)
+                if trans==input_tokens and i not in cached:
+                    results_special[False].append(i)
+                    cached[i]=True
+                    candidate.append(trans)
+                    lasti+=1
+        if lasti<length:
+            code_or_trans=Code_Or_Trans(input_sentence)
+            doc=[" ".join(candidate)]
+            measure_time()
+            if code_or_trans:
+                res,lasti=retrieve_tf_idf(candidate,lasti,cached)
+                results.extend(res)
             else:
-                lasti=i
-                break
-        #too slow!!!
-        if lasti>=0 and len(input_tokens)<40:
-            results=retrieve_similar_sentences_edit(input_tokens,length-lasti)
-            output_text.delete('1.0', tk.END)
-            for i in range(i,length):
-                if i<len(results):
-                    similar_sentence = get_key(results[i][1])
-                    translation = get_translation(similar_sentence)
-                    output_text.insert(tk.END, f"代码={similar_sentence}\n翻译={translation}\n\n")
+                # 计算输入句子的 TF-IDF
+                input_tfidf = tfidf_vectorizer_trans.transform(doc)
 
+                # 计算输入句子与数据库中句子的相似度
+                similarities = cosine_similarity(input_tfidf, tfidf_matrix_trans)
+
+                # 获取相似度最高的前10个句子
+                similar_indices = similarities.argsort()[0][lasti-length:][::-1]
+                matched=[]
+                # 在输出文本框中展示相似句子及其翻译
+                for i, idx in enumerate(similar_indices):
+                    similar_trans = sentences_trans[idx]
+                    similarity_score = similarities[0][idx]  # 获取相似度值
+                    if similarity_score<0.01:
+                        break
+                    matched.extend(reverse_index[similar_trans])
+                for i in matched:
+                    if lasti==length:
+                        break
+                    if i not in cached:
+                        cached[i]=True
+                        results.append(i)
+                        lasti+=1
+                match_doc=[preprocess_input(i) for i in matched]
+                res,lasti=retrieve_tf_idf(match_doc,lasti,cached)
+                results.extend(res)
+            measure_time()
+
+            #too slow!!!
+            '''if lasti<length and len(input_tokens)<40:
+                result=retrieve_similar_sentences_edit(input_tokens,length-lasti)
+                for i in result:
+                    similar_sentence = get_key(i[1])
+                    if similar_sentence not in cached:
+                        results.append(similar_sentence)
+                        cached[similar_sentence]=True
+                        lasti+=1
+            measure_time()
+            '''
+
+        if True in results_special:
+            translation=results_special[True]
+            output_text.insert(tk.END, f"翻译={translation}\n\n")
+        for i in results_special[False]:
+            output_text.insert(tk.END, f"代码={i}\n\n")
+        idx=1
+        for i in results:
+            similar_sentence,translation=i,get_translation(i)
+            output_text.insert(tk.END, f"{idx}.代码{similar_sentence}\n翻译={translation}\n\n")
+            idx+=1
             
 def remove_space(s):
     return s.replace(" ", "")
@@ -136,15 +261,23 @@ def edit_distance_ends_only(str1, str2,threshold=100):
     #print(str2,threshold,dp[m][n])
     return dp[m][n]
 import heapq
-
+def Code_Or_Trans(text):
+    count_code=0
+    count_trans=0
+    for i in text:
+        if 'A'<=i<='Z' or i=='_' or i=='.':
+            count_code+=1
+        else:
+            count_trans+=1
+    return count_code>=count_trans
 def retrieve_similar_sentences_edit(input_sentence, k=10):
     input_sentence_processed = input_sentence
     max_heap = []
-
+    code_or_trans=Code_Or_Trans(input_sentence)
     for sentence in db:
         processed_sentence = sentence
-        similarity_score = edit_distance_ends_only(input_sentence_processed, processed_sentence, get_threshold(max_heap, k))
-        expected_edit=abs(len(input_sentence_processed)-len(processed_sentence))+1
+        similarity_score = edit_distance_ends_only(input_sentence_processed, processed_sentence, get_threshold(max_heap, k)) if code_or_trans else edit_distance_ends_only(input_sentence_processed,db[sentence], get_threshold(max_heap, k))
+        #expected_edit=abs(len(input_sentence_processed)-len(processed_sentence))+1
         score=similarity_score
         #print(processed_sentence,score,get_threshold(max_heap, k))
         # 如果堆中句子不足k个，或者当前句子的相似度比堆中最大相似度还大，则加入堆
@@ -159,6 +292,7 @@ def retrieve_similar_sentences_edit(input_sentence, k=10):
     max_heap.sort(reverse=True)
 
     return max_heap
+        
 
 def get_threshold(heap, k):
     if len(heap) ==0:
