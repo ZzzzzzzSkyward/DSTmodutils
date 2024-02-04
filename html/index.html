@@ -1651,11 +1651,11 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                 let idCounter = {};
                 // Loop through each image in the frame and update their properties
                 for ( const image of frame.elements ) {
-                    let elementId = `${image.name}-${image.frame}-`;
+                    let elementId = `${image.name}-${image.frame}`;
                     if ( undefined === idCounter[ elementId ] )
                         idCounter[ elementId ] = 0;
                     else idCounter[ elementId ]++;
-                    elementId = elementId + idCounter[ elementId ];
+                    elementId = `${image.name}-${image.frame}-${idCounter[ elementId ]}`;
                     const element = document.getElementById( elementId );
                     if ( element ) {
                         element.style.transform =
@@ -1946,6 +1946,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             if ( handled ) event.preventDefault();
 
         } );
+        //checkServerConnection();
 
         // 保存值到LocalStorage
         function saveToLocalStorage( key, value ) {
@@ -1959,7 +1960,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         }
         let autosavedItems = {};
         let initAutosave = false;
-        //checkServerConnection();
+
         function registerAutoSave( selector ) {
             const element = document.querySelector( selector );
 
@@ -2013,9 +2014,8 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
             }
         }
-
-        // 示例用法
-        registerAutoSave( '#imagepath' );
+        let autosavedElementSelectors = [ '#imagepath' ];
+        autosavedElementSelectors.forEach( registerAutoSave );
     </script>
 </body>
 

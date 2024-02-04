@@ -9,3 +9,4 @@ pyscripts/cli.dist
 pyscripts/cli.onefile-build
 pyscripts/dsanimtool.exe
 pyscripts/__pycache__
+pyscripts/*.po
