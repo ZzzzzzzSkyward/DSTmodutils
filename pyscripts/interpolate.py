@@ -66,7 +66,8 @@ def processanim(a, framerate=30):
             'id': id,
             'key': intp,
             'name': i['name'],
-            'obj': i['obj'],
+            'obj': i.get('obj'),
+            'object': i.get('object'),
         }
         a['timeline'].append(newtl)
     mainline = a['mainline']

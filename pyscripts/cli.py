@@ -350,7 +350,7 @@ def convert_image_tex(filepath, filename, file_ext, params):
         os.remove(zip_path)
     else:
         output_path = join_all(filepath, filename, "png")
-        if params.ktech or True:
+        if params.ktech:
             from compiler.ktech import tex_to_png
         else:
             from compiler.stex import tex_to_png
@@ -542,8 +542,8 @@ def convert_scml_scml(filepath, filename, file_ext, params):
 
         input_data = read_file(input_path, ftype="json")
         try:
-            output_data = processroot(input_data, params.fps or 30)
-            save_file(output_path, output_data)
+            processroot(input_data, params.fps or 30)
+            save_file(output_path, input_data)
         except Exception as e:
             if pretty_error:
                 raise e
@@ -551,6 +551,7 @@ def convert_scml_scml(filepath, filename, file_ext, params):
                 print(e)
                 print("目前插值仅适用于规范的30fps动画")
             return
+        return
     if file_ext == "scon":
         print("目前无法编译scon，请转换为scml后再执行此操作")
         return
@@ -729,7 +730,8 @@ image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 
 helptext = """饥荒动画转换工具DS Anim Convert Tools
 可通过 -anim -build 识别文件类型
-[1]build.bin<->build.xml -json -remove_vert -crop
+[1]build.bin<->build.xml -json
+   build.json -remove_vert -crop
 [2]build.bin -rename="build name"
 [3]anim.bin<->anim.xml
 [4]zip<->scml -crop
@@ -738,6 +740,7 @@ helptext = """饥荒动画转换工具DS Anim Convert Tools
 [7]xml<->images [auto resize cookbook, inventoryimages, minimap]
 [8]scon -interpolate -fps=30
 [9]build.bin/json */*.png ->zip -rename="build name"
+[10]anim.json -crop=build.json
 """
 unrecognized_file = """无法识别文件
 Cannot Identify File
