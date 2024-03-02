@@ -60,7 +60,7 @@ def preprocess_input(sentence):
     flat_subtokens=[i for i in flat_subtokens if i not in banlist]
     #分割\n
     s=" ".join(flat_subtokens)
-    return s.replace('\n',' ').replace('\r',' ')
+    return s.replace('\n',' ').replace('\r',' ').upper()
 
 def get_translation(key):
     if key in db:
@@ -200,20 +200,21 @@ def retrieve_similar_sentences(event):
                     if similarity_score<0.01:
                         break
                     matched.extend(reverse_index[similar_trans])
-                for i in matched:
-                    if lasti==length:
-                        break
-                    if i not in cached:
-                        cached[i]=True
-                        results.append(i)
-                        lasti+=1
-                match_doc=[preprocess_input(i) for i in matched]
-                res,lasti=retrieve_tf_idf(match_doc,lasti,cached)
-                results.extend(res)
+                if len(matched)>0:
+                    for i in matched:
+                        if lasti==length:
+                            break
+                        if i not in cached:
+                            cached[i]=True
+                            results.append(i)
+                            lasti+=1
+                    match_doc=[preprocess_input(i) for i in matched]
+                    res,lasti=retrieve_tf_idf(match_doc,lasti,cached)
+                    results.extend(res)
             measure_time()
 
             #too slow!!!
-            '''if lasti<length and len(input_tokens)<40:
+            if lasti<length and len(input_tokens)<40:
                 result=retrieve_similar_sentences_edit(input_tokens,length-lasti)
                 for i in result:
                     similar_sentence = get_key(i[1])
@@ -222,7 +223,7 @@ def retrieve_similar_sentences(event):
                         cached[similar_sentence]=True
                         lasti+=1
             measure_time()
-            '''
+            
 
         if True in results_special:
             translation=results_special[True]

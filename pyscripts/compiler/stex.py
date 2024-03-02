@@ -54,7 +54,7 @@ def run(command):
         stderr = stderr.decode("utf-8")
     if stdout:
         stdout = stdout.decode("utf-8")
-    return stderr  # or stdout
+    return stderr #or stdout
 
 
 def png_to_tex(input_path, output_path=None, atlas=None):
@@ -127,17 +127,18 @@ def tex_to_png(input_path, output_path=None):
     input_xml = join_all(temp_path, "temp", "xml")
     dest = temp_path
     # write a xml to temp
-    with open("temp.xml", "w", encoding="utf-8") as f:
+    with open(input_xml, "w", encoding="utf-8") as f:
         f.write(stex_xml.format(input_name=filename, output_name="tempstex"))
     cmd = f'{stexpath} unpack --input "{input_xml}" --output "{dest}"'
     errmsg = run(cmd)
-    temp_file = join_all(temp_path, "tempstex", "png")
+    temp_file = join_all(temp_path, f"{filename}/tempstex", "png")
     if os.path.exists(temp_file):
         shutil.move(temp_file, output_path)
-    temp_file = join_all(basepath, "tempstex", "png")
-    if os.path.exists(output_file):
-        os.remove(output_file)
-    os.rename(temp_file, output_file)
+        temp_file = join_all(output_path, "tempstex", "png")
+        if os.path.exists(temp_file):
+            if os.path.exists(output_file):
+                os.remove(output_file)
+            os.rename(temp_file, output_file)
     shutil.rmtree(temp_path)
     return errmsg
 
