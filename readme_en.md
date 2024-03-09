@@ -157,6 +157,108 @@ py2 enanim.py
 @py2 refers to Don't Starve Mod Tools
 ```
 
+Here is an English translation of the readme_en.md file:
+
+# bmfont v.1.14a
+
+Font making software 
+
+The official version used is v1.12a. SHA256=6b675a96fba2e5b071323b60d7c476a80ea994888b4abd1b24485b8ce3e94614
+
+http://www.angelcode.com/products/bmfont/
+
+# DSTEd
+
+Repository: https://github.com/DST-Tools/DSTEd
+
+This program provides an IDE, this link is for version 1.0 which has a release; the updated version 2.0 in 2021 does not have a release and needs to be compiled itself. I compiled it but got various errors and couldn't use it.
+
+![DSTEd][]
+
+# FsbExtractor14.03.10 
+
+Software for viewing and extracting audio in fsb format
+
+# FMOD FSB Extractor
+
+Command line software for extracting audio in fsb format to wav format
+
+# TexExplorer
+
+Repository address: https://github.com/tpxxn/TexExplorer
+
+Compared to TexTool, it provides a more convenient texture atlas information viewing function, but is more crude.
+
+# notes 
+
+Aoki's notes
+
+# ztools
+
+Repository address: https://gitlab.com/Zarklord/ztools
+
+ztools.exe is similar to ktech.exe. Supports packaging multiple images into one tex
+
+Need to install [ImageMagick](https://imagemagick.org/index.php)
+
+# Texture And Atlas Packer
+
+File address: https://forums.kleientertainment.com/files/file/1333-texture-and-atlas-packer/
+
+Packages multiple images into one tex
+
+# STex
+
+Repository address: https://github.com/oblivioncth/Stexatlaser 
+
+Packages multiple images into one tex```bash
+stex pack -i inputdir -o outputdir```
+
+Decomposes tex into multiple images```bash 
+stex unpack -i input.xml -o outputdir```
+
+It has been detected that STex is the only program that correctly handles transparent images, so it is recommended not to use `ktech` or `ztools`
+
+# Don't Starve Speech File Editor v0.8
+
+Language file editor
+
+https://forums.kleientertainment.com/forums/topic/146612-tool-dont-starve-speech-file-editor-or-comparer-however-you-want-to-call-it/#comment-1626634
+
+# Tiled
+
+【Not included】
+
+https://www.mapeditor.org/
+
+Map editor
+
+# steamdown
+
+Converts markdown to steam 
+
+# steam2md.py
+
+Converts steam to markdown
+
+# pyscripts 
+
+[readme](pyscripts/readme.md) 
+
+# html
+
+## index.html
+
+Either enable CORS or download locally to open
+
+http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob/master/html/index.html
+
+Animation player. 
+
+Open build.json and anim.json to play animations.
+
+Click the title to read more details.
+
 ## Resources used
 
 Klei forums modding tools section: https://forums.kleientertainment.com/files/category/5-modding-tools-tutorials-examples/
