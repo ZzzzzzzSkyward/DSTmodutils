@@ -3,19 +3,22 @@ import os
 from PIL import Image
 from crop import crop_abs
 
-'''
+"""
 裁剪build.json
 compensate_pivot 补偿由于错误的w,h导致的x,y视觉错误
 clip_image 原位裁剪图片
-'''
-def clip_symbols(symbols: dict, name, path, compensate_pivot=True,clip_image=True):
+"""
+
+
+def clip_symbols(symbols: dict, name, path, compensate_pivot=True, clip_image=True):
     flag = True
     for symbol in symbols:
-        x, y, h, w = symbol.get(
-            "x", 0), symbol.get(
-            "y", 0), symbol.get(
-                "h", 0), symbol.get(
-                    "w", 0)
+        x, y, h, w = (
+            symbol.get("x", 0),
+            symbol.get("y", 0),
+            symbol.get("h", 0),
+            symbol.get("w", 0),
+        )
         frame = symbol.get("framenum")
         if frame is None:
             frame = symbol.get("frame")
@@ -29,17 +32,18 @@ def clip_symbols(symbols: dict, name, path, compensate_pivot=True,clip_image=Tru
             continue
         with Image.open(img_path) as image:
             if image.width != w:
-                #print("Image", name, "-", frame, "has wrong record width")
+                # print("Image", name, "-", frame, "has wrong record width")
                 print("图片", name, "-", frame, "宽度记录有误")
                 if compensate_pivot:
-                    symbol["x"]=w/2-((w/2-x)*image.width/symbol["w"])
-                    x=symbol["x"]
+                    symbol["x"] = w / 2 - ((w / 2 - x) * image.width / symbol["w"])
+                    x = symbol["x"]
                 symbol["w"] = image.width
                 w = symbol["w"]
             if image.height != h:
                 if compensate_pivot:
-                    symbol["y"]=h/2-((h/2-y)*image.height/symbol["h"])
-                    y=symbol["y"]
+                    symbol["y"] = h / 2 - ((h / 2 - y) * image.height / symbol["h"])
+                    y = symbol["y"]
+                # print("Image", name, "-", frame, "has wrong record height")
                 print("图片", name, "-", frame, "高度记录有误")
                 symbol["h"] = image.height
                 h = symbol["h"]
@@ -55,7 +59,7 @@ def clip_symbols(symbols: dict, name, path, compensate_pivot=True,clip_image=Tru
                     symbol["y"] = _y
                     symbol["w"] = _w
                     symbol["h"] = _h
-                    '''print(
+                    """print(
                         name,
                         frame,
                         "\n",
@@ -71,13 +75,13 @@ def clip_symbols(symbols: dict, name, path, compensate_pivot=True,clip_image=Tru
                         px,
                         py,
                         _px,
-                        _py)'''
+                        _py)"""
 
     return flag
 
 
-def clip(data: dict,**kwargs):
-    if "Symbol"not in data:
+def clip(data: dict, **kwargs):
+    if "Symbol" not in data:
         print("json数据不是build")
         return False
     path = data.get("Path", "")
@@ -86,8 +90,22 @@ def clip(data: dict,**kwargs):
     keys = list(data["Symbol"].keys())
     for symbol in keys:
         symdata = data["Symbol"][symbol]
-        flag = clip_symbols(symdata, symbol, path,**kwargs)
+        flag = clip_symbols(symdata, symbol, path, **kwargs)
         if flag:
             print("删除透明文件夹", symbol)
             del data["Symbol"][symbol]
+    return True
+
+
+def check(data):
+    if "Symbol" not in data:
+        print("json数据不是build")
+        return False
+    path = data.get("Path", "")
+    if not os.path.exists(path):
+        path = ""
+    keys = list(data["Symbol"].keys())
+    for symbol in keys:
+        symdata = data["Symbol"][symbol]
+        flag = clip_symbols(symdata, symbol, path, False, False)
     return True

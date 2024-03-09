@@ -234,7 +234,8 @@ def convert_build_json(filepath, filename, file_ext, params):
         print(
             "-crop参数仅仅裁剪",
             filename,
-            "并覆盖原文件",
+            ", 覆盖原文件",
+            not params.check,
             "补偿",
             not not params.compensate,
             "裁剪图片",
@@ -243,10 +244,13 @@ def convert_build_json(filepath, filename, file_ext, params):
         if params.remove_vert:
             if "Vert" in build_file:
                 del build_file["Vert"]
-        if clip_build.clip(
-            build_file, compensate_pivot=params.compensate, clip_image=params.clip
-        ):
-            save_file(build_path, build_file)
+        if params.check:
+            clip_build.check(build_file)
+        else:
+            if clip_build.clip(
+                build_file, compensate_pivot=params.compensate, clip_image=params.clip
+            ):
+                save_file(build_path, build_file)
         return
     build_class = AnimBuild(build_file)
     build_class.json_to_bin()
