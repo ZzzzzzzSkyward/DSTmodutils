@@ -2,6 +2,8 @@
 
 本仓库主要包括查看饥荒源文件的一些程序。
 
+[English readme here](readme_en.md)
+
 ## ktools
 
 ### BuildRenamer.exe
@@ -115,6 +117,8 @@ fork（本仓库使用该fork）：https://github.com/oblivioncth/dont-starve-to
 由大佬制作的32位引擎补丁，在创意工坊有对应mod
 
 原仓库：https://github.com/paintdream/DontStarveLuaJIT
+
+也有64位的补丁。
 
 ## steam的Don't Starve Mod Tools
 
@@ -233,6 +237,8 @@ tex分解成多图片
 stex unpack -i input.xml -o outputdir
 ```
 
+经过检测，stex是唯一一个正确处理透明图片的程序，因此建议不要使用`ktech`或者`ztools`
+
 ## Don't Starve Speech File Editor v0.8
 
 语言文件编辑器
@@ -257,61 +263,15 @@ steam转markdown
 
 # pyscripts
 
-###### buildtoxml.py
+[中文](pyscripts/readme_zh.md)
 
-把build.bin转换成.xml
-
-###### convertbuildxml.py
-
-在build.bin与xml之间转换
-
-###### crop.py
-
-裁剪不全透明的图片，并输出裁剪后的pivot
-
-###### editxml.py
-
-编辑build.xml或者.scml（不完全支持）
-
-merge source.xml，从其他build.xml合并
-
-add symbol source.xml，从其他build.xml合并某个symbol
-
-delete symbol，删除
-
-list，列举
-
-import symbol source.xml sourcesymbol，从其他build.xml合并sourcesymbol并重命名为symbol
-
-rename symbol name，将symbol重命名为name
-
-###### editpivot.py
-
-输入scml name id pivot_x pivot_y，编辑对应的图片xy，注意scml文件的y=1-pivot_y，而Spriter里显示的是pivot_y
-
-###### mark.py
-
-输入scml，对scml里的文件夹里的所有图片标记红点
-
-可选参数半径
-
-###### transparent.py
-
-需安装[ImageMagick](https://imagemagick.org/index.php)
-
-输入文件夹名，对文件夹里所有图片透明化，并备份原图片到_backup
-
-可选参数-r，恢复原图片并删除_backup
-
-###### xmltobuild.py
-
-从build.xml转换到build.bin
+[English](pyscripts/readme.md)
 
 # html
 
 ## index.html
 
-Enable CORS to access online page, or download it.
+​		要么开启CORS，要么下载到本地打开
 
 http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob/master/html/index.html
 
@@ -319,13 +279,7 @@ http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob
 
 打开build.json和anim.json以播放动画
 
-默认该html文件与图片所在目录相同，如果不同需要手动输入file:///图片路径，比如file:///C:/Users/x/Desktop/anim/
-
-滚轮改变图片frame
-
-鼠标拖动图片
-
-参数：图片红点坐标(x,y)，放缩(sx,sy)，平移(tx,ty)，旋转an，图层顺序z-index（越大越靠前，真实值为50-zindex）
+点击标题以阅读详细说明
 
 ## 资料来源
 

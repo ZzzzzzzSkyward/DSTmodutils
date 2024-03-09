@@ -2,6 +2,8 @@
 
 The DS Anim Convert Tools script provides a simple command line interface to convert animation file formats.
 
+[中文说明在这里](./readme_zh.md)
+
 ## Bug Fix
 
 - Remove the interpolation function, which may cause unwanted results. You need to manually key each frame. Or you can use the experimental interpolation service provided.
@@ -111,13 +113,30 @@ python cli.py build.bin test/
 
 ### Handling build.json
 
-- input: a `build.json`, and a folder
-- output: a zip including `build.bin` and `atlas-0.tex`
-- An extra attribute `Path` is added to json. If there is a `Path` in `build.json`, it implies that the images are located there, otherwise the images are assumed to be located exactly the same as `build.json`.
-- `-crop` allows extra work before the compilation starts. By default, it will only try to fix the width and height mismatch, according to images.
-- parameters after `-crop`:
-  - `-remove_vert`removes the `Verts` attribute, which is useless. The `Verts` will be calculated again according to images in that folder.
-  - `-compensate` try to adjust the `x` and `y` attribute, given `width` and `height` being wrong. If you use the Animation Viewer(`html/index.html`), you are supposed to do this. If you don't add this parameter, and you have an image that has wrong recorded shape, the `x` and `y` will remain the same, which results in a shift of pivot.
-  -  `-clip` try to clip images (please do a backup yourself!), removing the blank space around an image to shrink the size.
-- Please be careful when you use these things as they may cause unwanted results.
-- After pre-compilation is done, you can then run `python cli.py build.json path_to_image_folder/`
+1. handle build.json
+
+   - run `python cli.py build.json -crop`
+   - input: a `build.json`
+   - An extra attribute `Path` is added to json. If there is a `Path` in `build.json`, it implies that the images are located there, otherwise the images are assumed to be located exactly the same as `build.json`.
+   - By default, it will only try to fix the width and height mismatch, according to images.
+   - parameters after `-crop`:
+     - `-check` displays the mismatch without actually modifying the json file.
+     - `-remove_vert`removes the `Verts` attribute, which is useless. The `Verts` will be calculated again according to images in that folder.
+     - `-compensate` try to adjust the `x` and `y` attribute, given `width` and `height` being wrong. If you use the Animation Viewer(`html/index.html`), you are supposed to do this. If you don't add this parameter, and you have an image that has wrong recorded shape, the `x` and `y` will remain the same, which results in a shift of pivot.
+     - `-clip` try to clip images (please do a backup yourself!), removing the blank space around an image to shrink the size.
+   - Please be careful when you use these things as they may cause unwanted results.
+
+2. compile build.json and images
+
+   -  run `python cli.py build.json path_to_image_folder/`.
+
+   - output: a zip including `build.bin` and `atlas-0.tex`.
+
+### Handling anim.json
+
+- It is often the case when you don't want to change an item's anim, but just want to change its texture. Since you can compile the build, you can also compile its animation. If your texture is not too different from the original texture in shape, you can just leave the animation alone, and use the original animation file. And you use it by calling `inst.AnimState:SetBank("the original bank")`
+- But if the shape is different enough, you need to compile a new animation file.
+  1. rename the bank name in `anim.json`.
+  2. run `python cli.py anim.json -crop=build.json`, the images are read from either `Path` attribute or the same directory as build.json.
+  3. run `python cli.py anim.json` to get an `anim.bin`.
+  4. insert it into the zip.
