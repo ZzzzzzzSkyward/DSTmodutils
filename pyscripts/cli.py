@@ -245,11 +245,14 @@ def convert_build_json(filepath, filename, file_ext, params):
             if "Vert" in build_file:
                 del build_file["Vert"]
         if params.check:
+            if 'Path' not in build_file:
+                build_file['Path']=filepath
             clip_build.check(build_file)
         else:
+            #add a safeguard not to wrongly remove all images
             if clip_build.clip(
                 build_file, compensate_pivot=params.compensate, clip_image=params.clip
-            ):
+            ) and len(list(build_file.get('Symbol',{}).keys()))>0:
                 save_file(build_path, build_file)
         return
     build_class = AnimBuild(build_file)
@@ -735,7 +738,8 @@ image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 helptext = """饥荒动画转换工具DS Anim Convert Tools
 可通过 -anim -build 识别文件类型
 [1]build.bin<->build.xml -json
-   build.json -remove_vert -crop
+   build.json -crop 
+                    -check -compensate -clip -remove_vert
 [2]build.bin -rename="build name"
 [3]anim.bin<->anim.xml
 [4]zip<->scml -crop
@@ -755,10 +759,11 @@ def require():
     try:
         import rich
         from rich.traceback import install
-
+        
         install()
         global pretty_error
         pretty_error = True
+        pass
     except BaseException as e:
         pass
 
