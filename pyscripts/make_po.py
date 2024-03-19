@@ -145,6 +145,38 @@ def do_po():
             continue
         srcpo.remove(i)
     srcpo.save(target_path)
+def import_po():
+    if __name__=='__main__':
+        parse_args_import(sys.argv[2:])
+    if not os.path.exists(chs_po_path):
+        print(f"{chs_po_path} not exist")
+        return
+    srcpo=PO(chs_po_path)
+    from zzz import code,file
+    comment=code.de(file.readstr(target_path))
+    #remove 暂无注释
+    for k in list(comment.keys()):
+        if comment[k]=="暂无注释":
+            del comment[k]
+    for i in srcpo.po:
+        key=i.msgctxt
+        l=key
+        a=l.find('.')
+        a+=1
+        a=l.find('.',a)
+        a+=1
+        a=l.find('.',a)
+        a+=1
+        key=l[a:]
+        if key in comment:
+            i.comment=comment[key]
+        else:
+            key=key[:key.rfind('.')]
+            if key in comment:
+                i.comment=comment[key]
+            else:
+                print(i.msgctxt)
+    srcpo.save(dest_path)
 def merge_po():
     if __name__=='__main__':
         parse_args_merge(sys.argv[2:])
@@ -173,6 +205,23 @@ def parse_args_do(args):
         print(f"set source={chs_po_path}")
     if len(args)>3 or len(args)<1:
         print("Usage: python make_po.py extract character [target.po] [source.po]")
+def parse_args_import(args):
+    global chs_po_path
+    global target_path
+    global dest_path
+    global character
+    if len(args)>3 or len(args)<2:
+        print("Usage: python make_po.py import source.po comment.json [target.po]")
+        return
+    chs_po_path=args[0]
+    print(f"set source={chs_po_path}")
+    target_path=args[1]
+    print(f"set comment={target_path}")
+    if len(args)>=3:
+        dest_path=args[2]
+    else:
+        dest_path=chs_po_path[:-3]+"_comment.po"
+    print(f"set target={dest_path}")
 def parse_args_merge(args):
     global chs_po_path
     global target_path
@@ -212,6 +261,8 @@ if __name__=='__main__':
         merge_po()
     elif command=="clean":
         clean_po()
+    elif command=="import":
+        import_po()
     else:
         print(helptext)
         exit(0)
