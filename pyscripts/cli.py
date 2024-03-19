@@ -244,6 +244,14 @@ def convert_build_json(filepath, filename, file_ext, params):
         if params.remove_vert:
             if "Vert" in build_file:
                 del build_file["Vert"]
+            if "Symbol" in build_file:
+                for name in build_file["Symbol"]:
+                    frames=build_file["Symbol"][name]
+                    for data in frames:
+                        if "alphacount" in data:
+                            del data["alphacount"]
+                        if "alphaidx" in data:
+                            del data["alphaidx"]
         if params.check:
             if 'Path' not in build_file:
                 build_file['Path']=filepath
