@@ -661,6 +661,78 @@
         .menus div {
             line-height: var(--lh);
         }
+
+        #imgpanel {
+            position: fixed;
+            top: 20%;
+            left: 0;
+            width: 20%;
+            min-width: 5em;
+            height: 40%;
+            min-height: 4em;
+            background-color: #ffffff70;
+            border: 1px solid #0000009d;
+            border-radius: 0.4px;
+            box-sizing: border-box;
+            overflow-y: hidden;
+            z-index: 9999;
+            --trans: height, width, opacity, background-color, border-width;
+        }
+
+        #imgpanel img {
+            display: block;
+            margin: 10px;
+        }
+
+        #imgpanellist {
+            position: relative;
+            display: flex;
+            width: 100%;
+            height: calc(100% - 1em);
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .imgpanelitem {
+            background-color: #ffffff36;
+            padding-bottom: 0.1em;
+            margin-bottom: 0.1em;
+            display: block;
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+        .imgpanelitem:hover {
+            background-color: rgba(133, 133, 133, 0.479);
+        }
+
+        .imgpanelitem:active {
+            background-color: #6e6e6eb2;
+        }
+
+        #imgpanel.hiddenpanel {
+            min-height: 1em;
+            height: 1.1em;
+            opacity: 0.5;
+            background-color: transparent;
+            border-color: transparent;
+        }
+
+        #imgpanelhead {
+            cursor: move;
+            line-height: 1em;
+            max-height: 1em;
+            max-width: calc(100% - 0.1em);
+            display: block;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            background-color: #0000002c;
+            margin-left: 0.1em;
+        }
     </style>
 </head>
 
@@ -776,6 +848,10 @@
     <div id="scaleslider">
         <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleslider-slider">
         <span id="scale-value">1</span>
+    </div>
+    <div id="imgpanel" class="transition">
+        <header id="imgpanelhead" class="no-select transition">静态图层显示</header>
+        <div id="imgpanellist"></div>
     </div>
     <script>
         let scaleSlider = document.getElementById( "scaleslider-slider" );
@@ -1566,9 +1642,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
         function cloneNode( node ) {
             const ctn = document.getElementById( "image-container-clone" );
-            while ( ctn.firstChild ) {
-                ctn.removeChild( ctn.firstChild );
-            }
+            ClearNode( ctn );
             if ( !node ) return;
             // 移除克隆节点及其子节点的id属性
             const imgs = node.querySelectorAll( 'img' );
@@ -1651,6 +1725,12 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
             generateListItems();
         }
+
+        function ClearNode( node ) {
+            while ( node.firstChild ) {
+                node.removeChild( node.firstChild );
+            }
+        }
         //data:{classname:{animation_name:{framerate:30,numframes:10,frames:[frame]}}}
         //frame:{elements:[images]}
         //image:{"name": "lantern_overlay", "frame": 1, "layername": "LANTERN_OVERLAY", "m_a": 0.9428864121437073, "m_b": 0.10536190122365952, "m_c": -0.10536190122365952, "m_d": 0.9428864121437073, "m_tx": 105.44999694824219, "m_ty": -107.44999694824219, "z_index": 0},
@@ -1685,9 +1765,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             RequestProgressChange();
             let ctn = document.getElementById( 'image-container' );
             //clear container
-            while ( ctn.firstChild ) {
-                ctn.removeChild( ctn.firstChild );
-            }
+            ClearNode( ctn );
             // assign an id to every image within an animation if not exist
             for ( let i = 0; i < frames.length; i++ ) {
                 let frame = frames[ i ].elements;
@@ -1718,6 +1796,8 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                     }
                 }
             }
+            //Update Images
+            UpdatePanel();
             let currentFrame = 1;
 
             // Function to render each frame
@@ -2124,6 +2204,92 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         }
         let autosavedElementSelectors = [ '#imagepath' ];
         autosavedElementSelectors.forEach( registerAutoSave );
+        let imgPanel = document.getElementById( "imgpanel" );
+        let layerList = document.getElementById( "imgpanellist" );
+        let imgHeader = document.getElementById( "imgpanelhead" );
+        let imgPanelToggle = false;
+        imgPanel.classList.add( "hiddenpanel" );
+        imgHeader.addEventListener( "click", function ( e ) {
+            if ( imgPanel.preventNextClick ) {
+                imgPanel.preventNextClick = false;
+                return;
+            }
+            imgPanelToggle = !imgPanelToggle;
+            if ( imgPanelToggle ) {
+                imgPanel.classList.add( "hiddenpanel" );
+            } else {
+                imgPanel.classList.remove( "hiddenpanel" );
+            }
+        } );
+        layerList.addEventListener( "click", function ( e ) {
+            if ( imgPanel.preventNextClick ) {
+                imgPanel.preventNextClick = false;
+                return;
+            }
+            var target = e.target;
+
+            let image = target.source;
+            if ( !image ) {
+                return;
+            }
+            if ( image.style.display === "none" ) {
+                image.style.display = "block";
+                target.style.opacity = 1;
+            } else {
+                image.style.display = "none";
+                target.style.opacity = 0.5;
+            }
+            return true;
+        } );
+
+        function InsertImageToPanel( img ) {
+            let info = `${img.name}-${img.getAttribute("framenum")}`;
+            let listItem = document.createElement( "div" );
+            listItem.classList.add( "imgpanelitem" );
+            listItem.classList.add( "no-select" );
+            listItem.textContent = info;
+            listItem.source = img;
+            layerList.appendChild( listItem );
+        }
+
+        function UpdatePanel() {
+            ClearNode( layerList );
+            // 获取<body>中的所有一级目录的<img>元素的src属性
+            let imgInfos = Array.from( imageContainer.querySelectorAll( "img" ) )
+                .map( InsertImageToPanel );
+        }
+
+        // 添加拖动功能
+        function EnableDrag( node, target ) {
+
+            let isDragging = false;
+            let offset = {
+                x: 0,
+                y: 0
+            };
+
+            node.addEventListener( "mousedown", function ( e ) {
+                isDragging = true;
+                offset.x = e.clientX - target.offsetLeft;
+                offset.y = e.clientY - target.offsetTop;
+            } );
+
+            node.addEventListener( "mousemove", function ( e ) {
+                if ( isDragging ) {
+                    target.style.left = e.clientX - offset.x + "px";
+                    target.style.top = e.clientY - offset.y + "px";
+                    target.preventNextClick = true;
+                }
+            } );
+
+            node.addEventListener( "mouseup", function () {
+                isDragging = false;
+            } );
+            node.addEventListener( "mouseout", function () {
+                isDragging = false;
+            } );
+        }
+        EnableDrag( imgHeader, imgPanel );
     </script>
 </body>
 
