@@ -65,6 +65,22 @@
             color: var(--placeholder-color);
         }
 
+        #scaleslider {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            opacity: 0.5;
+            /* 初始设置为半透明 */
+            transition: opacity 0.3s ease;
+            /* 添加过渡效果 */
+            width: 200px;
+        }
+
+        #scaleslider:hover {
+            opacity: 1;
+            /* 悬停时设置为不透明 */
+        }
+
         a {
             color: var(--a-color);
             cursor: pointer;
@@ -757,6 +773,23 @@
     <div id="build-editor" class="editor" tabindex="1">
         <div id="override" class="editor-pivot"></div>
     </div>
+    <div id="scaleslider">
+        <input type="range" min="0.5" max="2" step="0.1" value="1" id="scaleslider-slider">
+        <span id="scale-value">1</span>
+    </div>
+    <script>
+        let scaleSlider = document.getElementById( "scaleslider-slider" );
+        let scaleValue = document.getElementById( "scale-value" );
+
+        scaleSlider.addEventListener( "input", function () {
+            var scale = scaleSlider.value;
+            let imageContainer = document.getElementById( "image-container" );
+            imageContainer.style.transform = "scale(" + scale + ")";
+            let imageContainerClone = document.getElementById( "image-container-clone" );
+            imageContainerClone.style.transform = "scale(" + scale + ")";
+            scaleValue.innerText = `${scale.toFixed(2)}`;
+        } );
+    </script>
     <script>
         let strings = {
             play: "播放",
@@ -1294,7 +1327,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             const selectedOptionList2 = list2.options[ list2.selectedIndex ].text;
             bank = selectedOptionList1;
             anim = selectedOptionList2;
-            console.log( strings.selectedBA + `${bank} 和 ${anim}` );
+            console.log( `${strings.selectedBA} ${bank} 和 ${anim}` );
             RenderAnim( animdata, true );
         }
 
@@ -1302,27 +1335,29 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         list1.addEventListener( 'change', readSelectedItem );
         list2.addEventListener( 'change', readSelectedItem );
 
-        function generateListItems( classes, anims ) {
-            let array = classes;
+        function generateListItems() {
+            let banks = Object.keys( animdata );
+            let anims = [];
             let listElement = list1;
             // 清空当前列表内容
             listElement.innerHTML = '';
 
             // 遍历数组并创建新的列表项
-            array.forEach( item => {
+            banks.forEach( item => {
                 const option = document.createElement( 'option' );
                 option.value = item;
                 option.textContent = item;
                 // 将新创建的列表项添加到对应的父元素中
                 listElement.appendChild( option );
+                anims.push( ...Object.keys( animdata[ item ] ) );
             } );
-            array = anims;
+
             listElement = list2;
             // 清空当前列表内容
             listElement.innerHTML = '';
 
             // 遍历数组并创建新的列表项
-            array.forEach( item => {
+            anims.forEach( item => {
                 const option = document.createElement( 'option' );
                 option.value = item;
                 option.textContent = item;
@@ -1342,48 +1377,29 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         }
 
         function indexImageInfo( name, frame ) {
-            let imageInfo;
+            let imageInfo = null;
             let folderInfo = build_data[ name.toLowerCase() ];
             if ( !folderInfo ) {
                 return null;
             }
-            for ( let info of folderInfo ) {
+            folderInfo.forEach( ( info ) => {
                 if ( info.framenum <= frame && ( info.framenum + info.duration ) > frame ) {
                     imageInfo = info;
-                    break;
                 }
-            }
+            } );
             return imageInfo;
         }
-
-        function CreateImageFromData( name, i, frame ) {
-            let imageInfo, folderInfo;
-            if ( typeof ( name ) === "string" ) {
-
-                if ( !build_data ) return null;
-                // 从 build_data 中读取图像数据
-                folderInfo = build_data[ name.toLowerCase() ];
-                if ( !folderInfo ) {
-                    //console.log(name, frame, "not found");
-                    return null;
-                }
-                if ( i )
-                    imageInfo = folderInfo[ i ];
-                else {
-                    imageInfo = indexImageInfo( name, frame );
-                }
-            } else {
-                imageInfo = name;
-                name = imageInfo.name;
+        let WarningWarning;
+        ( function () {
+            let warned = false;
+            WarningWarning = function () {
+                if ( warned ) return;
+                warned = true;
+                alert( "请按F12打开控制台" );
             }
-            if ( !imageInfo ) {
-                //console.log(name, frame, "not found");
-                return null;
-            }
+        } )();
 
-            // 创建图像元素
-            var img = document.createElement( "img" );
-
+        function SetupImagePosition( img, imageInfo ) {
             let x = imageInfo.x - 0;
             let y = imageInfo.y - 0;
             let w = imageInfo.w - 0;
@@ -1399,7 +1415,36 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
             img.style.left = -px + "px";
             img.style.top = -py + "px";
+        }
 
+        function CreateImageFromData( name, i, frame, check ) {
+            let imageInfo, folderInfo;
+            if ( typeof ( name ) === "string" ) {
+                if ( !build_data ) return null;
+                // 从 build_data 中读取图像数据
+                folderInfo = build_data[ name.toLowerCase() ];
+                if ( !folderInfo ) {
+                    //console.log(name, frame, "not found");
+                    return null;
+                }
+                if ( i )
+                    imageInfo = folderInfo[ i ];
+                else {
+                    imageInfo = indexImageInfo( name, frame );
+                }
+            } else {
+                imageInfo = name;
+                name = i;
+            }
+            if ( !imageInfo ) {
+                //console.log(name, frame, "not found");
+                return null;
+            }
+
+            // 创建图像元素
+            var img = document.createElement( "img" );
+
+            SetupImagePosition( img, imageInfo );
 
             // 设置图像的src属性，格式为：name/name-frame.png
             var imageUrl = name + "/" + name + "-" + ( imageInfo.frame || imageInfo.framenum || 0 ) + ".png";
@@ -1419,6 +1464,22 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             //} );
             //add classname animimage
             img.classList.add( "animimage" );
+            if ( check )
+                //刷新图像宽度和高度
+                img.onload = function () {
+                    let w = img.width;
+                    let h = img.height;
+                    if ( typeof ( w ) == "number" && w > 0 ) {
+                        //loaded now, refresh the build
+                        if ( w !== imageInfo.w || h !== imageInfo.h ) {
+                            console.log( `图片尺寸不对, ${img.src} 应填写[${w},${h}]而不是[${imageInfo.w},${imageInfo.h}]` );
+                            WarningWarning();
+                            imageInfo.w = w;
+                            imageInfo.h = h;
+                            SetupImagePosition( img, imageInfo );
+                        }
+                    }
+                };
             // 返回创建的图像元素
             return img;
         }
@@ -1466,17 +1527,21 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             let container = document.getElementById( "image-container" );
 
             // 遍历 data 对象的每个键值对
-            for ( let imageName in data ) {
-                if ( data.hasOwnProperty( imageName ) ) {
+            //不要访问叶节点
+            for ( let layer in data ) {
+                if ( data.hasOwnProperty( layer ) ) {
+                    let imageName = layer;
                     let imageInfo = data[ imageName ];
-                    for ( let i in imageInfo ) {
-                        // 创建图像元素
-                        let img = CreateImageFromData( imageName, i );
-                        if ( img )
-                            container.appendChild( img );
+                    if ( typeof ( imageInfo ) === "object" ) {
+                        for ( let i = 1; i < imageInfo.length; i++ ) {
+                            // 创建图像元素
+                            let img = CreateImageFromData( imageInfo[ i ], imageName, undefined, true );
+                            if ( img )
+                                container.appendChild( img );
+                        }
                     }
                 }
-            }
+            };
             //监听图片删除事件
             // 创建 MutationObserver 实例，并指定回调函数
             var observer = new MutationObserver( function ( mutations ) {
@@ -1531,6 +1596,61 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             progress = newprogress;
             updateProgressBar( progress );
         }
+
+        function ParseAnim( data ) {
+            if ( !animdata ) animdata = {};
+            //generate list items
+            //{bank=[anim1={anim1},anim2={anim2},...]}
+            let anims = animdata;
+            for ( const bank in data ) {
+                if ( data.hasOwnProperty( bank ) ) {
+                    if ( !anims[ bank ] ) anims[ bank ] = {};
+                    const animations = data[ bank ];
+                    for ( const anim in animations ) {
+                        if ( animations.hasOwnProperty( anim ) ) {
+                            anims[ bank ][ anim ] = animations[ anim ];
+                        }
+                    }
+                }
+            }
+            //concat the pre-loop/""-pst thing
+            for ( const bank in anims ) {
+                if ( anims.hasOwnProperty( bank ) ) {
+                    const animations = anims[ bank ];
+                    for ( const anim of Object.keys( animations ) ) {
+                        if ( anim.match( /[_]?pre/ ) ) {
+                            //this will have loop and pst
+                            let name = anim.replace( /[_]?pre/, "" );
+                            let pre = animations[ anim ];
+                            let pst = animations[ anim.replace( /pre/, "pst" ) ];
+                            let loop = animations[ anim.replace( /pre/, "loop" ) ] || animations[ anim.replace( /pre/,
+                                "" ) ] || animations[ anim.replace( /_pre/, "" ) ];
+                            if ( pst || loop ) {
+                                //can really concat them
+                                let newframes = [];
+                                if ( pre.frames ) newframes.push( ...pre.frames );
+                                if ( loop && loop.frames ) newframes.push( ...loop.frames );
+                                if ( pst && pst.frames ) newframes.push( ...pst.frames );
+                                //delete pre
+                                delete animations[ anim ];
+                                if ( loop ) {
+                                    loop.frames = newframes;
+                                    loop.numframes = newframes.length;
+                                    if ( pst ) {
+                                        //delete pst
+                                        delete animations[ anim.replace( /pre/, "pst" ) ];
+                                    }
+                                } else {
+                                    pst.frames = newframes;
+                                    pst.numframes = newframes.length;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            generateListItems();
+        }
         //data:{classname:{animation_name:{framerate:30,numframes:10,frames:[frame]}}}
         //frame:{elements:[images]}
         //image:{"name": "lantern_overlay", "frame": 1, "layername": "LANTERN_OVERLAY", "m_a": 0.9428864121437073, "m_b": 0.10536190122365952, "m_c": -0.10536190122365952, "m_d": 0.9428864121437073, "m_tx": 105.44999694824219, "m_ty": -107.44999694824219, "z_index": 0},
@@ -1541,21 +1661,9 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         //each image is defined by its name and transform matrix, translate by (m_tx,m_ty), and z-index by z_index
         //use document.getElementById to get the image element with imageName + "-" + frame
         function RenderAnim( data, skipparse = false ) {
-            animdata = data;
+            //do not override old one //animdata = data;
             if ( !skipparse ) {
-                //generate list items
-                let anims = [];
-                for ( const classname in data ) {
-                    if ( data.hasOwnProperty( classname ) ) {
-                        const element = data[ classname ];
-                        for ( const animation_name in element ) {
-                            if ( element.hasOwnProperty( animation_name ) ) {
-                                anims.push( animation_name );
-                            }
-                        }
-                    }
-                }
-                generateListItems( Object.keys( data ), anims );
+                ParseAnim( data );
             }
             // Get the first animation in the first class
             let classname = bank;

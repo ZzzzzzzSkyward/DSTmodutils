@@ -23,12 +23,17 @@ msgstr ""
 "POT Version: 2.0"
 
 """
-    def __init__(self, po_path):
-        self.po_path = po_path
-        self.po = polib.pofile(po_path)
+    def __init__(self, po_path=None):
+        if po_path:
+            self.po_path = po_path
+            self.po = polib.pofile(po_path)
+        else:
+            self.po_path=""
+            self.po=None
         self.po_dict = {}
-        for i in self.po:
-            self.po_dict[i.msgctxt] = i.msgstr
+        if self.po:
+            for i in self.po:
+                self.po_dict[i.msgctxt] = i.msgstr
 
     def __sub__(self, other):
         # erase from myself the same msgctxt as other
@@ -42,7 +47,17 @@ msgstr ""
         for i in other.po:
             if i.msgctxt not in self.po_dict:
                 self.add(i)
-
+        return self
+    
+    def copy(self):
+        newpo=PO()
+        newpo.po_path=self.po_path
+        newpo.po=self.po
+        newpo.po_dict={}
+        for i in self.po_dict:
+            newpo.po_dict[i]=self.po_dict[i]
+        return newpo
+        
     def __eq__(self, other) -> bool:
         # compare myself with other by msgctxt and msgstr
         for i in other.po:
