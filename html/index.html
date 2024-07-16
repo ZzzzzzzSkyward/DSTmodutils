@@ -1978,12 +1978,12 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
 
         }
-
+        let matrix_e = [ 1, 0, 0, 1, 0, 0 ];
         function GetMatrix( img ) {
             const matrix = img.style.transform.match( /matrix\((.+?)\)/ );
-            if ( !matrix ) return [ 1, 0, 0, 1, 0, 0 ];
+            if ( !matrix ) return matrix_e;
             let mat = matrix[ 1 ].split( ',' ).map( n => +n );
-            if ( mat.length === 0 ) return [ 1, 0, 0, 1, 0, 0 ];
+            if ( mat.length === 0 ) return matrix_e;
             return mat;
         }
 

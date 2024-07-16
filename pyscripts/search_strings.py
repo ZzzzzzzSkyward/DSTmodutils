@@ -27,7 +27,7 @@ def loaddb():
         messagebox.showerror('错误','找不到chinese_s.po')
         exit(0)
     pofile=polib.pofile('chinese_s.po')
-    db={i.msgctxt:i.msgstr for i in pofile}
+    db={i.msgctxt.replace("STRINGS.","").replace("CHARACTERS.",""):i.msgstr for i in pofile}
     # 将句子按照.和_分隔符划分
     cached={}
     for sentence in list(db.keys()):
