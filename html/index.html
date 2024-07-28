@@ -1284,7 +1284,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             const pivotx = dx + w / 2;
             const pivoty = dy + h / 2;
             displayDiv.innerHTML =
-                `${src}<br/>
+                `${window.decodeURI(src)}<br/>
                 layer:${target.getAttribute("layername")}<br/>
                 -x: ${dx.toFixed(2)}, px: ${pivotx.toFixed(3)}<br/>
                 -y: ${dy.toFixed(2)}, py: ${pivoty.toFixed(3)}<br/>
@@ -1979,6 +1979,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
         }
         let matrix_e = [ 1, 0, 0, 1, 0, 0 ];
+
         function GetMatrix( img ) {
             const matrix = img.style.transform.match( /matrix\((.+?)\)/ );
             if ( !matrix ) return matrix_e;

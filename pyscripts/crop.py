@@ -128,10 +128,13 @@ def uncrop(filename, x, y, nosave=False):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(
-            "Usage: python crop.py [filename] ([pivot_x] [pivot_y] [nosave] [uncrop])\n Crop the image and calculate the new pivot point coordinates.\nnosave: do not crop image.\nuncrop: crop image so that pivot is (0.5,0.5)"
+            "Usage: python crop.py [filename] ([pivot_x]|[abs] [pivot_y] [nosave] [uncrop])\n Crop the image and calculate the new pivot point coordinates.\nnosave: do not crop image.\nuncrop: crop image so that pivot is (0.5,0.5)"
         )
         exit(1)
     im = sys.argv[1]
+    if len(sys.argv[2])>2 and sys.argv[2]=="abs":
+        crop_abs(im,0,0)
+        exit(0)
     if len(sys.argv) < 4:
         crop_image(im)
         exit(0)
