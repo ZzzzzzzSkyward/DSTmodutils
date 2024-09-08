@@ -105,6 +105,8 @@ Origins: https://github.com/paintdream/DontStarveLuaJIT
 
 There is also a 64-bit patch.
 
+https://github.com/fesily/DontStarveLuaJIT2
+
 ## Steam Don't Starve Mod Tools
 
 This tool package has Workshop uploading functionality as well as an autocompiler.exe. 

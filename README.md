@@ -120,6 +120,8 @@ fork（本仓库使用该fork）：https://github.com/oblivioncth/dont-starve-to
 
 也有64位的补丁。
 
+https://github.com/fesily/DontStarveLuaJIT2
+
 ## steam的Don't Starve Mod Tools
 
 这个工具包拥有上传到创意工坊的功能，还有一个autocompiler.exe
