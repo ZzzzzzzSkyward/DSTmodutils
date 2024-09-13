@@ -271,7 +271,7 @@ steam转markdown
 
 ## index.html
 
-​		要么开启CORS，要么下载到本地打开
+要么开启CORS，要么下载到本地打开
 
 http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob/master/html/index.html
 
@@ -280,6 +280,16 @@ http://htmlpreview.github.io/?https://github.com/ZzzzzzzSkyward/DSTmodutils/blob
 打开build.json和anim.json以播放动画
 
 点击标题以阅读详细说明
+
+# VS Code 插件
+
+饥荒联机版 https://gitee.com/b1inkie/dst-api
+
+lua LSP插件有两个，任选（功能有点不太一样），记得把scripts文件夹加入library里。
+
+lua minify简单混淆用
+
+lua执行测试脚本用
 
 ## 资料来源
 

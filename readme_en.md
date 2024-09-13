@@ -259,6 +259,16 @@ Open build.json and anim.json to play animations.
 
 Click the title to read more details.
 
+# VS Code Extensions
+
+DST Hint https://gitee.com/b1inkie/dst-api
+
+There are 2 lua LSPs, you can choose either. Remember to add `scripts` to `library`.
+
+lua minify: used for uglifying your lua file.
+
+lua: used for executing tests.
+
 ## Resources used
 
 Klei forums modding tools section: https://forums.kleientertainment.com/files/category/5-modding-tools-tutorials-examples/
