@@ -293,6 +293,12 @@ lua minify简单混淆用
 
 lua执行测试脚本用
 
+# Photoshop导出tex插件
+
+类似TexCreator.exe的ps插件版本
+
+https://github.com/LobatoLobato/PSTexTool
+
 ## 资料来源
 
 https://forums.kleientertainment.com/files/category/5-modding-tools-tutorials-examples/

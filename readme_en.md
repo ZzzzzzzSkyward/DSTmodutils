@@ -271,6 +271,12 @@ lua minify: used for uglifying your lua file.
 
 lua: used for executing tests.
 
+# Photoshop Extension for TEX creation
+
+An extension that exports tex file similar to TexCreator.exe
+
+https://github.com/LobatoLobato/PSTexTool
+
 ## Resources used
 
 Klei forums modding tools section: https://forums.kleientertainment.com/files/category/5-modding-tools-tutorials-examples/

@@ -812,6 +812,7 @@
                 </div>
             </div>
             <input id="imagepath" placeholder="file:\\\c:"></input>
+            <button id="refreshImgButton" class="transition buttons paper-border">贴图刷新</button>
 
             <select id="list1">
                 <option value="" selected>bank</option>
@@ -863,7 +864,7 @@
             imageContainer.style.transform = "scale(" + scale + ")";
             let imageContainerClone = document.getElementById( "image-container-clone" );
             imageContainerClone.style.transform = "scale(" + scale + ")";
-            scaleValue.innerText = `${scale.toFixed(2)}`;
+            scaleValue.innerText = `${ scale.toFixed( 2 ) }`;
         } );
     </script>
     <script>
@@ -871,6 +872,7 @@
             play: "播放",
             language: "Chinese",
             pause: "暂停",
+            refreshImg: "贴图刷新",
             serverstate: "服务器",
             nextframe: "下一帧",
             prevframe: "上一帧",
@@ -894,6 +896,7 @@
         let strings_en = {
             play: "Play",
             pause: "Pause",
+            refreshImg: "Refresh Images",
             language: "英语",
             serverstate: "Server",
             nextframe: "Next",
@@ -916,6 +919,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         };
         let language = "zh";
         let bank = "";
+        let imgrand = 0;
         let onionskin = false;
         let anim = "";
         let animdata;
@@ -931,6 +935,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         let server_url = "http://localhost:5005"
         const dropZone = document.getElementById( 'dropZone' );
         const playPauseButton = document.getElementById( 'playPauseButton' );
+        const refreshImgButton = document.getElementById( 'refreshImgButton' );
         const NextFrameButton = document.getElementById( 'NextFrameButton' );
         const PrevFramePauseButton = document.getElementById( 'PrevFramePauseButton' );
         const imageContainer = document.getElementById( 'image-container' );
@@ -951,7 +956,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             OnImagePathChange();
         } );
 
-        function AddFilePrefix( newimagepath ) {
+        function AddFilePrefix ( newimagepath ) {
             // Check if newimagepath includes either :// or :\\
             if ( /^[a-zA-Z]:[\/\\]/.test( newimagepath ) ) {
                 // Add file:/// prefix
@@ -966,7 +971,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             return newimagepath;
         }
 
-        function OnImagePathChange() {
+        function OnImagePathChange () {
             let newimagepath = imagePathInput.value;
             //add file:/// if it is a driver directory
             imagepath = AddFilePrefix( newimagepath );
@@ -975,7 +980,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
         }
 
-        function ToggleInfo() {
+        function ToggleInfo () {
             if ( detailArea.style.display == 'none' ) {
                 detailArea.style.display = 'block';
             } else {
@@ -983,25 +988,25 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
         }
 
-        function ChangeOnion() {
+        function ChangeOnion () {
             onionskin = onionInput.checked;
         }
 
-        function ChangeEditMode() {
+        function ChangeEditMode () {
             isEditing = editmodeInput.checked;
         }
 
-        function OnOnionChange() {
+        function OnOnionChange () {
             onionInput.checked = onionskin;
         }
 
-        function OnEditModeChange() {
+        function OnEditModeChange () {
             editmodeInput.checked = isEditing;
         }
         ChangeOnion();
         ChangeEditMode();
 
-        function ChangeLanguage() {
+        function ChangeLanguage () {
             const languageInput = document.querySelector( '#paperSwitch2' );
             language = languageInput.checked ? "en" : "zh";
             strings = language == "en" ? strings_en : strings_zh;
@@ -1012,6 +1017,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             document.getElementById( "drop-area" ).innerHTML = strings.dropjson;
             document.getElementById( "dropZone" ).innerHTML = strings.selectedFolder;
             document.getElementById( "playPauseButton" ).innerHTML = strings.play;
+            document.getElementById( "refreshImgButton" ).innerHTML = strings.refreshImg;
             document.getElementsByClassName( "paper-switch-2-label" )[ 0 ].innerHTML = strings.onion;
             document.getElementsByClassName( "paper-switch-2-label" )[ 1 ].innerHTML = strings.language;
             document.getElementsByClassName( "paper-switch-2-label" )[ 2 ].innerHTML = strings.editmode;
@@ -1023,15 +1029,15 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         dropAreasWrapper.addEventListener( 'mouseenter', showFloat );
         dropAreasWrapper.addEventListener( 'mouseleave', hideFloat );
 
-        function showFloat() {
+        function showFloat () {
             dropAreaFloater.classList.add( "show-floater" );
         }
 
-        function hideFloat() {
+        function hideFloat () {
             dropAreaFloater.classList.remove( "show-floater" );
         }
 
-        function SaveFiles() {
+        function SaveFiles () {
             if ( !build_data ) return;
             let json = JSON.stringify( {
                 Symbol: build_data
@@ -1052,7 +1058,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             URL.revokeObjectURL( url );
 
         }
-        async function LoadRootFiles() {
+        async function LoadRootFiles () {
 
             // 获取文件路径
             const animPath = imagepath + 'anim.json';
@@ -1062,26 +1068,26 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             // 同时加载两个文件
             try {
                 const animRes = await
-                fetch( animPath );
+                    fetch( animPath );
 
                 // 解析JSON
                 const animData = await animRes.json();
                 RenderAnim( animData.banks );
-            } catch ( e ) {}
+            } catch ( e ) { }
             try {
                 const buildRes = await
-                fetch( buildPath );
+                    fetch( buildPath );
 
                 // 解析JSON
                 const buildData = await buildRes.json();
                 RenderImage( buildData.Symbol );
-            } catch ( e ) {}
+            } catch ( e ) { }
             try {
                 const ABRes = await fetch( abPath );
                 const ABData = await ABRes.json();
                 RenderAnim( ABData.banks );
                 RenderImage( ABData.Symbol );
-            } catch ( e ) {}
+            } catch ( e ) { }
         }
         imagepath = AddFilePrefix( imagePathInput.value );
         // 鼠标按下时开始监听鼠标移动事件
@@ -1093,7 +1099,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             const oldprogress = progress;
 
             // 监听鼠标移动事件，更新进度条和全局变量
-            function moveSlider( event ) {
+            function moveSlider ( event ) {
                 const dx = event.clientX - startX;
                 let newProgress = Math.max( 0, Math.min( oldprogress + ( dx / progressBar.offsetWidth ), 1 ) );
                 //console.log(event.clientX, startX, dx, progressBar.offsetWidth, newProgress, progress);
@@ -1104,7 +1110,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
 
             // 鼠标松开时停止监听鼠标移动事件
-            function stopMove() {
+            function stopMove () {
                 document.removeEventListener( 'mousemove', moveSlider );
                 document.removeEventListener( 'mouseup', stopMove );
                 slider.classList.remove( 'transition' );
@@ -1115,17 +1121,17 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             document.addEventListener( 'mouseup', stopMove );
         } );
 
-        function OnProgressChange() {
+        function OnProgressChange () {
             requestframe = progress * totalframes;
             requestframe = Math.round( requestframe );
         }
 
         // 更新进度条和滑块位置
-        function updateProgressBar( value ) {
+        function updateProgressBar ( value ) {
             if ( !value ) return;
-            slider.style.left = `${value * 100}%`;
+            slider.style.left = `${ value * 100 }%`;
             progressBar.style.background =
-                `linear-gradient(to right, var(--slider1) ${value * 100}%, var(--slider2) ${value * 100}%)`;
+                `linear-gradient(to right, var(--slider1) ${ value * 100 }%, var(--slider2) ${ value * 100 }%)`;
         }
         // 点击进度条时更新滑块位置和全局变量
         progressBar.addEventListener( 'click', function ( event ) {
@@ -1137,14 +1143,14 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             OnProgressChange();
         } );
 
-        function UpdateImageOffset( element, x, y ) {
-            element.style.left = `${x}px`;
-            element.style.top = `${y}px`;
-            element.style.transformOrigin = `${-x}px ${-y}px`;
+        function UpdateImageOffset ( element, x, y ) {
+            element.style.left = `${ x }px`;
+            element.style.top = `${ y }px`;
+            element.style.transformOrigin = `${ -x }px ${ -y }px`;
         }
 
         //更新build的信息
-        function UpdateBuildOffset( element, px, py ) {
+        function UpdateBuildOffset ( element, px, py ) {
             let name = element.getAttribute( 'name' );
             let framenum = element.getAttribute( 'framenum' );
             if ( !name ) return;
@@ -1153,7 +1159,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                 return;
             }
             if ( data.w != element.width || data.h != element.height ) {
-                console.log( `图片${name}${framenum}的宽度或高度不正确` );
+                console.log( `图片${ name }${ framenum }的宽度或高度不正确` );
                 data.w = element.width
                 data.h = element.height
             }
@@ -1164,7 +1170,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             data.y = y;
         }
 
-        function AllowDrag( imgElement ) {
+        function AllowDrag ( imgElement ) {
             let isDragging = false;
             let startX, startY;
 
@@ -1238,6 +1244,10 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
         }
         document.addEventListener( 'keydown', keymove );
+        function UpdateImageSource ( img, src ) {
+            src = src.replace( /rand=(\d+)/, "rand=" + imgrand );
+            img.src = src;
+        }
         // 监听鼠标滚轮事件
         imageContainer.addEventListener( 'wheel', function ( event ) {
             event.preventDefault(); // 阻止默认的页面滚动行为
@@ -1249,10 +1259,10 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             number += zoomAmount;
             if ( number < 0 ) number = 0;
             let newsrc = src.replace( /(\d+)\.png/, number + ".png" );
-            imgElement.src = newsrc;
+            UpdateImageSource( imgElement, newsrc );
         } );
 
-        function UpdateImageInfo( target ) {
+        function UpdateImageInfo ( target ) {
             if ( !target ) {
                 displayDiv.style.display = 'none';
                 return;
@@ -1284,17 +1294,17 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             const pivotx = dx + w / 2;
             const pivoty = dy + h / 2;
             displayDiv.innerHTML =
-                `${window.decodeURI(src)}<br/>
-                layer:${target.getAttribute("layername")}<br/>
-                -x: ${dx.toFixed(2)}, px: ${pivotx.toFixed(3)}<br/>
-                -y: ${dy.toFixed(2)}, py: ${pivoty.toFixed(3)}<br/>
-                tx: ${tx.toFixed(2)}<br/>
-                ty: ${ty.toFixed(2)}<br/>
-                sx: ${scaleX.toFixed(2)}<br/>
-                sy: ${scaleY.toFixed(2)}<br/>
-                angle(approx): ${rotate.toFixed(2)}deg<br/>
-                matrix: ${a.toFixed(2)},${b.toFixed(2)},${c.toFixed(2)},${d.toFixed(2)}<br/>
-                50-zindex:${zIndex}`;
+                `${ window.decodeURI( src ).split( '?' )[ 0 ] }<br/>
+                layer:${ target.getAttribute( "layername" ) }<br/>
+                -x: ${ dx.toFixed( 2 ) }, px: ${ pivotx.toFixed( 3 ) }<br/>
+                -y: ${ dy.toFixed( 2 ) }, py: ${ pivoty.toFixed( 3 ) }<br/>
+                tx: ${ tx.toFixed( 2 ) }<br/>
+                ty: ${ ty.toFixed( 2 ) }<br/>
+                sx: ${ scaleX.toFixed( 2 ) }<br/>
+                sy: ${ scaleY.toFixed( 2 ) }<br/>
+                angle(approx): ${ rotate.toFixed( 2 ) }deg<br/>
+                matrix: ${ a.toFixed( 2 ) },${ b.toFixed( 2 ) },${ c.toFixed( 2 ) },${ d.toFixed( 2 ) }<br/>
+                50-zindex:${ zIndex }`;
             displayDiv.style.display = 'block';
         }
         // 监听鼠标移入事件
@@ -1302,7 +1312,6 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         imageContainer.addEventListener( 'mouseover', function ( event ) {
             // 检查是否是 img 元素
             if ( event.target.tagName === 'IMG' ) {
-                const src = event.target.getAttribute( 'src' );
                 const target = event.target;
                 hoverelement = target;
                 UpdateImageInfo( target );
@@ -1311,7 +1320,6 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         imageContainer.addEventListener( 'click', function ( event ) {
             // 检查是否是 img 元素
             if ( event.target.tagName === 'IMG' ) {
-                const src = event.target.getAttribute( 'src' );
                 const target = event.target;
                 const IsRightClick = event.button === 2;
                 if ( trackingelement && trackingelement == target && IsRightClick ) {
@@ -1336,18 +1344,26 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             UpdateImageInfo( trackingelement );
         } );
 
-        function updateframe( f ) {
+        function updateframe ( f ) {
             currentframe = f;
             let ctn = document.getElementById( 'valueContainer' );
             ctn.innerText = f;
         }
 
-        function play() {
+        function play () {
             playing = true;
             playPauseButton.textContent = strings.pause;
         }
+        function refreshImg () {
+            imgrand++;
+            let imgs = imageContainer.getElementsByTagName( 'img' );
+            for ( let i = 0; i < imgs.length; i++ ) {
+                UpdateImageSource( imgs[ i ], imgs[ i ].src );
+            }
+        }
+        refreshImgButton.addEventListener( 'click', refreshImg );
 
-        function pause() {
+        function pause () {
             playing = false;
             playPauseButton.textContent = strings.play;
         }
@@ -1360,7 +1376,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
         } );
 
-        function oneframe( f ) {
+        function oneframe ( f ) {
             requestframe = currentframe + f;
         }
         NextFrameButton.addEventListener( 'click', function () {
@@ -1398,12 +1414,12 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         const list2 = document.getElementById( 'list2' );
 
         // 定义函数以读取所选的项目
-        function readSelectedItem() {
+        function readSelectedItem () {
             const selectedOptionList1 = list1.options[ list1.selectedIndex ].text;
             const selectedOptionList2 = list2.options[ list2.selectedIndex ].text;
             bank = selectedOptionList1;
             anim = selectedOptionList2;
-            console.log( `${strings.selectedBA} ${bank} 和 ${anim}` );
+            console.log( `${ strings.selectedBA } ${ bank } 和 ${ anim }` );
             RenderAnim( animdata, true );
         }
 
@@ -1411,7 +1427,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         list1.addEventListener( 'change', readSelectedItem );
         list2.addEventListener( 'change', readSelectedItem );
 
-        function generateListItems() {
+        function generateListItems () {
             let banks = Object.keys( animdata );
             let anims = [];
             let listElement = list1;
@@ -1442,7 +1458,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             } );
         }
 
-        function OnImageRemoved( img ) {
+        function OnImageRemoved ( img ) {
             if ( trackingelement == img ) {
                 trackingelement = null;
             }
@@ -1452,7 +1468,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             UpdateImageInfo( hoverelement || trackingelement );
         }
 
-        function indexImageInfo( name, frame ) {
+        function indexImageInfo ( name, frame ) {
             let imageInfo = null;
             let folderInfo = build_data[ name.toLowerCase() ];
             if ( !folderInfo ) {
@@ -1475,7 +1491,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
         } )();
 
-        function SetupImagePosition( img, imageInfo ) {
+        function SetupImagePosition ( img, imageInfo ) {
             let x = imageInfo.x - 0;
             let y = imageInfo.y - 0;
             let w = imageInfo.w - 0;
@@ -1493,7 +1509,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             img.style.top = -py + "px";
         }
 
-        function CreateImageFromData( name, i, frame, check ) {
+        function CreateImageFromData ( name, i, frame, check ) {
             let imageInfo, folderInfo;
             if ( typeof ( name ) === "string" ) {
                 if ( !build_data ) return null;
@@ -1525,7 +1541,8 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             // 设置图像的src属性，格式为：name/name-frame.png
             var imageUrl = name + "/" + name + "-" + ( imageInfo.frame || imageInfo.framenum || 0 ) + ".png";
             let baseurl = imageInfo.path || ( folderInfo && folderInfo.path ) || "";
-            img.src = imagepath + baseurl + imageUrl;
+            let imgRand = `?rand=${ imgrand }`;
+            img.src = imagepath + baseurl + imageUrl + imgRand;
 
             // 绑定id和class属性到图像元素上
             img.setAttribute( "id", name + "-" + ( imageInfo.frame || imageInfo.framenum || 0 ) );
@@ -1548,7 +1565,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                     if ( typeof ( w ) == "number" && w > 0 ) {
                         //loaded now, refresh the build
                         if ( w !== imageInfo.w || h !== imageInfo.h ) {
-                            console.log( `图片尺寸不对, ${img.src} 应填写[${w},${h}]而不是[${imageInfo.w},${imageInfo.h}]` );
+                            console.log( `图片尺寸不对, ${ window.decodeURI( img.src ).split( '?' )[ 0 ] } 应填写[${ w },${ h }]而不是[${ imageInfo.w },${ imageInfo.h }]` );
                             WarningWarning();
                             imageInfo.w = w;
                             imageInfo.h = h;
@@ -1581,7 +1598,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         // 开始观察目标节点及其子孙节点的变化
         observer.observe( imageContainer, observer_config );
 
-        function AppendBuild( data, path ) {
+        function AppendBuild ( data, path ) {
             let olddata = build_data;
             for ( const key in data ) {
                 if ( data.hasOwnProperty( key ) ) {
@@ -1593,7 +1610,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             build_data = olddata;
         }
 
-        function RenderImage( data, path ) {
+        function RenderImage ( data, path ) {
             AppendBuild( data, path );
             data = build_data;
             // data: { image_name: { framenum: image_id } }
@@ -1640,7 +1657,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             observer.observe( container, config );
         }
 
-        function cloneNode( node ) {
+        function cloneNode ( node ) {
             const ctn = document.getElementById( "image-container-clone" );
             ClearNode( ctn );
             if ( !node ) return;
@@ -1658,20 +1675,20 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             } );
         }
 
-        function HideAll( parent ) {
+        function HideAll ( parent ) {
             Array.from( parent.children ).forEach( child => {
                 child.style.display = 'none';
             } );
         }
 
-        function RequestProgressChange() {
+        function RequestProgressChange () {
             let newprogress = currentframe / totalframes;
             if ( !newprogress ) newprogress = 0;
             progress = newprogress;
             updateProgressBar( progress );
         }
 
-        function ParseAnim( data ) {
+        function ParseAnim ( data ) {
             if ( !animdata ) animdata = {};
             //generate list items
             //{bank=[anim1={anim1},anim2={anim2},...]}
@@ -1726,7 +1743,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             generateListItems();
         }
 
-        function ClearNode( node ) {
+        function ClearNode ( node ) {
             while ( node.firstChild ) {
                 node.removeChild( node.firstChild );
             }
@@ -1740,7 +1757,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         //each frame is defined by an array of images
         //each image is defined by its name and transform matrix, translate by (m_tx,m_ty), and z-index by z_index
         //use document.getElementById to get the image element with imageName + "-" + frame
-        function RenderAnim( data, skipparse = false ) {
+        function RenderAnim ( data, skipparse = false ) {
             //do not override old one //animdata = data;
             if ( !skipparse ) {
                 ParseAnim( data );
@@ -1773,7 +1790,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                     let idCounter = {}; // new variable to generate unique IDs
                     for ( let j = 0; j < frame.length; j++ ) {
                         let framedata = frame[ j ];
-                        let id = `${framedata.name}-${framedata.frame}-`; // add unique ID to the image name
+                        let id = `${ framedata.name }-${ framedata.frame }-`; // add unique ID to the image name
                         if ( idCounter[ id ] === undefined )
                             idCounter[ id ] = 0;
                         else {
@@ -1801,7 +1818,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             let currentFrame = 1;
 
             // Function to render each frame
-            function renderFrame() {
+            function renderFrame () {
                 if ( !playing && !requestframe ) return;
                 let requestframed = false;
                 if ( requestframe ) {
@@ -1826,7 +1843,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                 currentFrame++;
             }
 
-            function renderOneFrame( currentFrame ) {
+            function renderOneFrame ( currentFrame ) {
                 updateframe( currentFrame );
                 const frame = frames[ currentFrame - 1 ];
                 let ctn = imageContainer;
@@ -1839,15 +1856,15 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                 let idCounter = {};
                 // Loop through each image in the frame and update their properties
                 for ( const image of frame.elements ) {
-                    let elementId = `${image.name}-${image.frame}`;
+                    let elementId = `${ image.name }-${ image.frame }`;
                     if ( undefined === idCounter[ elementId ] )
                         idCounter[ elementId ] = 0;
                     else idCounter[ elementId ]++;
-                    elementId = `${image.name}-${image.frame}-${idCounter[ elementId ]}`;
+                    elementId = `${ image.name }-${ image.frame }-${ idCounter[ elementId ] }`;
                     const element = document.getElementById( elementId );
                     if ( element ) {
                         element.style.transform =
-                            `matrix(${image.m_a}, ${image.m_b}, ${image.m_c}, ${image.m_d}, ${image.m_tx}, ${image.m_ty})`;
+                            `matrix(${ image.m_a }, ${ image.m_b }, ${ image.m_c }, ${ image.m_d }, ${ image.m_tx }, ${ image.m_ty })`;
                         element.style.zIndex = ( 50 - image.z_index ).toString();
                         element.style.display = "block";
                     }
@@ -1861,18 +1878,18 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             currenttask = animationInterval;
         }
 
-        function handleDrop( e ) {
+        function handleDrop ( e ) {
             e.preventDefault();
             var file = e.dataTransfer.files[ 0 ];
             window.filedata = e;
             handleFile( file );
         }
 
-        function handleDragOver( e ) {
+        function handleDragOver ( e ) {
             e.preventDefault();
         }
 
-        function handleFile( file ) {
+        function handleFile ( file ) {
             if ( IsJsonFile( file ) ) {
                 //display the name of the file
                 let name = file.name;
@@ -1894,11 +1911,11 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             }
         }
 
-        function IsJsonFile( file ) {
+        function IsJsonFile ( file ) {
             return file.type === "application/json" || file.type === "application/javascript"
         }
 
-        function handleRightClick( e ) {
+        function handleRightClick ( e ) {
             var fileInput = document.createElement( "input" );
             fileInput.type = "file";
             fileInput.setAttribute( "multiple", "true" );
@@ -1913,7 +1930,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             fileInput.click();
         }
 
-        function handleClick() {
+        function handleClick () {
             var fileInput = document.createElement( "input" );
             fileInput.type = "file";
             fileInput.setAttribute( "multiple", "true" );
@@ -1935,7 +1952,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
 
         //render
-        function calculateCanvasParams( imgs ) {
+        function calculateCanvasParams ( imgs ) {
 
             let maxR = -1e5;
             let maxB = -1e5;
@@ -1980,7 +1997,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         }
         let matrix_e = [ 1, 0, 0, 1, 0, 0 ];
 
-        function GetMatrix( img ) {
+        function GetMatrix ( img ) {
             const matrix = img.style.transform.match( /matrix\((.+?)\)/ );
             if ( !matrix ) return matrix_e;
             let mat = matrix[ 1 ].split( ',' ).map( n => +n );
@@ -1988,7 +2005,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             return mat;
         }
 
-        function getImageBounds( img ) {
+        function getImageBounds ( img ) {
             const matrix = GetMatrix( img );
             if ( !matrix ) return {};
 
@@ -2019,20 +2036,20 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             };
         }
 
-        function transformPoint( matrix, x, y ) {
+        function transformPoint ( matrix, x, y ) {
             const transformedX = matrix[ 0 ] * x + matrix[ 2 ] * y + matrix[ 4 ];
             const transformedY = matrix[ 1 ] * x + matrix[ 3 ] * y + matrix[ 5 ];
             return [ transformedX, transformedY ];
         }
 
 
-        function compare_zindex( a, b ) {
+        function compare_zindex ( a, b ) {
             let za = a.style.zIndex || 0;
             let zb = b.style.zIndex || 0;
             return za - zb;
         }
 
-        function RenderToCanvas() {
+        function RenderToCanvas () {
             const imgs = imageContainer.querySelectorAll( 'img' );
             // 创建画布
             const canvas = document.createElement( 'canvas' );
@@ -2084,15 +2101,15 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
                 a.href = image.src;
                 a.download = 'image.png';
                 a.click();
-            } catch ( e ) {}
+            } catch ( e ) { }
         }
         const serverState = document.getElementById( "paperSwitch3" );
 
-        function UpdateServerState() {
+        function UpdateServerState () {
             checkServerConnection();
         }
 
-        function checkServerConnection() {
+        function checkServerConnection () {
             fetch( server_url )
                 .then( response => {
                     if ( response.ok ) {
@@ -2124,11 +2141,11 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             } else if ( event.key === ']' ) {
                 let scale = imageContainer.style.transform.match( /[0-9.]+/ ) || "1";
                 scale = Math.min( scale - 0.1, 10 );
-                imageContainer.style.transform = `scale(${scale})`;
+                imageContainer.style.transform = `scale(${ scale })`;
             } else if ( event.key === '[' ) {
                 let scale = imageContainer.style.transform.match( /[0-9.]+/ ) || "1";
                 scale = Math.max( scale - 0 + 0.1, 0.1 );
-                imageContainer.style.transform = `scale(${scale})`;
+                imageContainer.style.transform = `scale(${ scale })`;
             } else {
                 handled = false;
             }
@@ -2138,27 +2155,27 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         //checkServerConnection();
 
         // 保存值到LocalStorage
-        function saveToLocalStorage( key, value ) {
+        function saveToLocalStorage ( key, value ) {
             localStorage.setItem( key, value );
         }
 
         // 从LocalStorage获取值
-        function getFromLocalStorage( key ) {
+        function getFromLocalStorage ( key ) {
             const storedValue = localStorage.getItem( key );
             return storedValue;
         }
         let autosavedItems = {};
         let initAutosave = false;
 
-        function registerAutoSave( selector ) {
+        function registerAutoSave ( selector ) {
             const element = document.querySelector( selector );
 
             if ( !element ) {
-                console.error( `Element with selector "${selector}" not found.` );
+                console.error( `Element with selector "${ selector }" not found.` );
                 return;
             }
             if ( element.tagName !== "INPUT" ) {
-                console.error( `Element with selector "${selector} is not an input element` );
+                console.error( `Element with selector "${ selector } is not an input element` );
                 return;
             }
             autosavedItems[ selector ] = element;
@@ -2243,8 +2260,8 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             return true;
         } );
 
-        function InsertImageToPanel( img ) {
-            let info = `${img.name}-${img.getAttribute("framenum")}`;
+        function InsertImageToPanel ( img ) {
+            let info = `${ img.name }-${ img.getAttribute( "framenum" ) }`;
             let listItem = document.createElement( "div" );
             listItem.classList.add( "imgpanelitem" );
             listItem.classList.add( "no-select" );
@@ -2253,7 +2270,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
             layerList.appendChild( listItem );
         }
 
-        function UpdatePanel() {
+        function UpdatePanel () {
             ClearNode( layerList );
             // 获取<body>中的所有一级目录的<img>元素的src属性
             let imgInfos = Array.from( imageContainer.querySelectorAll( "img" ) )
@@ -2261,7 +2278,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         }
 
         // 添加拖动功能
-        function EnableDrag( node, target ) {
+        function EnableDrag ( node, target ) {
 
             let isDragging = false;
             let offset = {
