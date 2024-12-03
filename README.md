@@ -293,6 +293,14 @@ lua minify简单混淆用
 
 lua执行测试脚本用
 
+# 使用 Spine
+
+Spine是比Spriter好用得多的多的2D动画软件。如果你不在乎花点大钱，而且想要创作复杂动画的话，我会推荐Spine。
+
+通过该应用，你可以把饥荒动画导入spine，也可以导出spine文件为动画。
+
+https://forums.kleientertainment.com/forums/topic/159394-tool-new-anim-tool/
+
 # Photoshop导出tex插件
 
 类似TexCreator.exe的ps插件版本

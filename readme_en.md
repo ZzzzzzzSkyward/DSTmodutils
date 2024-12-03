@@ -271,6 +271,14 @@ lua minify: used for uglifying your lua file.
 
 lua: used for executing tests.
 
+# Using Spine
+
+Spine is a brilliant 2D animation software that is far better than Spriter. If you don't mind paying some bucks and is serious about creating massive animaion, I'd recommend Spine.
+
+With this service you can convert between DS animation and spine file.
+
+https://forums.kleientertainment.com/forums/topic/159394-tool-new-anim-tool/
+
 # Photoshop Extension for TEX creation
 
 An extension that exports tex file similar to TexCreator.exe
