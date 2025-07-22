@@ -52,7 +52,7 @@ def processroot(r, framerate=30):
 
 
 def processanim(a, framerate=30):
-    #print("anim", a['name'])
+    # print("anim", a['name'])
     timelines = a['timeline']
     a['timeline'] = []
     for id, i in enumerate(timelines):
@@ -253,7 +253,7 @@ def interpolate(data, framerate=30):
 
 
 def savedata(filepath, data):
-    with open(filepath, 'w') as f:
+    with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2)
 
 
@@ -262,7 +262,7 @@ def main():
         print("Usage: python interpolate.py input.scon [output_interp.scon]")
         sys.exit(0)
     args = sys.argv[1:]
-    #args = ['z:/ds_tool/nanachi.scon']
+    # args = ['z:/ds_tool/nanachi.scon']
     inputfile = args[0]
     outputfile = args[1] if len(
         args) > 1 else inputfile.replace(".", "_interp.")

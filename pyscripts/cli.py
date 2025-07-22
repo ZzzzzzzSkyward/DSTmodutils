@@ -85,6 +85,9 @@ def work(args, params):
         if file_ext in image_exts:
             # image->tex
             fn = convert_image_png
+            # modicon
+            if filename == "modicon":
+                fn = convert_modicon
         if file_ext == "dyn":
             # dyn->zip
             fn = convert_dyn_zip
@@ -246,7 +249,7 @@ def convert_build_json(filepath, filename, file_ext, params):
                 del build_file["Vert"]
             if "Symbol" in build_file:
                 for name in build_file["Symbol"]:
-                    frames=build_file["Symbol"][name]
+                    frames = build_file["Symbol"][name]
                     for data in frames:
                         if "alphacount" in data:
                             del data["alphacount"]
@@ -254,13 +257,13 @@ def convert_build_json(filepath, filename, file_ext, params):
                             del data["alphaidx"]
         if params.check:
             if 'Path' not in build_file:
-                build_file['Path']=filepath
+                build_file['Path'] = filepath
             clip_build.check(build_file)
         else:
-            #add a safeguard not to wrongly remove all images
+            # add a safeguard not to wrongly remove all images
             if clip_build.clip(
                 build_file, compensate_pivot=params.compensate, clip_image=params.clip
-            ) and len(list(build_file.get('Symbol',{}).keys()))>0:
+            ) and len(list(build_file.get('Symbol', {}).keys())) > 0:
                 save_file(build_path, build_file)
         return
     build_class = AnimBuild(build_file)
@@ -331,8 +334,9 @@ def convert_image_png(filepath, filename, file_ext, params):
     else:
         from compiler.stex import png_to_tex
     input_path = join_all(filepath, filename, file_ext)
-    output_path = join_all(filepath, filename, "tex")
-    atlas_path = join_all(filepath, filename, "xml") if params.xml else None
+    output_path = join_all(filepath, params.output or filename, "tex")
+    atlas_path = join_all(filepath, params.output or filename,
+                          "xml") if params.xml else None
     errmsg = png_to_tex(input_path, output_path, atlas_path)
     if errmsg:
         print(errmsg)
@@ -348,6 +352,32 @@ def convert_image_png(filepath, filename, file_ext, params):
 
         zip_to_dyn(zip_path)
         os.remove(zip_path)
+
+
+def convert_modicon(filepath, filename, file_ext, params):
+    from PIL import Image
+    from PIL.Image import Resampling
+    input_path = join_all(filepath, filename, file_ext)
+    temp_filename = filename+"_temp"
+    temp_path = join_all(filepath, temp_filename, file_ext)
+    modicon_path = join_all(filepath, "modicon", "png")
+    im = Image.open(input_path)
+    w, h = im.width, im.height
+    maxw, maxh = 128, 128
+    ratio = max(min(w/maxw, h/maxh), 1)
+    neww, newh = int(ratio*w+0.5), int(ratio*h+0.5)
+    neww, newh = min(maxw, neww), min(maxh, newh)
+    im = im.resize((neww, newh), resample=Resampling.LANCZOS)
+    if os.path.exists(modicon_path):
+        os.rename(modicon_path, temp_path)
+    os.rename(input_path, modicon_path)
+    im.save(modicon_path)
+    convert_image_png(filepath, modicon_filename, "png", params)
+    if not os.path.exists(input_path):
+        os.rename(modicon_path, input_path)
+    if os.path.exists(temp_path):
+        os.rename(temp_path, modicon_path)
+        os.remove(temp_path)
 
 
 def convert_image_tex(filepath, filename, file_ext, params):
@@ -551,7 +581,8 @@ def convert_scml_scml(filepath, filename, file_ext, params):
     if params.interpolate or params.interp:
         # do interpolate
         if file_ext == "scml":
-            print("目前无法对scml插值，请转换为scon后再执行此操作")
+            print(
+                "目前无法对scml插值，请转换为scon后再执行此操作\nTo interpolate, only scml is supported now.")
             return
         from interpolate import processroot
 
@@ -564,15 +595,16 @@ def convert_scml_scml(filepath, filename, file_ext, params):
                 raise e
             else:
                 print(e)
-                print("目前插值仅适用于规范的30fps动画")
+                print(
+                    "目前插值仅适用于规范的30fps动画\nTo interpolate, only standard 30fps animation is supported.")
             return
         return
     if file_ext == "scon":
-        print("目前无法编译scon，请转换为scml后再执行此操作")
+        print("目前无法编译scon，请转换为scml后再执行此操作\nTocompile, only scon is supported now.")
         return
     if params.crop:
         if file_ext == "scon":
-            print("目前无法裁剪scon，请转换为scml后再执行此操作")
+            print("目前无法裁剪scon，请转换为scml后再执行此操作\nTo crop, only scml is supported now.")
         else:
             from cropscml import crop_pivot_values
 
@@ -596,8 +628,10 @@ def convert_scml_dir(filepath, filename, filelist, params):
     from compiler.anim_build import AnimBuild
 
     anims = [i for i in filelist if i.endswith("bin") and i.find("anim") >= 0]
-    builds = [i for i in filelist if i.endswith("bin") and i.find("build") >= 0]
-    atlases = [i for i in filelist if i.endswith("tex") and i.find("atlas") >= 0]
+    builds = [i for i in filelist if i.endswith(
+        "bin") and i.find("build") >= 0]
+    atlases = [i for i in filelist if i.endswith(
+        "tex") and i.find("atlas") >= 0]
     if len(anims) > 0:
         # this is a full scml project
         anim_file = join_all(input_path, anims[0])
@@ -746,7 +780,7 @@ image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
 helptext = """饥荒动画转换工具DS Anim Convert Tools
 可通过 -anim -build 识别文件类型
 [1]build.bin<->build.xml -json
-   build.json -crop 
+   build.json -crop
                     -check -compensate -clip -remove_vert
 [2]build.bin -rename="build name"
 [3]anim.bin<->anim.xml
@@ -767,7 +801,7 @@ def require():
     try:
         import rich
         from rich.traceback import install
-        
+
         install()
         global pretty_error
         pretty_error = True
