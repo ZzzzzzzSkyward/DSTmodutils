@@ -117,7 +117,7 @@ def work(args, params):
         filepath1, filename1, file_ext1 = split_all(args[1])
         if file_ext == "png" and args[1].find("xml") >= 0:
             # png->xml&tex
-            print("这条命令忽略输入的xml路径")
+            print("这条命令忽略输入的xml路径\nThis command ignores -xml param.")
             params.set("xml", True)
             fn = convert_image_png
         if not file_ext1:
@@ -196,11 +196,11 @@ def convert_build_bin(filepath, filename, file_ext, params):
         build_class = AnimBuild(build_file)
         build_class.bin_to_json()
         if params.rename:
-            print(f"原build名：{build_class.data['name']}")
+            print(f"原build名：{build_class.data['name']}\nOriginal Build is {build_class.data['name']}")
             build_class.set_build_name(params.rename)
             build_class.json_to_bin()
             build_class.save_bin(filepath)
-            print(f"rename指令仅仅重命名原文件为{params.rename}")
+            print(f"rename指令仅仅重命名原文件为{params.rename}\nRename command renames original file to {params.rename}")
             return
         if params.json:
             build_class.save_json(filepath)
@@ -242,6 +242,16 @@ def convert_build_json(filepath, filename, file_ext, params):
             "补偿",
             not not params.compensate,
             "裁剪图片",
+            not not params.clip,
+        )
+        print(
+            "-crop param with subcommands: crops",
+            filename,
+            ", and overwrites original file",
+            not params.check,
+            ", and compensates for new pivots due to width and height change",
+            not not params.compensate,
+            ", and clips the image to remove blank area around",
             not not params.clip,
         )
         if params.remove_vert:
@@ -658,7 +668,7 @@ def convert_scml_dir(filepath, filename, filelist, params):
 
 def convert_scml_build(filepath, filename, file_ext, params):
     if file_ext == "xml":
-        print("xml格式暂时不可用，请改用bin或json格式")
+        print("xml格式暂时不可用，请改用bin或json格式\nxml format is invalid now, try bin or json.")
         return
     build_path = join_all(filepath, filename, file_ext)
     build_file = read_file(build_path, ftype=file_ext)
@@ -720,7 +730,7 @@ def convert_scml_zip(filepath, filename, file_ext, params):
             has_output = True
         build_class.save_symbol_images(output_dir)
     else:
-        print("不存在anim.bin或build.bin，直接解压")
+        print("不存在anim.bin或build.bin，直接解压\nNeither anim nor build is found, straight unarchive.")
         unzip_file(filepath, filename, file_ext)
 
 
@@ -731,7 +741,7 @@ def rebuild_anim_json(filepath, filename, file_ext, params):
     anim_data = read_file(input_path, "json")
     build_data = read_file(build_path, "json")
     if not anim_data or not build_data:
-        print("缺失文件Missing File")
+        print("缺失文件\nMissing File")
         return
     from compiler.scml import Scml
 
@@ -760,7 +770,7 @@ def read_file(file, ftype=None):
         else:
             data = f.read()
     if not data:
-        print("无法打开文件", file)
+        print("无法打开文件\nCannot open file\n", file)
         raise FileNotFoundError()
     return data
 
@@ -772,7 +782,7 @@ def save_file(file, data):
         with open(file, "w") as f:
             json.dump(data, f, indent=2, ensure_ascii=False, sort_keys=True)
     except OSError:
-        print("保存文件", file, "出错")
+        print("保存文件\nSaving file\n", file, "出错\nError!")
 
 
 image_exts = {"png", "jpg", "jpeg", "gif", "tiff", "bmp"}
