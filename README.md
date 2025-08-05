@@ -307,6 +307,12 @@ https://forums.kleientertainment.com/forums/topic/159394-tool-new-anim-tool/
 
 https://github.com/LobatoLobato/PSTexTool
 
+# 着色器dst-ksh-analyze
+
+https://github.com/TohsakaKuro/DST-ksh-analyze
+
+dst-ksh-analyze 是一个用于分析和构建《饥荒联机版》着色器文件的工具。它可以直接从 .ksh 文件中提取着色器内容，也可以从 .vs 和 .ps 文件构建 .ksh 文件。
+
 ## 资料来源
 
 https://forums.kleientertainment.com/files/category/5-modding-tools-tutorials-examples/

@@ -159,8 +159,6 @@ py2 enanim.py
 @py2 refers to Don't Starve Mod Tools
 ```
 
-Here is an English translation of the readme_en.md file:
-
 # bmfont v.1.14a
 
 Font making software 
@@ -175,7 +173,7 @@ Repository: https://github.com/DST-Tools/DSTEd
 
 This program provides an IDE, this link is for version 1.0 which has a release; the updated version 2.0 in 2021 does not have a release and needs to be compiled itself. I compiled it but got various errors and couldn't use it.
 
-![DSTEd][]
+![DSTEd](DSTEd.png)
 
 # FsbExtractor14.03.10 
 
@@ -284,6 +282,14 @@ https://forums.kleientertainment.com/forums/topic/159394-tool-new-anim-tool/
 An extension that exports tex file similar to TexCreator.exe
 
 https://github.com/LobatoLobato/PSTexTool
+
+# Shader dst-ksh-analyze
+
+https://github.com/TohsakaKuro/DST-ksh-analyze
+
+dst-ksh-analyze is a tool used for analyzing and building shader files of Don't Starve Together. It can directly extract shader content from the.ksh file, or construct the.ksh file from the.vs and the.ps files.
+
+------------
 
 ## Resources used
 
