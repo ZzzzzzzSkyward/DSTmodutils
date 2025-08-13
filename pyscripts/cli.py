@@ -378,15 +378,17 @@ def convert_modicon(filepath, filename, file_ext, params):
     neww, newh = int(ratio*w+0.5), int(ratio*h+0.5)
     neww, newh = min(maxw, neww), min(maxh, newh)
     im = im.resize((neww, newh), resample=Resampling.LANCZOS)
-    if os.path.exists(modicon_path):
+    if os.path.exists(modicon_path) and not os.path.exists(temp_path):
         os.rename(modicon_path, temp_path)
-    os.rename(input_path, modicon_path)
+    #os.rename(input_path, modicon_path)
     im.save(modicon_path)
+    modicon_filename="modicon"
     convert_image_png(filepath, modicon_filename, "png", params)
     if not os.path.exists(input_path):
         os.rename(modicon_path, input_path)
     if os.path.exists(temp_path):
-        os.rename(temp_path, modicon_path)
+        if not os.path.exists(modicon_path):
+            os.rename(temp_path, modicon_path)
         os.remove(temp_path)
 
 
