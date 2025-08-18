@@ -702,6 +702,7 @@
             display: block;
             width: 100%;
             height: auto;
+            border: black 1px solid;
             position: relative;
         }
 
@@ -2261,7 +2262,7 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
         } );
 
         function InsertImageToPanel ( img ) {
-            let info = `${ img.name }-${ img.getAttribute( "framenum" ) }`;
+            let info = `${ img.name }-${ img.getAttribute( "framenum" ) }@${ img.getAttribute( "layername" ) }`;
             let listItem = document.createElement( "div" );
             listItem.classList.add( "imgpanelitem" );
             listItem.classList.add( "no-select" );
