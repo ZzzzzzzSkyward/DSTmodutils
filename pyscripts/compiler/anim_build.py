@@ -307,11 +307,10 @@ class AnimBuild():
                     cropped = cropped.resize((region_w, region_h))
                 if cropped.width != w or cropped.height != h:
                     if cropped.width + region_x > w or cropped.height + region_y > h:
-                        print(f"Waring, can't resize {image_name} to recorded size")
-                    else:
-                        new_image = Image.new("RGBA", (w, h))
-                        new_image.paste(cropped, (region_x, region_y))
-                        cropped = new_image
+                        print(f"Waring: {image_name} has risk being drawn outside the canvas.")
+                    new_image = Image.new("RGBA", (w, h))
+                    new_image.paste(cropped, (region_x, region_y))
+                    cropped = new_image
 
                 self.symbol_images[image_name] = cropped
 

@@ -35,18 +35,18 @@ def clip_symbols(symbols: dict, name, path, compensate_pivot=True, clip_image=Tr
                 # print("Image", name, "-", frame, "has wrong record width")
                 print("图片", name, "-", frame, "宽度记录有误")
                 if compensate_pivot:
-                    symbol["x"] = w / 2 - ((w / 2 - x) * image.width / symbol["w"])
-                    x = symbol["x"]
-                symbol["w"] = image.width
-                w = symbol["w"]
+                    x = image.width / 2 - ((w / 2 - x) * image.width / w)
+                    symbol["x"] = x
+                w = image.width
+                symbol["w"] = w
             if image.height != h:
                 if compensate_pivot:
-                    symbol["y"] = h / 2 - ((h / 2 - y) * image.height / symbol["h"])
-                    y = symbol["y"]
+                    y = image.height / 2 - ((h / 2 - y) * image.height / h)
+                    symbol["y"] = y
                 # print("Image", name, "-", frame, "has wrong record height")
                 print("图片", name, "-", frame, "高度记录有误")
-                symbol["h"] = image.height
-                h = symbol["h"]
+                h = image.height
+                symbol["h"] = h
         if not istransparent(img_path):
             flag = False
             if clip_image:
