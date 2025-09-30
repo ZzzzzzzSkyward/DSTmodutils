@@ -289,6 +289,14 @@ https://github.com/TohsakaKuro/DST-ksh-analyze
 
 dst-ksh-analyze is a tool used for analyzing and building shader files of Don't Starve Together. It can directly extract shader content from the.ksh file, or construct the.ksh file from the.vs and the.ps files.
 
+# DST Mod Tools
+
+tauri app, able to edit animation with the format of scml, Spriter json, and binary zip/bin. View texture file. Batch compile png.
+
+https://forums.kleientertainment.com/forums/topic/167735-new-dst-animation-and-texture-tool/#comment-1836822
+
+https://msisunny.github.io/dst-mod-tool-publisher/
+
 ------------
 
 ## Resources used
