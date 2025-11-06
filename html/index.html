@@ -2089,7 +2089,10 @@ In edit mode, you can move image via key wsad and arrows, or drag. The offset wi
 
             } );
             ctx.translate( offsetX, offsetY );
+            if(document.body&&document.body.tagName.toLowerCase()==="body")
             document.body.appendChild( canvas );
+            else
+            imageContainer.appendChild(canvas);
             //scroll to
             canvas.scrollIntoView();
             try {
